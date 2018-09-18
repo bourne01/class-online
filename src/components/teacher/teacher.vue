@@ -1,7 +1,7 @@
 <template>
     <div class="teacher">
         <div class="teacher-info">
-            <img class="avatar" :src="require('../../assets/svg/avatar.svg')" alt="">
+            <img class="avatar" :src="require('../../assets/svg/avatar.svg')" @click="goTeacherDetail" alt="">
             <div>
                 <div class="name">王老师</div>
                 <div class="count"><span>课程&nbsp;22</span>|<span>学生&nbsp;256</span></div>
@@ -36,7 +36,7 @@
                     :class="{followed:isFollowed}">关注</div>
             </div>
         </div>
-        <div class="course-covers">
+        <div class="course-covers" @click="goTeacherDetail">
             <img :src="require('../../assets/svg/course.svg')" alt="">
             <img :src="require('../../assets/svg/course.svg')" alt="">
             <img :src="require('../../assets/svg/course.svg')" alt="">
@@ -51,6 +51,14 @@ export default {
     data(){
         return{
             isFollowed:false,
+        }
+    },
+    methods:{
+        /**
+         * @function 跳转到教师详情页
+         */
+        goTeacherDetail(){
+            this.$router.push('/admin-index/teacher-detail');
         }
     }
 }
@@ -76,6 +84,7 @@ export default {
         width:88px;
         height:88px;
         margin-right:18px;
+        cursor: pointer;
     }
     .name{
         color:#171a20;
@@ -111,6 +120,7 @@ export default {
         margin-right:10px;
         border:1px solid #f84412;
         border-radius:5px;
+        cursor: pointer;
     }
     .follow{
         margin-top:34px;
@@ -133,5 +143,6 @@ export default {
         font-size:24px;
         color:#fc6934;
         margin-right:10px;
+        cursor: pointer;
     }
 </style>

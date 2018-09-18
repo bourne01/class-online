@@ -5,6 +5,10 @@ export default [
         component:() => import('../../views/admin/home/home.vue'),
         children:[
             {
+                path:'',
+                redirect:'main'
+            },
+            {
                 path:'main',
                 name:'Main',
                 component:() => import('../../views/admin/home/main.vue'),
@@ -75,24 +79,28 @@ export default [
                     component:() => import('../../views/admin/index/bank/bank.vue'),
                     children:[
                         {
-                            path:'compre-question',
-                            name:'ComprehesiveQuestion',
-                            component:() => import('../../views/admin/index/bank/question/comprehensive.vue')
+                            path:'',
+                            redirect:'questions'
                         },
                         {
-                            path:'sync-question',
-                            name:'SynchronousQuestion',
-                            component:() => import('../../views/admin/index/bank/question/synchronous.vue')
+                            path:'questions',
+                            name:'Questions',
+                            component:() => import('../../views/admin/index/bank/questions')
                         },
                         {
-                            path:'compose-paper',
-                            name:'ComposePaper',
-                            component:() => import('../../views/admin/index/bank/question/compose.vue')
+                            path:'favorites',
+                            name:'Favorites',
+                            component:() => import('../../views/admin/index/bank/favorites')
                         },
                         {
-                            path:'papers',
-                            name:'Papers',
-                            component:() => import('../../views/admin/index/bank/question/papers.vue')
+                            path:'errors',
+                            name:'WrongQuestions',
+                            component:() => import('../../views/admin/index/bank/errors')
+                        },
+                        {
+                            path:'mine',
+                            name:'MyPapers',
+                            component:() => import('../../views/admin/index/bank/mine')
                         },
                         
                     ],
@@ -121,6 +129,11 @@ export default [
                             path:'follow',
                             name:'Follow',
                             component:() => import('../../components/teacher/teacher-detail/follow.vue')
+                        },
+                        {
+                            path:'course',
+                            name:'Course',
+                            component:() => import('../../components/teacher/teacher-detail/course.vue')
                         },
                         {
                             path:'fans',
@@ -170,6 +183,11 @@ export default [
                             }, */
                                 
                     ]
+                },
+                {
+                    path:'student',
+                    name:'Student',
+                    component:() => import('../../views/admin/index/student.vue')
                 },
                 {
                     path:'',

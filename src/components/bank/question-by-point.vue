@@ -22,7 +22,7 @@
                             纠错
                         </span>
                     </div>
-                    <div>
+                    <div>0.
                         <span>
                            <label for="">难易度：</label>容易
                         </span>

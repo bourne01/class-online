@@ -40,7 +40,7 @@
 export default {
     data(){
         return{
-            actLi:-1,//默认激活的li
+            actLi:1,//默认激活的li
         }
     }
 }

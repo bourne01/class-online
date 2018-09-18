@@ -21,10 +21,7 @@
                                 @mouseover="OnMouseover(1)"
                                 :style="{background:actNav===1?'#000':''}" 
                                 @mouseout="actNav=-1">
-                                <img :src="actNav===1?navActIcons[1]:navIcons[1]">
-                                <!-- <img 
-                                    :src="require('../assets/svg/next.svg')" 
-                                    class="arrow-direction"> -->
+                                <img :src="actNav===1?navActIcons[1]:navIcons[1]">                                
                             </div>
                             <ul class="sub-items" :style="{display:actSubNav===1?'block':''}">
                                 <li class="nav-bar-item"
@@ -66,10 +63,7 @@
                                 @mouseover="OnMouseover(2)"
                                 :style="{background:clickNav===2?'#000':''}" 
                                 @mouseout="actNav=-1">
-                                <img :src="actNav===2?navActIcons[2]:navIcons[2]">
-                                <!-- <img 
-                                    :src="require('../assets/svg/next.svg')" 
-                                    class="arrow-direction"> -->
+                                <img :src="actNav===2?navActIcons[2]:navIcons[2]">                                
                             </div>                     
                             <ul class="sub-items" :style="{display:actSubNav===2?'block':''}">
                                 <li class="nav-bar-item"

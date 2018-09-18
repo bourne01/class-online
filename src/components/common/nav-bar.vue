@@ -7,95 +7,35 @@
                 :style="{background:clickNav===0?'#000':''}" 
                 @click="onClick(0)"
                 @mouseover="OnMouseover(0)"
-                @mouseout="onMouseout(0)"
+                @mouseout="onMouseout"
                 >
                 <img :src="actNav===0?navActIcons[0]:navIcons[0]"><span>首页</span>
                 <div class="indicator-bar"></div>
             </li>
-            <li class="sub-nav-bar" :class="{active:actNav===1}">
-                <div class="nav-bar-title" 
-                    @click="onClick(1)"                                    
-                    @mouseover="OnMouseover(1)"
-                    :style="{background:clickNav===1?'#000':''}" 
-                    >
-                    <img :src="actNav===1?navActIcons[1]:navIcons[1]"><span>课程</span>
-                    <div class="indicator-bar"></div>
-                </div>
-                <ul class="subitems">
-                    <li class="nav-bar-item"
-                        @mouseover="OnMouseover(11)"
-                        @mouseout="actSubNav=-1" 
-                        @click="onClick(11)"
-                        :class="{subActive:actSubNav===11}"
-                        :style="{background:actSubNav===11?'#f1f1f1':''}" 
-                        >
-                        <span>小学</span>
-                    </li>
-                    <li class="nav-bar-item"
-                        @mouseover="OnMouseover(12)"
-                        @mouseout="actSubNav=-1" 
-                        @click="onClick(12)"
-                        :class="{subActive:actSubNav===12}"
-                        :style="{background:actSubNav===12?'#f1f1f1':''}" 
-                        >
-                        <span>初中</span>
-                    </li>
-                    <li class="nav-bar-item"
-                        @mouseover="OnMouseover(13)"
-                        @mouseout="actSubNav=-1" 
-                        @click="onClick(13)"
-                        :class="{subActive:actSubNav===13}"
-                        :style="{background:actSubNav===13?'#f1f1f1':''}" 
-                        >
-                        <span>高中</span>
-                    </li>
-                </ul>
+            <li class="nav-bar-item" 
+                :class="{active:actNav===1}"
+                :style="{background:clickNav===1?'#000':''}" 
+                @click="onClick(1)"
+                @mouseover="OnMouseover(1)"
+                @mouseout="onMouseout"
+                >
+                <img :src="actNav===1?navActIcons[1]:navIcons[1]"><span>课程</span>
                 <div class="indicator-bar"></div>
             </li>
-            <li class="sub-nav-bar" :class="{active:actNav===2}">
-                <div class="nav-bar-title" 
-                    @click="onClick(2)"                                    
-                    @mouseover="OnMouseover(2)"
-                    :style="{background:clickNav===2?'#000':''}" 
-                    >
-                    <img :src="actNav===2?navActIcons[2]:navIcons[2]"><span>题库</span>
-                    <div class="indicator-bar"></div>
-                </div>
-                <ul class="subitems">
-                    <li class="nav-bar-item"
-                        @mouseover="OnMouseover(21)"
-                        @mouseout="actSubNav=-1" 
-                        @click="onClick(21)"
-                        :class="{subActive:actSubNav===21}"
-                        :style="{background:actSubNav===21?'#f1f1f1':''}" 
-                        >
-                        <span>小学</span>
-                    </li>
-                    <li class="nav-bar-item"
-                        @mouseover="OnMouseover(22)"
-                        @mouseout="actSubNav=-1" 
-                        @click="onClick(22)"
-                        :class="{subActive:actSubNav===22}"
-                        :style="{background:actSubNav===22?'#f1f1f1':''}" 
-                        >
-                        <span>初中</span>
-                    </li>
-                    <li class="nav-bar-item"
-                        @mouseover="OnMouseover(23)"
-                        @mouseout="actSubNav=-1" 
-                        @click="onClick(23)"
-                        :class="{subActive:actSubNav===23}"
-                        :style="{background:actSubNav===23?'#f1f1f1':''}" 
-                        >
-                        <span>高中</span>
-                    </li>
-                </ul>
+            <li class="nav-bar-item" 
+                :class="{active:actNav===2}"
+                :style="{background:clickNav===2?'#000':''}" 
+                @click="onClick(2)"
+                @mouseover="OnMouseover(2)"
+                @mouseout="onMouseout"
+                >
+                <img :src="actNav===2?navActIcons[2]:navIcons[2]"><span>题库</span>
                 <div class="indicator-bar"></div>
             </li>
             <li class="nav-bar-item" :class="{active:actNav===3}"
                 @click="onClick(3)"
                 @mouseover="OnMouseover(3)"
-                @mouseout="onMouseout(3)"
+                @mouseout="onMouseout"
                 :style="{background:clickNav===3?'#000':''}" 
                 >
                 <img :src="actNav===3?navActIcons[3]:navIcons[3]"><span>教师</span>
@@ -104,21 +44,12 @@
             <li class="nav-bar-item" :class="{active:actNav===4}"
                 @click="onClick(4)"
                 @mouseover="OnMouseover(4)"
-                @mouseout="onMouseout(4)"
+                @mouseout="onMouseout"
                 :style="{background:clickNav===4?'#000':''}" 
                 >
                 <img :src="actNav===4?navActIcons[4]:navIcons[4]"><span>学生</span>
                 <div class="indicator-bar"></div>
             </li>
-            <li class="nav-bar-item" :class="{active:actNav===5}"
-                @click="onClick(5)"
-                @mouseover="OnMouseover(5)"
-                @mouseout="onMouseout(5)"
-                :style="{background:clickNav===5?'#000':''}" 
-                >
-                <img :src="actNav===5?navActIcons[5]:navIcons[5]"><span>我的</span>
-                <div class="indicator-bar"></div>
-            </li>                            
         </ul>
     </div>
 </template>
@@ -166,78 +97,14 @@ export default {
         ...mapActions('user',['getUserInfo']), */
         OnMouseover(val){
             console.log(val);
-            switch(val){
-                case 0:
-                    this.actNav = val;
-                    break;
-                case 1:
-                    this.actNav = val;
-                    break;
-                case 11:
-                    this.actSubNav = val;
-                    break;
-                case 12:
-                    this.actSubNav = val;
-                    break;
-                case 13:
-                    this.actSubNav = val;
-                    break;
-                case 2:
-                    this.actNav = val;
-                    break;
-                case 21:
-                    this.actSubNav = val;
-                    break;
-                case 22:
-                    this.actSubNav = val;
-                    break;
-                case 23:
-                    this.actSubNav = val;
-                    break;
-                case 3:
-                    this.actNav = val;
-                    break;
-                case 4:
-                    this.actNav = val;
-                    break;
-                case 5:
-                    this.actNav = val;
-                    break;
-            }
-            console.log(val);
+            this.actNav = val;            
         },
-        onMouseout(val){
-            switch(val){
-                case 1:
-                    this.actNav = val;
-                    break;
-                case 11:
-                    this.actSubNav = val;
-                    break;
-                case 12:
-                    this.actSubNav = val;
-                    break;
-                case 13:
-                    this.actSubNav = val;
-                    break;
-                case 2:
-                    this.actNav = val;
-                    break;
-                case 21:
-                    this.actSubNav = val;
-                    break;
-                case 22:
-                    this.actSubNav = val;
-                    break;
-                case 23:
-                    this.actSubNav = val;
-                    break;
-                default:
-                    if(this.clickNav !== 0){
-                        this.actNav = -1;
-                    }
-                    break;
+        onMouseout(){
+            if(this.clickNav == -1){
+                this.actNav = -1;           
+                this.clickNav = -1;    
             }
+                  
         },
         onClick(val){
             console.log(val);
@@ -245,39 +112,24 @@ export default {
                 case 0:
                     this.clickNav = val;
                     this.actNav = val;
+                    this.$router.push('/admin');
                     break;
                 case 1:
                     this.clickNav = val;
-                    break;
-                case 11:
-                    this.clickNav = val;
-                    break;
-                case 12:
-                    this.clickNav = val;
-                    break;
-                case 13:
-                    this.clickNav = val;
+                    this.actNav = val;
+                    this.$router.push('/admin-index/course');
                     break;
                 case 2:
                     this.clickNav = val;
-                    break;
-                case 21:
-                    this.clickNav = val;
-                    break;
-                case 22:
-                    this.clickNav = val;
-                    break;
-                case 23:
-                    this.clickNav = val;
+                    this.$router.push('/admin-index/bank');
                     break;
                 case 3:
                     this.clickNav = val;
+                    this.$router.push('/admin-index/teacher');
                     break;
                 case 4:
                     this.clickNav = val;
-                    break;
-                case 5:
-                    this.clickNav = val;
+                    this.$router.push('/admin-index/student');
                     break;
             }
         },

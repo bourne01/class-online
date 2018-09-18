@@ -1,21 +1,23 @@
 <template>
     <div class="bank-tab">
         <ul class="tabs">
-            <li @click="onClick(1)"
-                :class="{active:actIndex===1}">试题库
-                <div class="active-bar"></div>
+            <li>
+                <el-dropdown @command="onTitleCommand">
+                    <span class="el-dropdown-link">
+                        {{term}}<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item 
+                            v-for="(item,index) in termList" :key="index" 
+                            :command="item.key">{{item.name}}</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
             </li>
-            <li @click="onClick(2)" 
-                :class="{active:actIndex===2}">班级错题
-                <div class="active-bar"></div>
-            </li>
-            <li @click="onClick(3)" 
-                :class="{active:actIndex===3}">我的收藏
-                <div class="active-bar"></div>
-            </li>
-            <li @click="onClick(4)" 
-                :class="{active:actIndex===4}">我的试卷
-                <div class="active-bar"></div>
+            <li @click="onClick(idx)"
+                v-for="(item,idx) in favorites" 
+                :key=idx 
+                :class="{active:actIndex===idx}">
+                {{favorites[idx]}}
             </li>
         </ul>
     </div>
@@ -28,6 +30,13 @@ export default {
             actIndex:1,//初始化时，鼠标悬停活动条显示那个标签下
             clickIndex:-1,//初始化时，鼠标点击活动条显示那个标签下
             isClick:false,//判断标签是否被点击
+            favorites:['我收藏的试题','我收藏的试卷'],
+            term:'教学职称',
+            termList:[
+                {key:-1,name:'全部职称'},
+                {key:1,name:'黄金糕'},
+                {key:2,name:'狮子头'},
+                {key:3,name:'螺蛳粉'},],
         };
     },
     methods: {
@@ -36,23 +45,21 @@ export default {
          */
         onClick(actIndex) {
             this.actIndex = actIndex;
-            let routerList = [
+            /* let routerList = [
                             '/admin-index/bank/questions',
                             '/admin-index/bank/errors',
                             '/admin-index/bank/favorites',
                             '/admin-index/bank/mine'];
-            switch(actIndex){
-                case 2:
-                    this.$emit('has-subtab','ClassErrors',true);
-                    break;
-                case 3:
-                    this.$emit('has-subtab','Favorites',true);
-                    break;
-                default:
-                    this.$emit('has-subtab','Others',false)
-            }            
-            this.$router.push(routerList[actIndex-1]);            
+            this.$router.push(routerList[actIndex-1]); */
+            
         },
+        onTitleCommand(command){
+            for(let title of this.titleList){
+                if(title.key === command){
+                    this.title = title.name;
+                }
+            }
+        }
     },
     mounted(){
         //this.$router.push('/admin-index/bank/compre-question');
