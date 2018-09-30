@@ -1,38 +1,40 @@
 <template>
     <div>
         <div class="course-wrap">
-            <div class="course" v-for="index in 4" :key="index" v-if="!isNull">
-                <div class="course-cover" @click="goCourseDetail(index)"></div>
+            <div class="course" v-for="index in 8" :key="index" v-if="!isNull">
+                <div class="course-cover" @click="goCourseDetail(index)">
+                    <img src="http://static.smartisanos.cn/pr/img/video/video_03_cc87ce5bdb.jpg" alt="">
+                </div>
                 <div class="course-info">  
-                    <span class="course-name">中小学生思维导图儿童训练营-暑...</span>        
+                    <span class="course-name">{{course.topic}}</span>        
                     <span class="course-type">
                         <label 
                             class="course-label"
-                            :style="{background:isOpenCourse?'#22cb64':''}"
-                            >{{isOpenCourse?'公开课':'任务课'}}</label>
-                        <span>小学</span>
-                        <span>语文</span>
+                            :style="{background:course.isOpenCourse?'#22cb64':''}"
+                            >{{course.isOpenCourse?'公开课':'任务课'}}</label>
+                        <span>{{course.level}}</span>
+                        <span>{{course.name}}</span>
                     </span >
                     <span class="interact">
                         <span>
                             <img :src="require('../../assets/svg/eye.svg')" alt="">
-                            <span>3564</span>
+                            <span>{{course.visitNum}}</span>
                         </span>
                         <span>
                             <img :src="require('../../assets/svg/comment.svg')" alt="">
-                            <span>64</span>
+                            <span>{{course.commentNum}}</span>
                         </span>
                         <span>
                             <img :src="require('../../assets/svg/like.svg')" alt="">
-                            <span>364</span>
+                            <span>{{course.likeNum}}</span>
                         </span>
                     </span>
                     <span>
                     </span>                
                     <span class="teacher">
                         <img :src="require('../../assets/svg/avatar.svg')" alt="" class="avatar">  
-                        <span class="span">王小羽</span>
-                        <span>4天前</span>                      
+                        <span class="span">{{course.teacher}}</span>
+                        <span>{{course.issueTime}}</span>                      
                     </span>
                 </div>      
             </div>
@@ -57,11 +59,23 @@ export default {
             isTeacher:'',
             isStudent:'',
             isAdmin:'',
+            course:{
+                topic:'中小学生思维导图',
+                level:'小学',
+                name:'语文',
+                isOpenCourse:false,
+                visitNum:2544,
+                commentNum:736,
+                likeNum:555,
+                avatar:'ulr',
+                teacher:'王小羽',
+                issueTime:'4天前',
+                cover:'url'
+            },//课程对象
         }
     },
     computed:{
-        n:function(){
-            
+        n:function(){            
             if(this.screenWidth>=1366 && this.screenWidth<1440){
                 return 3    
             }else if(this.screenWidth>=1440 && this.screenWidth<=1920){
@@ -90,6 +104,10 @@ export default {
         width:1364px;
         margin:0 auto;
         padding:40px 0 20px 0;
+        flex-flow: wrap;
+    }
+    .course{
+        margin-bottom:20px;
     }
     header{
         color:#585a60;
@@ -101,11 +119,14 @@ export default {
     }
     .course-cover{
         width:312px;
-        height:200px;
-        background-image:url('http://static.smartisanos.cn/pr/img/video/video_03_cc87ce5bdb.jpg');
+        height:200px;        
         background-size:cover;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
+    }
+    .course-cover img{
+        width:312px;
+        height:200px;
     }
     .watch-btn{
         padding:5px 10px;

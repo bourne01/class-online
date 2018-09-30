@@ -7,19 +7,19 @@
                     <div class="course-type">
                         <label for=""><span>*</span>课程归类</label>
                         <div>
-                            <el-select v-model="formInline.region" placeholder="学期">
+                            <el-select v-model="course.termName" placeholder="学期">
                                 <el-option label="区域一" value="shanghai"></el-option>
                                 <el-option label="区域二" value="beijing"></el-option>
                             </el-select>
-                            <el-select v-model="formInline.region" placeholder="层次">
+                            <el-select v-model="course.levelName" placeholder="层次">
                                 <el-option label="区域一" value="shanghai"></el-option>
                                 <el-option label="区域二" value="beijing"></el-option>
                             </el-select>
-                            <el-select v-model="formInline.region" placeholder="年级">
+                            <el-select v-model="course.gradeName" placeholder="年级">
                                 <el-option label="区域一" value="shanghai"></el-option>
                                 <el-option label="区域二" value="beijing"></el-option>
                             </el-select>
-                            <el-select v-model="formInline.region" placeholder="学科">
+                            <el-select v-model="course.category" placeholder="学科">
                                 <el-option label="区域一" value="shanghai"></el-option>
                                 <el-option label="区域二" value="beijing"></el-option>
                             </el-select>
@@ -30,14 +30,14 @@
                         <label for=""><span>*</span></label>
                         <div style="display:inline-block">
                             <el-input 
-                                v-model="formInline.region"
+                                v-model="course.name"
                                 placeholder="请输入课程名称"></el-input></div>                
                     </div>             
                     <div class="course-label">
                         <label for=""><span>*</span>添加课程标签</label>
                         <div>
                             <el-input 
-                                v-model="formInline.region"
+                                v-model="course.label"
                                 placeholder="请输入课程标签"></el-input></div>                
                     </div>             
                     <div class="course-intro">
@@ -78,7 +78,7 @@
                 <div class="main">
                     <div class="is-open">
                         <label for="">是否公开</label>
-                        <el-radio-group v-model="form.resource">
+                            <el-radio-group v-model="course.isOpen">
                             <el-radio label="是"></el-radio>
                             <el-radio label="否"></el-radio>
                         </el-radio-group>
@@ -138,6 +138,18 @@ export default {
                 url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
             }],
             isPop:false,
+            course:{
+                name:'',
+                label:'',
+                termName:'',
+                levelName:'',
+                gradeName:'',
+                category:'',
+                intro:'',
+                isOpen:false,
+                teacherName:'',
+                students:[],
+            },//课程对象
         }
     },
     methods:{
@@ -146,6 +158,28 @@ export default {
          */
         onDialogClose(){
             this.isPop = false;
+        },
+
+        /**
+         * @function 检查输入是否为空
+         */
+        checkInputValue(){
+            if(!course.termName){
+                this.$message.error('课程名称不能为空');
+                return;
+            }
+            if(!course.levelName){
+                this.$message.error('课程所属的层次不能为空');
+                return;
+            }
+            if(!course.gradeName){
+                this.$message.error('课程所属年级不能为空');
+                return;
+            }
+            if(!course.category){
+                this.$message.error('课程类别不能为空');
+                return;
+            }
         }
     },
 }

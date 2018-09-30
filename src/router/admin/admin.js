@@ -163,7 +163,7 @@ export default [
                 },
                 {
                     path:'prepare',
-                    name:'Prepare Lesson',
+                    name:'PrepareLesson',
                     component:() => import('../../views/admin/index/teacher/prepare.vue'),
                     children:[
                             {

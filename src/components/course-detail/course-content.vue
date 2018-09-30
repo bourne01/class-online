@@ -29,7 +29,7 @@
                         <span v-else>
                             <span class="course-state" v-if="couState==='1'">进行中</span>
                             <img :src="require('../../assets/svg/playback.svg')" alt="" v-else>
-                            <span class="prepare-lesson">备课</span>
+                            <span class="prepare-lesson" @click="goPrepareLess()">备课</span>
                         </span>
 
                     </span>
@@ -56,7 +56,16 @@ export default {
         /**@function 监听鼠标悬停事件 */
         onMouseover(idx1,idx2){
             this.actNum = 'li'+idx1+idx2;
-        }
+        },
+
+        /**
+         * @function 跳转到备课页面
+         * @param {} 
+         */
+        goPrepareLess(){
+            this.$router.push({name:'PrepareLesson',query:{}});
+        },
+
     },
     mounted(){
         this.curRole = getCurrentUser(this.$route.path);
@@ -137,6 +146,7 @@ export default {
     .prepare-lesson{
         color:#366dd1;
         font-size:16px;
+        cursor: pointer;
     }
     .el-button{
         height:36px;

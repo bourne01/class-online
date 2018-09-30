@@ -43,14 +43,16 @@
                     :class="{active:actNum===1}"
                     @mouseover="onMouseOver(1)"
                     @mouseout="actNum=-1"
-                    :style="{background:actNum===1?'#000':''}">
+                    :style="{background:actNum===1?'#000':''}"
+                    @click="onIconClick('publish')">
                     <div class="indicator-bar"></div></i>
                 <i 
                     class="el-icon-bell"
                     :class="{active:actNum===2}"
                     @mouseover="onMouseOver(2)"
                     @mouseout="actNum=-1"
-                    :style="{background:actNum===2?'#000':''}">
+                    :style="{background:actNum===2?'#000':''}"
+                    @click="onIconClick('notice')">
                     <div class="indicator-bar"></div>
                 </i>
                 <div class="avatar" 
@@ -98,16 +100,23 @@ export default {
             this.actNum = val;
         },
         /**@function 监听点击关闭或搜索icon按钮事件 
-         * @param {icon类型,type的值为'close'和'search'} type
+         * @param {icon类型,type的值为'close'、'search'、'publish'、'notice'} type
         */
-        onIconClick(type){
-            console.log(type);
-            if(type === 'close')
-                this.isShow = true;
-            else if(type === '_search'){
-                this.isShow = false;
-                /* console.log(this.$refs.search);
-                this.$refs.search.focus(); */
+        onIconClick(type){            
+            switch(type){
+                case 'close':
+                    this.isShow = true;
+                    break;
+                case '_search':
+                    this.isShow = false;
+                    break;
+                case 'publish':
+                    this.$router.push('/admin-index/publish')
+                    break;
+                case 'notice':
+                    break;
+                default:
+                    this.$message('发生错误，未知类型')
             }
         },
         querySearch(queryString, cb) {
@@ -131,10 +140,13 @@ export default {
             { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
             { "value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113" },          
             ];
-        },
+        },},
     mounted() {
-        
-    }
+        //捕捉到点击中间内容事件，则隐藏下拉菜单
+        this.$root.bus.$on('main-click',() => {
+            this.actNum = -1;
+        })
+    
     }
     
 }

@@ -80,7 +80,7 @@ export default {
     }
     .score-counting{        
         background-color:#fff;
-        padding:44px 98px 0 98px;
+        padding:44px 98px 50px 98px;
         box-sizing: border-box;
     }
     .student-score{

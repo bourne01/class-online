@@ -1,7 +1,7 @@
 <template>
     <div>
         <my-header></my-header>     
-        <section class="transition">
+        <section class="transition" @click="onClick">
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
             </transition>
@@ -19,6 +19,13 @@ export default {
     components:{
         MyHeader,
         MyFooter,
+    },
+    methods:{
+        /**@function 发送点击中部内容区域事件 */
+        onClick(){            
+            this.$root.bus.$emit('main-click')
+        }
+        
     }
 }
 </script>

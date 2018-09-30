@@ -7,7 +7,7 @@
             <li v-for="index in 4" :key="index">
                 <img :src="require('../../assets/svg/avatar.svg')" alt="">
                 <span>
-                    <span class="name">王老师</span>
+                    <span class="name">王老师<label>创建者</label></span>
                     <span class="school">瓯海区XXX实验小学</span>
                     <span class="course">
                         <span>小学</span>
@@ -60,6 +60,25 @@ export default {
     li .name{
         color:#000;
         font-size:18px;
+    }
+    .name label{
+        margin-left:5px;
+        font-size:12px;
+        width:48px;
+        height:18px;
+        line-height:18px;
+        text-align: center;
+        background-color:#FF9000;   
+        color:#fff;
+        display: inline-block;
+        letter-spacing: 0.04em;
+
+    }
+    .creator{
+        background-color:#FF9000;
+    }
+    .admin{
+        background-color:#4B78FF;
     }
     li  .school{
         color:#585a60;
