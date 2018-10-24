@@ -60,7 +60,6 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-
         </div>
     </div>
 </template>
@@ -110,7 +109,7 @@ export default {
                 case 'course':
                     this.curCourseIndex = index;
                     break;
-                case 'level':
+                case 'category':
                     this.curCategoryIndex = index;
                     break;
                 default:

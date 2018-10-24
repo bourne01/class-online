@@ -319,11 +319,89 @@ export default {
     .active span{
         color:#fff;
     }
-    .arrow-direction{
-        position:absolute;
-        right:20px;
-        top:40px;
-        width:20px!important;
+    
+    @media (max-width:1439px){
+			.el-aside {
+                background-color: #252834;
+                position: relative;
+                text-align: center;
+                line-height: 180px;
+                width:160px!important;
+            }
+            .arrow-direction{
+                position:absolute;
+                right:0;
+                top:40px;
+                width:20px!important;
+            }
+            .btn-publish{            
+                height:38px;
+                width:128px;  
+                background:linear-gradient(to right,#8b62ff , #0a8dff);
+                color:#fff;
+                border-radius:24px;
+                font-size:16px;
+                line-height:38px;
+                margin:0 auto;
+                margin-top:90px; 
+            }
+            .btn-publish:hover{
+                background:linear-gradient(to right,#9b62ff , #1a8dff);
+                cursor: pointer;
+            }
+            .el-icon-upload{
+                margin-right:5px;
+            }
+			
+		}		
+    @media (min-width:1440px) and (max-width:1920px){
+        .el-aside {
+            background-color: #252834;
+            position: relative;
+            text-align: center;
+            line-height: 180px;
+            width:200px!important;
+        }
+        .arrow-direction{
+            position:absolute;
+            right:20px;
+            top:40px;
+            width:20px!important;
+        }
+        .btn-publish{            
+            height:48px;
+            width:168px;  
+            background:linear-gradient(to right,#8b62ff , #0a8dff);
+            color:#fff;
+            border-radius:24px;
+            font-size:18px;
+            line-height:48px;
+            margin:0 auto;
+            margin-top:90px; 
+        }
+        .btn-publish:hover{
+            background:linear-gradient(to right,#9b62ff , #1a8dff);
+            cursor: pointer;
+        }
+        .el-icon-upload{
+            margin-right:5px;
+        } 
+        
+    }
+    @media (min-width:1921px){
+        .el-aside {
+            background-color: #252834;
+            position: relative;
+            text-align: center;
+            line-height: 180px;
+            width:300px!important;
+        }
+        .arrow-direction{
+            position:absolute;
+            right:40px;
+            top:40px;
+            width:20px!important;
+        } 
     }
     .subitems{
         display:none;
@@ -351,32 +429,7 @@ export default {
         top:-3px;
         margin-right:10px;
     } 
-    .el-aside {
-        background-color: #252834;
-        position: relative;
-        text-align: center;
-        line-height: 180px;
-        /* width:100%!important; */
-        width:200px!important;
-        /* height:100%; */
-    }    
-    .btn-publish{            
-        height:48px;
-        width:168px;  
-        background:linear-gradient(to right,#8b62ff , #0a8dff);
-        color:#fff;
-        border-radius:24px;
-        font-size:18px;
-        line-height:48px;
-        margin:0 auto;
-        margin-top:90px; 
-    }
-    .btn-publish:hover{
-        background:linear-gradient(to right,#9b62ff , #1a8dff);
-        cursor: pointer;
-    }
-    .el-icon-upload{
-        margin-right:5px;
-    }
+       
+    
     
 </style>

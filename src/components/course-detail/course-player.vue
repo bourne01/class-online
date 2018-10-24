@@ -1,7 +1,7 @@
 <template>
     <article class="course-player">
         <header class="course-name">
-            <span>
+            <span @click="goBack">
                 <img :src="require('../../assets/svg/previous.svg')" alt="">
                 <span>计算机课程</span>
             </span>
@@ -100,9 +100,13 @@ export default {
         }
     },
     methods: {
-      play() {
-        console.log('play callback')
-      }
+        /**@function 返回上一页 */
+        goBack(){
+            history.go(-1);
+        },
+        play() {
+            console.log('play callback')
+        }
     },
     mounted(){
         this.player = this.$refs.player.dp

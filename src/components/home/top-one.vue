@@ -17,7 +17,7 @@ export default {
         metrics: '访问用户',
         radius:['45%','65%'],
         label:{show:false},
-        offsetY:180,
+        offsetY:160,
       }
       return {
         chartData: {

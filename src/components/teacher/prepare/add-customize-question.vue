@@ -10,22 +10,6 @@
             <div class="banner-bg"></div>
         </header>
         <section>
-            <!-- <label for="">课程归类</label>
-            <el-row :gutter="20">
-                <el-col :span="6">
-                    <el-select></el-select>
-                </el-col>
-                <el-col :span="6">
-                    <el-select></el-select>
-                </el-col>
-                <el-col :span="6">
-                    <el-select></el-select>
-                </el-col>
-                <el-col :span="6">
-                    <el-select></el-select>
-                </el-col>
-            </el-row> -->
-            
             <el-row :gutter="20">
                 <el-col :span="12">
                     <label for="" style="margin-bottom:10px;">我的分类</label>
@@ -75,50 +59,7 @@
             <el-row>
                 <label for="">题目内容</label>
                 <!-- <quill-editor></quill-editor> -->
-                <el-input type="textarea" placeholder="请输入..." class="question-content"></el-input>
-               <!--  <div class="answer"> 
-                    <label for="">标准答案</label>
-                    <span @click="onSelect(0)">
-                        <img 
-                            :src="require('../../../assets/svg/circle-blue.svg')" alt=""
-                            v-if="!selectedList[0]"
-                        >
-                        <img 
-                            :src="require('../../../assets/svg/circle-selected.svg')" alt=""
-                            v-else
-                        >A
-                    </span>  
-                    <span @click="onSelect(1)">
-                        <img 
-                            :src="require('../../../assets/svg/circle-blue.svg')" alt=""
-                            v-if="!selectedList[1]"
-                        >
-                        <img 
-                            :src="require('../../../assets/svg/circle-selected.svg')" alt=""
-                            v-else
-                        >B
-                    </span>  
-                    <span @click="onSelect(2)">
-                        <img 
-                            :src="require('../../../assets/svg/circle-blue.svg')" alt=""
-                            v-if="!selectedList[2]"
-                        >
-                        <img 
-                            :src="require('../../../assets/svg/circle-selected.svg')" alt=""
-                            v-else
-                        >C
-                    </span>  
-                    <span @click="onSelect(3)">
-                        <img 
-                            :src="require('../../../assets/svg/circle-blue.svg')" alt=""
-                            v-if="!selectedList[3]"
-                        >
-                        <img 
-                            :src="require('../../../assets/svg/circle-selected.svg')" alt=""
-                            v-else
-                        >D
-                    </span>  
-                </div>-->
+                <el-input type="textarea" placeholder="请输入..." class="question-content"></el-input>               
             </el-row>
             <el-row>
                 <label for="">选项管理</label>
@@ -152,11 +93,11 @@
 </template>
 
 <script>
-import QuillEditor from '../../../components/common/quill-editor'
+/* import QuillEditor from '../../../components/common/quill-editor' */
 export default {
     props:['is-pop'],
     components:{
-        QuillEditor
+        /* QuillEditor */
     },
     data(){
         return{

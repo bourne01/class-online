@@ -6,7 +6,7 @@
             </header>
             <div class="prepare-knowledge-point">
                 <div>请选择知识点备课</div>                
-                <el-checkbox-group v-model="checkList" :fill="fill" :text-color='fill'>
+                <el-checkbox-group v-model="lesson.checkList" :fill="fill" :text-color='fill'>
                     <ul>
                         <li v-for="idx in 3" :key=idx>
                             <el-checkbox :label="'知识点000'+idx"></el-checkbox>
@@ -25,11 +25,11 @@
             <div class="title">
                 <span class="star">*</span>
                 <label for="">标题</label>
-                <el-input>标题</el-input>
+                <el-input v-model="lesson.title">标题</el-input>
             </div>    
             <div class="label">
                 <label for="">标签</label>
-                <el-input>课程标签</el-input>
+                <el-input v-model="lesson.label">课程标签</el-input>
             </div>    
         </section>
     </article>
@@ -37,10 +37,11 @@
 
 <script>
 export default {
+    props:['lesson'],
     data(){
         return{
-            checkList:[],
-            fill:'red'
+            fill:'red',
+            
         }
     }
 }

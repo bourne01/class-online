@@ -32,11 +32,12 @@ export default {
          */
         onClick(actIndex) {
             this.actIndex = actIndex;
-            let routerList = [
+            /* let routerList = [
                             '/admin-index/prepare/work/:1',
                             '/admin-index/prepare/work/:2',
                             '/admin-index/prepare/work/:3',];
-            this.$router.push(routerList[actIndex-1]);            
+            this.$router.push(routerList[actIndex-1]);    */   
+            this.$emit('tab-index',actIndex);      
         },
     }
 };
@@ -63,6 +64,7 @@ export default {
     }
     .active .active-bar{
         display:inline-block;
+        opacity: 1;
     }
     .active-bar{
         display:none;
@@ -72,8 +74,11 @@ export default {
         bottom:0;
         left:0;
         background-color:#fc6835;
+        opacity: 0;
+        transition:opacity 1s;
     }
     .active{
         color:#fc6835!important;
+        
     }
 </style>

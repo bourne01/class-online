@@ -7,7 +7,7 @@
             </span>
             </header>
         <div class="course-wrap">
-            <div class="course" v-for="index in 4" :key="index">
+            <div class="course" v-for="index in 4" :key="index" v-if="index<=maxCourses">
                 <div class="course-cover"></div>
                 <!-- <span class="watch-btn">立即查看<i class="el-icon-caret-right"></i></span>
                 <label class="video-label" for="" v-if="isOpenCourse">公开课</label>   -->   
@@ -36,7 +36,28 @@ export default {
     data(){
         return{
             isOpenCourse:true,
+            maxCourses:3,//页面最大待批课程显示数量
         }
+    },
+    methods:{
+        /**
+         * @function 根据窗口大小，最多显示几门课程
+         */
+        setMaxCourses(){
+            if(document.body.clientWidth < 1560){
+                this.maxCourses = 3;
+            }else{
+                this.maxCourses = 4;
+            }
+        }
+    },
+    created(){
+        window.onresize = () => {            
+            this.setMaxCourses();
+        }
+    },
+    mounted(){
+        this.setMaxCourses();
     }
 }
 </script>

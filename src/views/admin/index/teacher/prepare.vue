@@ -3,13 +3,19 @@
         <header>
             <tool-bar class="toolbar"></tool-bar>
         </header>
-        <lesson class="lesson"></lesson>
+        <lesson class="lesson" :lesson="lesson"></lesson>
         <div class="margin"></div>
-        <lesson-work class="lesson-work" @customize-question="isPop=true"></lesson-work>
+            <lesson-work class="lesson-work" 
+                @customize-question="isPop=true"
+                :lesson-work="lessonWork"></lesson-work>
         <footer>
             <label for="">是否公开</label>
-            <el-radio>是</el-radio>
-            <el-radio>否</el-radio>
+            <!-- <el-radio>是</el-radio>
+            <el-radio>否</el-radio> -->
+            <el-radio-group v-model="lessonWork.isQuestionOpen">
+                <el-radio :label="true">是</el-radio>
+                <el-radio :label="false">否</el-radio>
+            </el-radio-group>
             <button>提交</button>
         </footer>
         <question-dialog :is-pop="isPop" @dialog-close="onDialog"></question-dialog>
@@ -31,6 +37,16 @@ export default {
     data(){
         return{
             isPop:false,
+            lesson:{//备课对象
+                checkList:[],//知识点列表
+                title:'',//备课主题
+                label:'',//备课标签
+                },
+            lessonWork:{//本次备课的学生作业
+                isAnswerOpen:false,//作业是否公开
+                question:[],//题目对象列表
+                isQuestionOpen:false,
+            }
         }
     },
     methods:{
@@ -40,6 +56,11 @@ export default {
             console.log('I M Component Father.');
         }
     },
+    created(){
+        this.$root.bus.$on('edit-question',(question) => {
+            this.isPop = true;
+        });
+    }
     
 }
 </script>
@@ -82,7 +103,8 @@ export default {
         border-radius: 3px;
         color:#fff;
         font-size:18px;
-        background:linear-gradient(to right,#6bc85b,#31cf79)
+        background:linear-gradient(to right,#6bc85b,#31cf79);
+        cursor: pointer;
     }
 </style>
 

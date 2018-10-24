@@ -1,27 +1,46 @@
 <template>
     <article>
-        <work-tab class="work-tab"></work-tab>
+        <work-tab class="work-tab" @tab-index="onTabIndex"></work-tab>
         <div class="toolbar">
             <button class="bank"><i class="el-icon-plus"></i>选择题库题目</button>
             <button class="customize" @click="onCustomize"><i class="el-icon-plus"></i>自定义题目</button>
-            <el-radio>公布答案</el-radio>
+            <!-- <el-radio 
+                v-model="lessonWork.isAnswerOpen" 
+                @click.native="lessonWork.isAnswerOpen=!lessonWork.isAnswerOpen">公布答案</el-radio> -->
+            <el-switch
+                v-model="lessonWork.isAnswerOpen"                
+                inactive-text="公布答案"
+                active-color="#409EFF">
+            </el-switch>
             <span>设置作业时间</span>
-            <el-select>                
-            </el-select>
+            <el-date-picker
+                v-model="lessonWork.datetime"
+                type="datetime"
+                value-format="yyyy-MM-dd HH-mm-ss"
+                placeholder="选择日期时间">
+            </el-date-picker>
         </div>
-        <transition>
-            <router-view></router-view>
-        </transition>
+        <student-work 
+            :work-type="workTypes[workTypeIndex-1]"
+            :question="lessonWork.question"
+            ></student-work>
     </article>
 </template>
 
 <script>
 import WorkTab from './work-tab';
-import StudentWork from './student-work'
+import StudentWork from './student-work' 
 export default {
+    props:['lesson-work'],
     components:{
         WorkTab,
         StudentWork,
+    },
+    data(){
+        return{
+            workTypeIndex:-1,//作业类型下标
+            workTypes:['before','on','after'],//作业类型，分课前、课中和课后三类
+        }
     },
     methods:{
         /**
@@ -29,6 +48,13 @@ export default {
          */
         onCustomize(){
             this.$emit('customize-question');
+        },
+
+        /**
+         * @function 监听点击作业类型选项卡，获取类型对应的下标值
+         */
+        onTabIndex(index){
+            this.workTypeIndex = index;
         }
     },
 }
@@ -44,6 +70,9 @@ export default {
     .toolbar{
         padding:20px 40px;
         border-bottom:1px solid #f1f1f1;
+    }
+    .el-switch{
+        margin-right:5px;
     }
     button{
         outline: none;
