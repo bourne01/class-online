@@ -19,7 +19,7 @@
                         <li>A．∃x0∈(0，1)，使得f(x0)=0 </li>
                         <li>B．∃x0∈(0，1)，使得f(x0)>0</li>
                         <li>C．∀x∈(0，1)，都有f(x)>0  </li>
-                        <li>D．∀x∈(0，1)，都有f(x)<0 </li>
+                        <li>D．∀x∈(0，1)，都有f(x)&lt;0 </li>
                         <li class="answer-items" v-if="isOkay">
                             <span @click="onSelect(idx,1)">
                                 <img 
@@ -68,6 +68,7 @@
 
                         </li>
                     </ul>
+                    <answer-bar v-if="isOkay"></answer-bar>
                 </li>
             </ul>
         </section>
@@ -100,7 +101,11 @@
 </template>
 
 <script>
+import AnswerBar from './answer-bar'
 export default {
+    components:{
+        AnswerBar
+    },
     data(){
         return{
             type:'before',//默认课前作业激活

@@ -60,6 +60,8 @@ export default {
         this.$root.bus.$on('edit-question',(question) => {
             this.isPop = true;
         });
+    },
+    mounted(){
     }
     
 }

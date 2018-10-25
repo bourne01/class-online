@@ -1,11 +1,25 @@
 <template>
     <div class="toolbar">
-        <span><img :src="require('../../../assets/svg/previous.svg')" alt="">返回上一页</span>
+        <span @click="goBack">
+            <img :src="require('../../../assets/svg/previous.svg')" alt="">返回上一页</span>
         <div class="right">            
             <button class="btn">草稿自动保存</button>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    methods:{
+        /**@function 回退到上一页 */
+        goBack(){
+            console.log('ahfahfah');
+            history.go(-1)
+        }
+    }
+}
+</script>
+
 
 <style scoped>
     .toolbar{

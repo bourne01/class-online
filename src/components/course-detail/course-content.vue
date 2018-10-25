@@ -1,6 +1,6 @@
 <template>
     <article>
-        <header class="header" @mousemove="actNum=0" @mouseout="-1">
+        <header class="header" @mousemove="actNum=0" @mouseout="-1" v-if="curRole=='student'">
             <span>预告&nbsp;&nbsp;开设时间：2017-02-13 12：20</span>
             <span>
                 <button class="btn" v-if="actNum===0">开始学习</button>
@@ -12,7 +12,7 @@
         <section v-for="sec in 2" :key="sec">
             <header class="chapter">
                 <span>第{{sec}}章 软件的应用</span>
-                <el-button icon="el-icon-plus">添加课程</el-button>
+                <!-- <el-button icon="el-icon-plus">添加课程</el-button> -->
             </header>
             <ul>
                 <li 
@@ -35,7 +35,7 @@
                     </span>
                 </li>        
                 <li>
-                    <el-button icon="el-icon-plus">创建章节</el-button>
+                    <!-- <el-button icon="el-icon-plus">创建章节</el-button> -->
                 </li>        
             </ul>
         </section>        

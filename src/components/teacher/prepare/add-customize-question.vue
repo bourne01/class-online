@@ -5,17 +5,33 @@
         :modal-append-to-body="false"    
         @close="onClose"        
         class="add-question-dialog">
-        <header slot="title">
+        <header slot="title" class="title">
             <span>自定义试题</span>
+            <el-popover
+                placement="right"
+                width="450"
+                trigger="click">
+                <el-table :data="gridData" height="300">
+                    <el-table-column width="70" property="name" label="名称"></el-table-column>
+                    <el-table-column width="100" property="symbol" label="符号"></el-table-column>
+                    <el-table-column width="130" property="example" label="示例">
+                        <template slot-scope="scope">
+                            <span>`</span>{{scope.row.example}}<span>`</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column width="150" property="output" label="效果"></el-table-column>
+                </el-table>
+                <el-button slot="reference" type="text" class="formula" @click="renderExample">公式符号参考</el-button>
+            </el-popover>
             <div class="banner-bg"></div>
         </header>
         <section>
             <el-row :gutter="20">
                 <el-col :span="12">
                     <label for="" style="margin-bottom:10px;">我的分类</label>
-                    <el-select class="type" placeholder="请选择知识点" v-model="keyPoint">
+                    <el-select class="type" placeholder="请选择知识点" v-model="question.keyPoint">
                         <el-option
-                            v-for="item in options"
+                            v-for="item in question.options"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -53,17 +69,22 @@
             <label for="">标题</label>
             <el-row>
                 <el-col>
-                    <el-input placeholder="请输入标题"></el-input>
+                    <el-input placeholder="请输入标题" v-model="question.title"></el-input>
                 </el-col>
             </el-row>
             <el-row>
                 <label for="">题目内容</label>
                 <!-- <quill-editor></quill-editor> -->
-                <el-input type="textarea" placeholder="请输入..." class="question-content"></el-input>               
+                <span class="question-content el-textarea__inner" 
+                    v-if="!isContentEditable" @click="isContentEditable=true">{{question.content}}</span>   
+                <el-input 
+                    type="textarea" placeholder="请输入..." class="question-content" 
+                    @mouseout.stop="onMouseout" v-else v-model="question.content" @></el-input>
+                            
             </el-row>
             <el-row>
                 <label for="">选项管理</label>
-                <ul class="question-item-wrapper" @mouseout="onMouseout">
+                <ul class="question-item-wrapper" @mouseout.stop="onMouseout">
                     <li class="question-item" v-for="(item,idx) in questionItems" :key="idx">
                         <el-input v-if="itemNameIndex===idx" class="item-index" v-model="item.name"></el-input>
                         <span class="item-index" v-else @click="itemNameIndex=idx">{{item.name}}</span>
@@ -89,11 +110,13 @@
         <footer>
             <button @click="onSubmit()">确定添加题目</button>
         </footer>
+        
     </el-dialog>
 </template>
 
 <script>
 /* import QuillEditor from '../../../components/common/quill-editor' */
+import mathSymbol from '../../../assets/lib/math-symbol.js'
 export default {
     props:['is-pop'],
     components:{
@@ -102,6 +125,7 @@ export default {
     data(){
         return{
             selectedList:[],//答案选择列表
+            isContentEditable:false,
             type:'',
             newCategoryTags: [],
             inputVisible: false,
@@ -114,6 +138,8 @@ export default {
                 {name:'C',content:'我是王五'},
                 {name:'D',content:'我是赵六'}, */],
             refAnswer:'',//参考答案
+            question:{},
+            gridData: mathSymbol,
         }
     },
     computed:{
@@ -127,6 +153,13 @@ export default {
         }
     },
     methods:{
+        /**
+         * 
+         */
+        renderExample(){
+            console.log('afjalfjalfjal');
+            console.log(MathJax.Hub.Queue(["Typeset", MathJax.Hub]))
+        },
         /**
          * 监听对话框关闭事件，然后向父组件传递关闭事件
          */
@@ -152,6 +185,10 @@ export default {
         onMouseout(){
             this.itemNameIndex = -1;
             this.itemContentIndex = -1;
+            this.isContentEditable = false;
+            let renderArea = document.querySelector(".add-question-dialog");
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub,renderArea])
+            
         },
 
         /**@function 关闭标签 */
@@ -195,6 +232,9 @@ export default {
             }
             this.questionItems.push({name:'A',content:'我是A选项内容'});
         },
+    },
+    mounted(){
+        console.log(mathSymbol);
     }
 }
 </script>
@@ -229,6 +269,14 @@ export default {
 <style scoped>
     .add-question-dialog{
         font-size:18px;        
+    }
+    .add-question-dialog header{
+        display:flex;
+        justify-content:space-between;
+        margin-right:20px;
+    }
+    .formula{
+        padding:0;
     }
     header>span{
         color:#2185ff;
