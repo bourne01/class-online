@@ -16,7 +16,7 @@
                 <li v-for="idx in 2" :key="idx">                        
                     <ul class="question">
                         <li>1、(2015河南安阳模拟)已知函数f(x)=ax2+bx+c，且a>b>c，a+b+c=0，则(　　)</li>
-                        <li>A．∃x0∈(0，1)，使得f(x0)=0 </li>
+                        <li>A．∃x0∈(0，1)，使得f(x0)=0 A．∃x0∈(0，1)，使得f(x0)=0 A．∃x0∈(0，1)，使得f(x0)=0 A．∃x0∈(0，1)，使得f(x0)=0 A．∃x0∈(0，1)，使得f(x0)=0 </li>
                         <li>B．∃x0∈(0，1)，使得f(x0)>0</li>
                         <li>C．∀x∈(0，1)，都有f(x)>0  </li>
                         <li>D．∀x∈(0，1)，都有f(x)&lt;0 </li>
@@ -177,8 +177,11 @@ export default {
         font-size:14px;
     }
     .question>li{
-        padding:15px 0 15px 30px;
+        padding:10px 0 10px 30px;
         margin-right:50px;
+        line-height: 1.5;
+        text-indent: -23px;
+        margin-left: 23px;
     }
     .question>li:first-child{
         padding-left:0;
@@ -194,6 +197,7 @@ export default {
         border-radius: 5px;
         background-color:#f1f1f1;
         position: relative;
+        text-indent: 0!important;
     }
     .answer-items span:first-child{
         margin-left:30px;

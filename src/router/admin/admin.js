@@ -1,7 +1,6 @@
 export default [    
     {
-        path:'/admin',
-        name:'Admin',
+        path:'/admin',        
         component:() => import('../../views/admin/home/home.vue'),
         children:[
             {
@@ -10,7 +9,7 @@ export default [
             },
             {
                 path:'main',
-                name:'Main',
+                name:'AdminMain',
                 component:() => import('../../views/admin/home/main.vue'),
             }, 
         ],
@@ -18,12 +17,11 @@ export default [
     },   
     {
         path:'/admin-icon',
-        name:'AdminIcon',
         component:() => import('../../views/admin/home/home-icon.vue'),
         children:[
             {
                 path:'main',
-                name:'Main',
+                name:'AdminIconMain',
                 component:() => import('../../views/admin/home/main.vue'),
             },
             {
@@ -34,17 +32,15 @@ export default [
     }, 
     {
         path:'/admin-index',
-        name:'AdminIndex',
         component:() => import('../../views/admin/index/index.vue'),
         children:[
                 {
                     path:'course',
                     name:'CourseHome',
-                    component:() => import('../../components/course/course.vue')
+                    component:() => import('../../views/admin/index/course/course.vue')
                 },
                 {
                     path:'course-detail',
-                    name:'CourseDetail',
                     component:() => import('../../views/admin/index/course/course-detail.vue'),
                     children:[
                         {
@@ -75,7 +71,6 @@ export default [
                 },
                 {
                     path:'bank',
-                    name:'Bank',
                     component:() => import('../../views/admin/index/bank/bank.vue'),
                     children:[
                         {
@@ -122,7 +117,6 @@ export default [
                 },
                 {
                     path:'teacher-detail',
-                    name:'TeacherDetail',
                     component:() => import('../../views/admin/index/teacher/teacher-detail.vue'),
                     children:[
                         {
@@ -163,7 +157,6 @@ export default [
                 },
                 {
                     path:'prepare',
-                    name:'PrepareLesson',
                     component:() => import('../../views/admin/index/teacher/prepare.vue'),
                     children:[
                             {

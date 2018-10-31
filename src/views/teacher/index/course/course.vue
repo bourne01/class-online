@@ -1,40 +1,44 @@
 <template>
-    <div class="course-home">
-        <my-header></my-header>     
-        <section class="transition">
-            <transition name="fade" mode="out-in">
-                <router-view></router-view>
-            </transition>
+    <div>
+        <header class="course-type">
+            <course-tab></course-tab>
+            <div class="strip"></div>
+        </header>   
+        <section>
+            <course-filter class="filter"></course-filter>
         </section>
-        <footer class="my-footer">
-            <my-footer ></my-footer>
-        </footer>
-        
+        <section>
+            <course-list class="course-list"></course-list>
+        </section>
     </div>
 </template>
 
 <script>
-import MyHeader from '../components/common/header'
-import MyFooter from '../components/common/footer'
+import CourseFilter from '../../../../components/course/filters'
+import CourseList from '../../../../components/course/course-list'
+import CourseTab from '../../../../components/course/course-tab'
 export default {
     components:{
-        MyHeader,
-        MyFooter,
+        CourseFilter,
+        CourseList,
+        CourseTab
     }
 }
 </script>
 
 <style scoped>
-    .course-home{
-        background-color:#171a20;
+    .course-type>.strip{
+        height:20px;
+        background-color:#f4f4f4;
     }
-    .transition{
-        /* width:1364px;
-        margin:0 auto; */
+
+    .filter{
+        margin:0 auto;
+        width:1364px;
     }
-    .my-footer{
-        padding:40px 0;        
+    .course-list{
         min-height:300px;
+        background-color:#f4f4f4;
     }
 </style>
 

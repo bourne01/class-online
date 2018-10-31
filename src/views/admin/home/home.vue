@@ -129,7 +129,7 @@
                             <div class="indicator-bar"></div>
                         </li>                            
                     </ul>
-                    <div class="btn-publish">
+                    <div class="btn-publish" @click="publishCourse">
                         <i class="el-icon-upload"></i>发布课程
                     </div>                            
                 </el-aside>                
@@ -218,6 +218,12 @@ export default {
                     this.$set(this.subMenus,1,!this.subMenus[1]);
                     break;
             }
+        },
+        /**
+         * @function 发布新课程
+         */
+        publishCourse(){
+            this.$router.push('/admin-index/publish')
         }
 
     },

@@ -1,8 +1,11 @@
 
 <template>
  <div>
-    <div class="counting-bar" v-for="idx in 5" :key="idx" :id="'count'+idx">
-        <div class="details" :id="'details'+idx">
+    <div class="counting-bar" 
+        v-for="idx in 5" :key="idx" :id="'count'+idx" 
+        @mouseover="index=idx"
+        @mouseout="index=-1">
+        <div class="details" :id="'details'+idx" v-if="index==idx">
             <p>未掌握人数：23人</p>
             <p>男生：20人</p>
             <p>女生：3人</p>
@@ -16,6 +19,16 @@
  </div>
 </template>
 
+<script>
+export default {
+    data(){
+        return{
+            index:-1,
+        }
+    }
+}
+</script>
+
 <style scoped>
 
 .counting-bar{
@@ -25,7 +38,7 @@
         border-radius: 18px;
         left: 220px;
         height: 8px;
-        background: -webkit-linear-gradient(left,#fa584f,#fc6c2e);
+        background: linear-gradient(to right,#fa584f,#fc6c2e);
         position: relative;
     }
     .details{
@@ -38,7 +51,7 @@
         opacity: 0.7;
         top: 0px;
         left: 630px;
-        display: none;
+        /* display: none; */
         
     }
     .details p{
@@ -66,22 +79,9 @@
     }
 </style>
 
-<script>
-    window.onload=function(){
-        for(let i=1;i<6;i++){
-            let count = document.getElementById('count'+i);
-            let  details= document.getElementById('details'+i);
 
-            count.onmousemove=function(){
-                details.style.display='block';
-                
-            }
-            count.onmouseout=function(){
-                details.style.display='none';
-            }
-        } 
-    }
-</script>
+
+
 
 
 

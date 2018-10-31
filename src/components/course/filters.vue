@@ -39,33 +39,61 @@
                 :class="{btn:idx===curCourseIndex}"
                 @click="filterCourse(idx,'course')">{{item.name}}</span>
         </div>
-        <div class="type filter">
+        <!-- <div class="type filter">
             <label for="">类型：</label>
             <span v-for="(item,idx) in categoryList" :key="idx"
                 :class="{btn:idx===curCategoryIndex}"
                 @click="filterCourse(idx,'category')">{{item.name}}</span>
-        </div>
+        </div> -->
         <div class="search-bar filter">
-            <label for="" style="width:3em;"></label>
-            <el-input
-                placeholder="请输入内容"
-                suffix-icon="el-icon-search"
-                v-model="search">
-            </el-input>
-            <el-select v-model="value" placeholder="请选择">
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-            </el-select>
+            <label for="" style="width:3em;">{{courseType=="open"?'筛选：':''}}</label>
+            <span v-if="courseType=='compulsory'" class="compulsory">
+                <el-input
+                    placeholder="请输入内容"                
+                    v-model="search"
+                    class="compulsory-search">
+                    <el-button slot="append" icon="el-icon-search"></el-button>
+                </el-input>
+                <el-select v-model="value" placeholder="请选择">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+            </span>
+            <span v-else class="opencourse">
+                <el-select v-model="value" placeholder="推荐教师">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-select v-model="value" placeholder="人气最多">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-input
+                    placeholder="请输入内容"                
+                    v-model="search"
+                    class="opencourse-search">
+                    <el-button slot="append" icon="el-icon-search"></el-button>
+                </el-input>
+            </span>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    props:['course-type'],
     data(){
         return{
             value:'',
@@ -121,6 +149,7 @@ export default {
 </script>
 
 <style>
+    
     .filters .el-input__icon{
         font-size: 20px;
     }
@@ -130,6 +159,13 @@ export default {
 </style>
 
 <style scoped>
+    .opencourse .el-select{
+        width: 158px;
+        margin-right:15px;
+    }
+    .compulsory .el-select{
+        width:250px;
+    }
     .filters{
         display: flex;
         flex-direction: column;
@@ -138,6 +174,12 @@ export default {
         display:flex;
         margin-bottom:20px;
 
+    }
+    .opencourse-search{
+        width:250px!important;
+    }
+    .compulsory-search{
+        width:300px!important;
     }
     .filter:first-child{
         margin-top:20px;

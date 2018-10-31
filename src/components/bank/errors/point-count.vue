@@ -30,7 +30,7 @@
                 </table> 
             </div>
        <!--  <statistics-bar></statistics-bar> -->
-       <counting-bar></counting-bar>
+            <counting-bar></counting-bar>
         </div>
         <div class="completion-rate">
             <p>10%</p>

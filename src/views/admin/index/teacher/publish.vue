@@ -51,10 +51,14 @@
                     <span>最多上传/导入3个视频，单个视频不超过500M，视频作品将会展示在作品队列首位</span>
                 </header>
                 <el-upload
+                    ref="preview"
                     class="upload-herald main"
                     action="https://jsonplaceholder.typicode.com/posts/"
-                    :on-change="handleChange"
-                    :file-list="fileList3">
+                    :auto-upload="false"
+                    :on-change="previewHerald"
+                    :on-success="onHeraldSuccess"
+                    :before-upload="onHeraldBeforeLoad"
+                    :file-list="heraldList">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
@@ -64,12 +68,15 @@
                      <span>最多上传/导入3个视频，单个视频不超过500M，视频作品将会展示在作品队列首位</span>
                 </header>
                 <el-upload
+                    ref="cover"
                     class="avatar-uploader main "
                     action="https://jsonplaceholder.typicode.com/posts/"
                     :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    :auto-upload="false"
+                    :on-change="previewCover"
+                    :on-success="onCoverSuccess"
+                    :before-upload="onCoverBeforeLoad">
+                    <img v-if="coverUrl" :src="coverUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </section>
@@ -87,32 +94,40 @@
                         <label for="">指定学生</label>
                         <div>
                             <div class="students">
-                                <el-button class="_class">三（2）班<i class="el-icon-close"></i></el-button>
-                                <el-button @click="isPop=true"><i class="el-icon-plus"></i>增加学生</el-button>
+                                <el-button class="_class" v-for="(class_,idx) in classList" :key="idx">
+                                    三（2）班<i class="el-icon-close" @click.stop="onCloseClick('class',idx)"></i>
+                                </el-button>
+                                <el-button @click.stop="onAddClick('class')"><i class="el-icon-plus"></i>增加学生</el-button>
                             </div>
                             <span>非指定学员不可看此课程</span>   
                         </div>                                             
                     </div>
                     <div class="teacher">
-                        <label for="">授课教师</label>
-                        <el-upload
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            list-type="picture-card"
-                            class="teacher-avatar"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
-                            <i class="el-icon-plus"></i>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible">
-                            <img width="100%" :src="dialogImageUrl" alt="">
-                        </el-dialog>
+                        <label for="">授课教师</label>                        
+                        <div class="teacher-wrapper">
+                            <div class="teacher-avatar" v-for="idx in teacherList" :key="idx" 
+                                @mouseover="hoverIdx=idx" @mouseout="hoverIdx=-1">
+                                <img :src="require('../../../../assets/svg/avatar.svg')" alt="">
+                                <span>张老师</span>
+                                <div class="teacher-delete" v-if="hoverIdx==idx" @click.stop="onCloseClick('teacher',idx)">
+                                    <el-button icon="el-icon-delete" ></el-button>
+                                </div>
+                            </div>
+                            <el-button icon="el-icon-plus" @click.stop="onAddClick('teacher')"></el-button>
+                        </div>
                     </div>
                     <div class="publish-btn">
                         <button>发布课程</button>
-                        <add-student :is-pop="isPop" @dialog-close="onDialogClose"></add-student>
+                        <!-- <add-student :is-pop="isPop" @dialog-close="onDialogClose"></add-student> -->                        
                     </div>
                 </div>
             </section>
+            <my-dialog 
+                :is-pop="isPop" 
+                :type="type" 
+                @dialog-close="onDialogClose"
+                :current-list="JSON.stringify(currentList)"
+                @selected="onDialogConfirm"></my-dialog>
         </article>
     </div>
     
@@ -121,22 +136,21 @@
 <script>
 import AddStudent from './add-student'
 import QuillEditor from '../../../../components/common/quill-editor'
+import MyDialog from './my-dialog'
 export default {
     components:{
         AddStudent,
-        QuillEditor
+        QuillEditor,
+        MyDialog
     },
     data(){
         return{
             form:{},
-            formInline:{},
-            fileList3: [{
+            uploadForm:new FormData(),//全局表单数据对象
+            heraldList: [/* {
                 name: 'food.jpeg',
                 url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-                }, {
-                name: 'food2.jpeg',
-                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-            }],
+            } */],
             isPop:false,
             course:{
                 name:'',
@@ -150,6 +164,14 @@ export default {
                 teacherName:'',
                 students:[],
             },//课程对象
+            coverUrl:'',//封面文件url
+            dialogVisible:false,
+            avatarUrl:'',
+            hoverIdx:-1,//鼠标悬停于哪个教师头像上序号
+            teacherList:['a','b'],//被添加的教师列表
+            classList:['1','2'],//被添加的学生班级列表
+            currentList:[],//当前列表
+            type:'',
         }
     },
     methods:{
@@ -159,7 +181,32 @@ export default {
         onDialogClose(){
             this.isPop = false;
         },
+        /**
+         * @function 监听选中事件
+         */
+        onDialogConfirm(){
 
+        },
+        /**
+         * @function 监听添加教师或班级学生按钮事件
+         * @param {类型:teacher,class} type
+         */
+        onAddClick(type){
+            this.type = type;
+            this.isPop = true;
+        },
+        /**
+         * @function 监听删除教师或班级学生按钮事件
+         * @param {类型:teacher,class} type
+         * @param {序号:要删除项在数组中的下标} index
+         */
+        onCloseClick(type,index){
+            if(type === 'teacher'){
+                this.teacherList.splice(index,1);
+            }else if(type === 'class'){
+                this.classList.splice(index,1);
+            }
+        },
         /**
          * @function 检查输入是否为空
          */
@@ -180,7 +227,89 @@ export default {
                 this.$message.error('课程类别不能为空');
                 return;
             }
-        }
+        },
+        /**
+         * @function 监听文件上传组件的文件变动事件,处理文件预览
+         * @param {}
+         */
+        previewHerald(file, fileList){
+            console.log(file);     
+            console.log(fileList)       
+        },
+        /**
+         * @function 监听预告文件上传成功时候
+         * @param {类别,1,preview 2,cover,3,avatar} type
+         */
+        onHeraldSuccess(response,file, fileList){
+            console.log(response);
+            console.log(file);     
+            console.log(fileList)  
+        },
+        /**
+         * @function 监听文件开始上传前事件
+         * @param {类别,1,preview 2,cover,3,avatar} type
+         */
+        onHeraldBeforeLoad(file){
+            console.log(file);
+        },
+        /**
+         * @function 监听文件上传组件的文件变动事件,处理文件预览
+         * @param {}
+         */
+        previewCover(file, fileList){
+            let fileName = file.name;
+            let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+            if (regex.test(fileName.toLowerCase())) {
+                this.coverUrl = file.url;
+            } else {
+                this.$message.error('请选择图片文件');
+            }  
+        },
+        /**
+         * @function 监听预告文件上传成功时候
+         * @param {类别,1,preview 2,cover,3,avatar} type
+         */
+        onCoverSuccess(response,file, fileList){
+            console.log(response);
+            console.log(file);     
+            console.log(fileList)  
+        },
+        /**
+         * @function 监听文件开始上传前事件
+         * @param {类别,1,preview 2,cover,3,avatar} type
+         */
+        onCoverBeforeLoad(file){
+            console.log(file);
+        },
+        /**
+         * @function 监听文件上传组件的文件变动事件,处理文件预览
+         * @param {}
+         */
+        previewAvatar(file, fileList){
+            let fileName = file.name;
+            let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+            if (regex.test(fileName.toLowerCase())) {
+                this.avatarUrl = file.url;
+            } else {
+                this.$message.error('请选择图片文件');
+            }       
+        },
+        /**
+         * @function 监听预告文件上传成功时候
+         * @param {类别,1,preview 2,cover,3,avatar} type
+         */
+        onAvatarSuccess(response,file, fileList){
+            console.log(response);
+            console.log(file);     
+            console.log(fileList)  
+        },
+        /**
+         * @function 监听文件开始上传前事件
+         * @param {类别,1,preview 2,cover,3,avatar} type
+         */
+        onAvatarBeforeLoad(file){
+            console.log(file);
+        },
     },
 }
 </script>
@@ -201,6 +330,11 @@ export default {
         height:68px;
         line-height:68px;
     }
+    .teacher-avatar .el-upload-list__item{
+        width:68px;
+        height:68px;
+        margin-bottom:0;
+    } 
     .course-info .el-input__inner{
         background-color:#f1f1f1;
     } 
@@ -282,7 +416,7 @@ export default {
     .upload-herald{        
         width:800px;
     }    
-    .avatar-uploader-icon {
+   .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
         width: 178px;
@@ -332,6 +466,10 @@ export default {
         display:inline-block;
         width:70px;
     }
+    .teacher label,
+    .teacher .teacher-wrapper{
+        float:left;
+    }
     .student-wrap{
         display:flex;
     }
@@ -348,10 +486,62 @@ export default {
     .student-wrap .students{
         min-height:121px;
     }
-    .teacher-avatar{
+    /* .teacher-avatar{
         display:inline-block;
     }
-    .publish-btn button{
+    .teacher-names{
+        padding-top:5px;
+        clear:left;
+        padding-left:70px;
+    }
+    .teacher-names>span{
+        float:left;
+        margin-right:8px;
+        width:68px;
+        text-align:center;
+    } */
+    .teacher-wrapper{
+        display:flex;
+        box-sizing: border-box;
+        padding-left: 6px;
+        flex-flow: wrap;
+    }
+    .teacher .el-button{
+        height:50px;
+        width:50px;
+        padding:0;
+        font-size:24px;
+    }
+
+    .teacher-avatar{
+        text-align:center;
+        width:50px;
+        margin-right:15px;  
+        margin-bottom:10px;    
+        position: relative;
+    }
+    .teacher-delete{
+        width:50px;
+        height:50px;
+        position:absolute;
+        top:0;
+        left:0;
+        background:rgba(0,0,0,0.8);
+    }
+    .teacher-delete .el-button{
+        background:transparent;
+        color:#f1f1f1;
+    }
+    .teacher-avatar img{
+        height:50px;
+        width:50px;
+        border-radius:4px;
+        margin-bottom:5px;
+    }
+    .publish-btn{
+        clear:both;
+    }
+    .publish-btn button{        
         margin-top:20px;
         margin-left:70px;
         height:44px;
@@ -362,7 +552,8 @@ export default {
         outline:none;
         border:none;
         border-radius:4px;
-        background:linear-gradient(to right,#74c756,#28d07e)
+        background:linear-gradient(to right,#74c756,#28d07e);
+        cursor: pointer;
     }
  </style>
  

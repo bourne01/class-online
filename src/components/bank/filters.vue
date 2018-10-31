@@ -26,11 +26,7 @@
                     v-for="idx in 4" 
                     :key="idx"
                     @click="onClick('Course',idx)"
-                    :class="{active:couIdx==idx}">语文</span>
-                <!-- <span>数学</span>
-                <span>英语</span>
-                <span>物理</span>
-                <span>化学</span> -->
+                    :class="{active:couIdx==idx}">{{'语文'}}</span>
             </div>
             <div class="version filter">
                 <label for="">版本：</label>
@@ -39,10 +35,11 @@
                     @click="onClick('Version',-1)"
                     :class="{active:verIdx==-1}"
                 >全部</span>
-                <span>人教版</span>
-                <span>北师大版</span>
-                <span>浙教版</span>
-                <span>苏科版</span>
+                <span 
+                    v-for="idx in 4" 
+                    :key="idx"
+                    @click="onClick('Version',idx)"
+                    :class="{active:verIdx==idx}">{{verList[idx]}}</span>
             </div>
             <div class="textbook filter">
                 <label for="">课本：</label>
@@ -51,10 +48,11 @@
                     @click="txtIdx=-1"
                     :class="{active:txtIdx==-1}"
                 >全部</span>
-                <span>七年级 上册</span>
-                <span>七年级 下册</span>
-                <span>八年级 上册</span>
-                <span>八年级 下册</span>
+                <span 
+                    v-for="idx in 4" 
+                    :key="idx"
+                    @click="onClick('Textbook',idx)"
+                    :class="{active:txtIdx==idx}">{{txtList[idx]}}</span>
             </div>
         </div>        
         <div class="search-bar filter">
@@ -96,6 +94,8 @@ export default {
             couIdx:-1,
             levIdx:-1,
             levList:['小学','初中','高中'],
+            verList:['七年级上册','七年级下册','八年级上册','八年级下册'],//教材版本
+            txtList:['人教版','北师大版','浙教版','苏教版'],//教材
             verIdx:-1,
             txtIdx:-1,
             value:'',

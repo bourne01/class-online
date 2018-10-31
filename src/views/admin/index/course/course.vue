@@ -1,40 +1,61 @@
 <template>
-    <div class="course-home">
-        <my-header></my-header>     
-        <section class="transition">
-            <transition name="fade" mode="out-in">
-                <router-view></router-view>
-            </transition>
+    <div>
+        <header class="course-type">
+            <course-tab @course-type="onCourseType"></course-tab>
+            <div class="strip"></div>
+        </header>   
+        <section>
+            <course-filter class="filter" :course-type="courseType"></course-filter>
         </section>
-        <footer class="my-footer">
-            <my-footer ></my-footer>
-        </footer>
-        
+        <section>
+            <course-list class="course-list" v-if="courseType==='compulsory'"></course-list>
+            <opencourse-list class="course-list" v-else></opencourse-list>
+        </section>
     </div>
 </template>
 
 <script>
-import MyHeader from '../components/common/header'
-import MyFooter from '../components/common/footer'
+import CourseFilter from '../../../../components/course/filters'
+import CourseList from '../../../../components/course/course-list'
+import OpencourseList from '../../../../components/course/opencourse-list'
+import CourseTab from '../../../../components/course/course-tab'
 export default {
     components:{
-        MyHeader,
-        MyFooter,
-    }
+        CourseFilter,
+        CourseList,
+        CourseTab,
+        OpencourseList
+    },
+    data(){
+        return{
+            courseType:'compulsory',//课程类型：任务课(compulsory)，公开课(open)
+        }
+    },
+    methods:{
+        /**
+         * @function 监听来自子组件'course-tab'的课程类型切换事件
+         * @param {课程类型：1,compulsory 2,open} type
+         */
+        onCourseType(type){
+            this.courseType = type;
+        }
+    },
 }
 </script>
 
 <style scoped>
-    .course-home{
-        background-color:#171a20;
+    .course-type>.strip{
+        height:20px;
+        background-color:#f4f4f4;
     }
-    .transition{
-        /* width:1364px;
-        margin:0 auto; */
+
+    .filter{
+        margin:0 auto;
+        width:1364px;
     }
-    .my-footer{
-        padding:40px 0;        
+    .course-list{
         min-height:300px;
+        background-color:#f4f4f4;
     }
 </style>
 
