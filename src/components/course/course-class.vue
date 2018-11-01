@@ -1,11 +1,15 @@
 <template>
     <div class="course-class">
-        <div class="course-cover" @click="goCourseDetail(index)">
+        <div class="course-class-cover" @click="goCourseDetail(index)">
             <img src="http://static.smartisanos.cn/pr/img/video/video_03_cc87ce5bdb.jpg" alt="">
         </div>
         <div class="course-class-info">  
-            <span class="course-class-name">{{course.topic}}</span>       
-            <span class="interact">
+            <span class="course-class-name">{{course.topic}}</span>
+            <span class="course-class-label">
+                <label for="">小学</label>
+                <label for="">语文</label>
+            </span>       
+            <span class="interact" v-if="isClassBegin">
                 <span>
                     <img :src="require('../../assets/svg/eye.svg')" alt="">
                     <span>{{course.visitNum}}</span>
@@ -19,11 +23,21 @@
                     <span>{{course.likeNum}}</span>
                 </span>
             </span>
-            <span>
+            <span class="interact begin-time" v-else>
+                开课时间：{{'2018-12-18 08:30'}}
+            </span>
+            <span class="teacher" v-if="isMyClass">
+                <span>
+                    <el-button type="text">编辑</el-button>
+                    <el-button type="text">删除</el-button>
+                </span>
+                <span class="lastest-edition">{{'4前天'}}</span>
             </span>                
-            <span class="teacher">
-                <img :src="require('../../assets/svg/avatar.svg')" alt="" class="avatar">  
-                <span class="span">{{course.teacher}}</span>
+            <span class="teacher" v-else>
+                <span>
+                    <img :src="require('../../assets/svg/avatar.svg')" alt="" class="avatar">  
+                    <span class="span">{{course.teacher}}</span>    
+                </span>                
                 <span>{{course.issueTime}}</span>                      
             </span>
         </div>      
@@ -36,12 +50,13 @@ export default {
         return{
             isOpenCourse:true,//课程类型是否为公开课
             isNull:false,//无课程
-            screenWidth:window.innerWidth ,//屏幕分辨率宽度
             isTeacher:'',
             isStudent:'',
             isAdmin:'',
+            isClassBegin:false,//是否已经开课
+            isMyClass:true,//是否是我的课
             course:{
-                topic:'中小学生思维导图',
+                topic:'中小学生思维导图中小学生思维导图中小学生思维导图',
                 level:'小学',
                 name:'语文',
                 isOpenCourse:false,
@@ -55,20 +70,12 @@ export default {
             },//课程对象
         }
     },
-    computed:{
-        n:function(){            
-            if(this.screenWidth>=1366 && this.screenWidth<1440){
-                return 3    
-            }else if(this.screenWidth>=1440 && this.screenWidth<=1920){
-                return 5
-            }
-        }
-    },
+
     methods:{
         /**@function 跳转到课程详情 */
         goCourseDetail(course){
             console.log(course);
-            this.$router.push('/admin-index/course-detail');
+            this.$router.push('/admin-index/class-teaching');
         }
     },
     mounted(){
@@ -78,35 +85,18 @@ export default {
 </script>
 
 <style scoped>
-    .course-wrap{
-        display:flex;
-        justify-content: space-between;
-        background-color:#f4f4f4;
-        width:1364px;
-        margin:0 auto;
-        padding:40px 0 20px 0;
-        flex-flow: wrap;
-    }
-    .course{
+    .course-class{
         margin-bottom:20px;
     }
-    header{
-        color:#585a60;
-        font-size:20px;
-        font-weight: 600;
-        margin-bottom:20px;
-        display: flex;
-        justify-content: space-between;
-    }
-    .course-cover{
-        width:312px;
+    .course-class-cover{
+        width:310px;
         height:200px;        
         background-size:cover;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
     }
-    .course-cover img{
-        width:312px;
+    .course-class-cover img{
+        width:310px;
         height:200px;
     }
     .watch-btn{
@@ -136,31 +126,29 @@ export default {
         vertical-align:middle;
         margin-right:5px;        
     }
-    .course-info{
+    .course-class-info{
         display:flex;
         flex-direction: column;
         font-size:12px;        
-        background-color:#fff;;
+        background-color:#fff;
+        height:165px;
+        box-sizing: border-box;
     }
-    .course-info>span{
+    .course-class-info>span{
         padding-left:15px;
     }
-    .course-label{
-        width:48px;
-        height:22px;
-        line-height: 22px;
-        display:inline-block;
-        color:#fff;
-        text-align:center;
-        background-color:#366dd1;
-    }
-    .course-type span{
+    .course-class-label>label{
         padding:0 15px;
         height:22px;
         line-height: 22px;
         display:inline-block;
-        background-color:#f1f1f1;
-        margin-left:15px;
+        text-align:center;
+        font-size:12px;
+        font-family:SimSun;
+        font-weight:400;
+        color:rgba(88,90,96,1);
+        background:rgba(244,244,244,1);
+        margin-right:10px;
     }
     .interact{
         margin-top:15px;
@@ -176,15 +164,26 @@ export default {
         line-height: 22px;
         color:#ccc;
     }
-    .course-name{        
+    .course-class-name{        
        font-size:14px;
        margin-top:20px;
        margin-bottom:10px;
+       line-height:1.2;
     }
     .teacher{
         margin-top:10px;
-        padding:5px 0;
+        padding:15px 0;
         border-top:1px solid #f4f4f4;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right:15px;
+    }
+    .teacher .el-button{
+        font-size:12px;
+        font-family:SimSun;
+        font-weight:400;
+        color:rgba(172,173,176,1);
     }
     .level{
         margin:0 20px;
@@ -193,7 +192,7 @@ export default {
         text-align:center;
         padding:20px 0;
     }
-    .no-course{
+    .no-course-class{
         text-align: center;
         font-size:20px;
     }
