@@ -40,32 +40,32 @@ export default [
                     component:() => import('../../views/teacher/index/course/course.vue')
                 },
                 {
-                    path:'course-detail',
-                    component:() => import('../../views/teacher/index/course/course-detail.vue'),
+                    path:'class-teaching',
+                    component:() => import('../../views/teacher/index/course/class-teaching.vue'),
                     children:[
                         {
-                            path:'course-desc',
+                            path:'class-desc',
                             name:'TeacherCourseDescription',
-                            component:() => import('../../components/course-detail/course-description.vue')
+                            component:() => import('../../components/class-teaching/course-description.vue')
                         },
                         {
-                            path:'course-task',
+                            path:'class-task',
                             name:'TeacherCourseTask',
-                            component:() => import('../../components/course-detail/course-task.vue')
+                            component:() => import('../../components/class-teaching/class-task.vue')
                         },
                         {
-                            path:'course-content',
+                            path:'class-content',
                             name:'TeacherCourseContent',
-                            component:() => import('../../components/course-detail/course-Content.vue')
+                            component:() => import('../../components/class-teaching/class-content.vue')
                         },
                         {
-                            path:'course-comment',
+                            path:'class-comment',
                             name:'TeacherCourseComment',
-                            component:() => import('../../components/course-detail/course-comment.vue')
+                            component:() => import('../../components/class-teaching/class-comment.vue')
                         },
                         {
                             path:'',
-                            redirect:'course-content'
+                            redirect:'class-content'
                         }
                     ]
                 },

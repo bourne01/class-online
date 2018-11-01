@@ -1,12 +1,12 @@
 <template>
     <div class="course-tab">
         <ul class="tabs">
-            <li @click="onClick(1)"
+            <!-- <li @click="onClick(1)"
                 :class="{active:actIndex===1}">课程介绍
                 <div class="active-bar"></div>
-            </li>
+            </li> -->
             <li @click="onClick(2)" 
-                :class="{active:actIndex===2}">课程作业
+                :class="{active:actIndex===2}">课堂作业
                 <div class="active-bar"></div>
             </li>
             <li @click="onClick(3)" 

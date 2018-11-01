@@ -1,0 +1,201 @@
+<template>
+    <div class="course-class">
+        <div class="course-cover" @click="goCourseDetail(index)">
+            <img src="http://static.smartisanos.cn/pr/img/video/video_03_cc87ce5bdb.jpg" alt="">
+        </div>
+        <div class="course-class-info">  
+            <span class="course-class-name">{{course.topic}}</span>       
+            <span class="interact">
+                <span>
+                    <img :src="require('../../assets/svg/eye.svg')" alt="">
+                    <span>{{course.visitNum}}</span>
+                </span>
+                <span>
+                    <img :src="require('../../assets/svg/comment.svg')" alt="">
+                    <span>{{course.commentNum}}</span>
+                </span>
+                <span>
+                    <img :src="require('../../assets/svg/like.svg')" alt="">
+                    <span>{{course.likeNum}}</span>
+                </span>
+            </span>
+            <span>
+            </span>                
+            <span class="teacher">
+                <img :src="require('../../assets/svg/avatar.svg')" alt="" class="avatar">  
+                <span class="span">{{course.teacher}}</span>
+                <span>{{course.issueTime}}</span>                      
+            </span>
+        </div>      
+    </div>        
+</template>
+
+<script>
+export default {
+    data(){
+        return{
+            isOpenCourse:true,//课程类型是否为公开课
+            isNull:false,//无课程
+            screenWidth:window.innerWidth ,//屏幕分辨率宽度
+            isTeacher:'',
+            isStudent:'',
+            isAdmin:'',
+            course:{
+                topic:'中小学生思维导图',
+                level:'小学',
+                name:'语文',
+                isOpenCourse:false,
+                visitNum:2544,
+                commentNum:736,
+                likeNum:555,
+                avatar:'ulr',
+                teacher:'王小羽',
+                issueTime:'4天前',
+                cover:'url'
+            },//课程对象
+        }
+    },
+    computed:{
+        n:function(){            
+            if(this.screenWidth>=1366 && this.screenWidth<1440){
+                return 3    
+            }else if(this.screenWidth>=1440 && this.screenWidth<=1920){
+                return 5
+            }
+        }
+    },
+    methods:{
+        /**@function 跳转到课程详情 */
+        goCourseDetail(course){
+            console.log(course);
+            this.$router.push('/admin-index/course-detail');
+        }
+    },
+    mounted(){
+        //console.log(window.innerWidth || document.documentElement.clientWidth);
+    }
+}
+</script>
+
+<style scoped>
+    .course-wrap{
+        display:flex;
+        justify-content: space-between;
+        background-color:#f4f4f4;
+        width:1364px;
+        margin:0 auto;
+        padding:40px 0 20px 0;
+        flex-flow: wrap;
+    }
+    .course{
+        margin-bottom:20px;
+    }
+    header{
+        color:#585a60;
+        font-size:20px;
+        font-weight: 600;
+        margin-bottom:20px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .course-cover{
+        width:312px;
+        height:200px;        
+        background-size:cover;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .course-cover img{
+        width:312px;
+        height:200px;
+    }
+    .watch-btn{
+        padding:5px 10px;
+        border-radius: 50px;
+        text-align: center;
+        position:absolute;
+        left:5%;
+        bottom:5%;
+        background-color:peru;
+        color:#fff;
+        font-size:14px;
+    }
+    .video-label{
+        padding:5px;
+        background-color:rgba(0, 0,0,0.5);
+        position:absolute;
+        right:5%;
+        bottom:5%;
+        font-size:14px;
+    }
+    .avatar{
+        width:32px;
+        height:32px;
+        border-radius:20px;        
+        background-color:#f4f4f4;
+        vertical-align:middle;
+        margin-right:5px;        
+    }
+    .course-info{
+        display:flex;
+        flex-direction: column;
+        font-size:12px;        
+        background-color:#fff;;
+    }
+    .course-info>span{
+        padding-left:15px;
+    }
+    .course-label{
+        width:48px;
+        height:22px;
+        line-height: 22px;
+        display:inline-block;
+        color:#fff;
+        text-align:center;
+        background-color:#366dd1;
+    }
+    .course-type span{
+        padding:0 15px;
+        height:22px;
+        line-height: 22px;
+        display:inline-block;
+        background-color:#f1f1f1;
+        margin-left:15px;
+    }
+    .interact{
+        margin-top:15px;
+    }
+    .interact img{
+        width:22px;
+        height:22px;
+        vertical-align: middle;
+    }
+    .interact span{
+        display:inline-block;
+        height:22px;
+        line-height: 22px;
+        color:#ccc;
+    }
+    .course-name{        
+       font-size:14px;
+       margin-top:20px;
+       margin-bottom:10px;
+    }
+    .teacher{
+        margin-top:10px;
+        padding:5px 0;
+        border-top:1px solid #f4f4f4;
+    }
+    .level{
+        margin:0 20px;
+    }
+    .el-pagination{
+        text-align:center;
+        padding:20px 0;
+    }
+    .no-course{
+        text-align: center;
+        font-size:20px;
+    }
+</style>
+
