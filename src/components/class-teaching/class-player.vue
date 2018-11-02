@@ -88,12 +88,13 @@ export default {
                 autoplay: false,
                 theme:'#000',
                 contextmenu: [
-                    {
+                    /* {
                         text: 'GitHub',
                         link: 'https://github.com/MoePlayer/vue-dplayer'
-                    }
+                    } */
                 ]
             },
+            lesson:{},//上课内容对象
             player: null,
             isFavorite:false,
                 
@@ -109,7 +110,17 @@ export default {
         }
     },
     mounted(){
-        this.player = this.$refs.player.dp
+        this.player = this.$refs.player.dp;//初始化播放器
+        this.$root.bus.$on('play-lesson',(lesson) => {
+            this.lesson = lesson;
+            /**
+             * 此处设置视频播放地址 
+             */
+            this.player.play();
+        })
+    },
+    destroyed(){
+        this.$root.bus.$off('play-lesson');
     }    
 }
 </script>

@@ -4,7 +4,7 @@
             <img src="http://static.smartisanos.cn/pr/img/video/video_03_cc87ce5bdb.jpg" alt="">
         </div>
         <div class="course-class-info">  
-            <span class="course-class-name">{{course.topic}}</span>
+            <span class="course-class-name">{{lesson.topic}}</span>
             <span class="course-class-label">
                 <label for="">小学</label>
                 <label for="">语文</label>
@@ -12,15 +12,15 @@
             <span class="interact" v-if="isClassBegin">
                 <span>
                     <img :src="require('../../assets/svg/eye.svg')" alt="">
-                    <span>{{course.visitNum}}</span>
+                    <span>{{lesson.visitNum}}</span>
                 </span>
                 <span>
                     <img :src="require('../../assets/svg/comment.svg')" alt="">
-                    <span>{{course.commentNum}}</span>
+                    <span>{{lesson.commentNum}}</span>
                 </span>
                 <span>
                     <img :src="require('../../assets/svg/like.svg')" alt="">
-                    <span>{{course.likeNum}}</span>
+                    <span>{{lesson.likeNum}}</span>
                 </span>
             </span>
             <span class="interact begin-time" v-else>
@@ -36,9 +36,9 @@
             <span class="teacher" v-else>
                 <span>
                     <img :src="require('../../assets/svg/avatar.svg')" alt="" class="avatar">  
-                    <span class="span">{{course.teacher}}</span>    
+                    <span class="span">{{lesson.teacher}}</span>    
                 </span>                
-                <span>{{course.issueTime}}</span>                      
+                <span>{{lesson.issueTime}}</span>                      
             </span>
         </div>      
     </div>        
@@ -54,8 +54,8 @@ export default {
             isStudent:'',
             isAdmin:'',
             isClassBegin:false,//是否已经开课
-            isMyClass:true,//是否是我的课
-            course:{
+            isMyClass:false,//是否是我的课
+            lesson:{
                 topic:'中小学生思维导图中小学生思维导图中小学生思维导图',
                 level:'小学',
                 name:'语文',

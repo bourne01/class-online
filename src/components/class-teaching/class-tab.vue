@@ -40,10 +40,10 @@ export default {
         onClick(actIndex) {
             this.actIndex = actIndex;
             let routerList = [
-                            '/'+this.curRole+'-index/course-detail/course-desc',
-                            '/'+this.curRole+'-index/course-detail/course-task',
-                            '/'+this.curRole+'-index/course-detail/course-content',
-                            '/'+this.curRole+'-index/course-detail/course-comment'];
+                            '/'+this.curRole+'-index/class-teaching/course-desc',
+                            '/'+this.curRole+'-index/class-teaching/class-task',
+                            '/'+this.curRole+'-index/class-teaching/class-content',
+                            '/'+this.curRole+'-index/class-teaching/class-comment'];
             this.$router.push(routerList[actIndex-1]);            
         },
     },

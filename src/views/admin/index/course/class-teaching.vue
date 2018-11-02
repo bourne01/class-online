@@ -9,10 +9,10 @@
                         <router-view></router-view>
                     </transition>  
                 </div>                
-                <div class="right">
+                <!-- <div class="right">
                     <course-teacher></course-teacher>
                     <other-course></other-course>
-                </div>
+                </div> -->
             </div>
         </div>        
     </div>        
@@ -21,14 +21,14 @@
 <script>
 import CoursePlayer from '../../../../components/class-teaching/class-player'
 import CourseTab from '../../../../components/class-teaching/class-tab'
-import CourseTeacher from '../../../../components/class-teaching/class-teacher'
-import OtherCourse from '../../../../components/class-teaching/other-course'
+/* import CourseTeacher from '../../../../components/class-teaching/class-teacher'
+import OtherCourse from '../../../../components/class-teaching/other-course' */
 export default {
     components:{
         CoursePlayer,
         CourseTab,
-        CourseTeacher,
-        OtherCourse,
+        /* CourseTeacher,
+        OtherCourse, */
     }
     
 }
@@ -47,7 +47,8 @@ export default {
         padding-bottom:20px;
     }
     .left{
-        width:988px;
+        /* width:988px; */
+        width:100%;
     }
 
 </style>

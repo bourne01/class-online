@@ -1,15 +1,17 @@
+
 /**
- * @function Ajax请求出错处理
- * @param {Ajax错误对象} err 
- * @param {Element 消息提示组件对象} msgbox 
+ * @function 异步请求出错处理程序
+ * @param {异步请求出错对象} err 
+ * @param {注册在全局上的router对象} router 
+ * @param {注册在Vue.prototype上弹窗方法} msgbox 
  */
-export const xhrErrHandler = (err,msgbox) => {
+export const xhrErrHandler = (err,router,msgbox) => {
     console.log(err);
     if(err.response){
         let status = err.response.status;
-        console.log(status);
         if(status === 401){
-            msgbox('您还没有登录','权限错误',/* {center:true} */)
+            msgbox('您还没有登录','权限错误',1500)
+            router.push('/login')
         }else if(status === 404){
             
         }else if(status === 500 || status === 501){

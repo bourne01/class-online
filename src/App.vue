@@ -5,10 +5,20 @@
 	</template>
 
 	<script>
+	import { getCodeList } from './api/base/system.js'
 	export default {
 		data(){
 			return{
 			}
+		},
+		mounted(){
+			getCodeList({})
+				.then(res => {
+					console.log(res);
+				})
+				.catch(err => {
+					console.log(err);
+				})
 		}
 	}
 	</script>

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-//import createStore from './store/index'
+import createStore from './store/index'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui';
 Vue.use(ElementUI);
@@ -17,13 +17,13 @@ import App from './App.vue'
 //Vue.use(quillEditor)
 //Vue.component('quill-editor',quillEditor)
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-//const store = createStore();
+const store = createStore();
 //Vue.prototype.$http = axios
 //console.log(this.$http);
 /* Vue.component('icon', Icon) */
 new Vue({
 	el: '#app',
-	//store,
+	store,
 	router,
 	data:{
 		bus: new Vue()
