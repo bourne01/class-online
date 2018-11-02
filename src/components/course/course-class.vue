@@ -1,6 +1,6 @@
 <template>
     <div class="course-class">
-        <div class="course-class-cover" @click="goCourseDetail(index)">
+        <div class="course-class-cover" @click="goCourseDetail()">
             <img src="http://static.smartisanos.cn/pr/img/video/video_03_cc87ce5bdb.jpg" alt="">
         </div>
         <div class="course-class-info">  
@@ -45,7 +45,9 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
+    props:[''],
     data(){
         return{
             isOpenCourse:true,//课程类型是否为公开课
@@ -72,10 +74,16 @@ export default {
     },
 
     methods:{
+        ...mapMutations('course',['SET_CURRENT_CLASS']),
         /**@function 跳转到课程详情 */
-        goCourseDetail(course){
-            console.log(course);
-            this.$router.push('/admin-index/class-teaching');
+        goCourseDetail(){
+            this['SET_CURRENT_CLASS'](this.lesson);
+            let curRouterName = this.$router.history.current.name;
+            if(curRouterName === 'ClassContent'){
+                this.$root.bus.$emit('play-lesson',this.lesson)
+            }else{
+                this.$router.push('/admin-index/class-teaching');
+            }
         }
     },
     mounted(){

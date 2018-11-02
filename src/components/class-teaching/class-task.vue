@@ -72,8 +72,7 @@
                 </li>
             </ul>
         </section>
-        <!-- <section class="fill-in"></section> -->
-        <section class="objective">
+        <!-- <section class="objective">
             <div class="question">3、设计一个程序，其功能为：能将输入的公里数换算成里和米。</div>
             <el-upload
                 action="https://jsonplaceholder.typicode.com/posts/"
@@ -96,7 +95,7 @@
                 <div slot="tip" class="el-upload__tip">上传文件最大为5M</div>
                 <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
-        </section>
+        </section> -->
     </article>
 </template>
 
@@ -124,19 +123,19 @@ export default {
             this.type = type;
         },
         handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      /**@function 监听选择题点击事件 
-       * @param {题目序号} idx
-       * @param {选项序号} type
-      */
-      onSelect(idx,type){
-          this.$set(this.selItems,idx,type)
-      }
+            console.log(file, fileList);
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
+        },
+        /**@function 监听选择题点击事件 
+         * @param {题目序号} idx
+         * @param {选项序号} type
+         */
+        onSelect(idx,type){
+            this.$set(this.selItems,idx,type)
+        }
 
     }
 }

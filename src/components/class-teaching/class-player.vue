@@ -118,6 +118,7 @@ export default {
              */
             this.player.play();
         })
+        this.player.play();//默认自动播放
     },
     destroyed(){
         this.$root.bus.$off('play-lesson');

@@ -1,6 +1,7 @@
 <template>
     <div class="class-content">
         <el-aside>
+            <header>课程章节</header>
             <course-content></course-content>
         </el-aside>
         <el-main>
@@ -38,6 +39,16 @@ export default {
         float: left;
         min-height:600px;
         background-color:#fff;
+        padding:0 30px 40px 30px;
+        box-sizing: border-box;
+    }
+    .class-content .el-aside>header{
+        height:58px;
+        line-height:58px;
+        font-size:18px;
+        font-family:PingFang-SC-Regular;
+        font-weight:bold;
+        color:rgba(88,90,96,1);
     }
     .class-content .el-main{
         padding:0;

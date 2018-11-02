@@ -1,7 +1,7 @@
 <template>
     <div class="course-detail">
         <header>
-            <span class="back">
+            <span class="back" @click="goBack">
                 <img src="../../../../assets/svg/previous.svg" alt="">返回
             </span>
             <el-button round class="follow">关注</el-button>
@@ -17,7 +17,7 @@
                     <li>
                         <div class="prepare-class">
                             <span>
-                                <el-button icon="el-icon-plus" circle=""></el-button>
+                                <el-button icon="el-icon-plus" circle="" @click="goPrepareLesson"></el-button>
                                 <br>
                                 我要备课
                             </span>
@@ -68,6 +68,12 @@ export default {
          */
         onCurrentChange(pageValue){
             console.log(pageValue);
+        },
+        /**
+         * @function 监听点击我要备课按钮，跳转到备课页面
+         */
+        goPrepareLesson(){
+            this.$router.push('/admin-index/prepare');
         }
     }
 }
@@ -87,6 +93,8 @@ export default {
         height:68px;
         border-bottom:1px solid #f1f1f1;
         background-color:#fff;
+        padding:0 30px;
+        box-sizing: border-box;
     }
     .back img{
         width:20px;
