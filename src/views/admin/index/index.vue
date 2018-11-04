@@ -41,6 +41,9 @@ export default {
         padding:40px 0;        
         min-height:300px;
         background-color:#171a20;
+        /* position: fixed;
+        bottom:0;
+        width:100%; */
     }
 </style>
 

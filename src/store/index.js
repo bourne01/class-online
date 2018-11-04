@@ -5,6 +5,7 @@ import User from './modules/user/user'
 import Teacher from './modules/teacher/teacher'
 import Student from './modules/student/student'
 import Home from './modules/home/home'
+import Base from './modules/base/base'
 
 const isDev = process.env.NODE_ENV === 'development'
 export default () => {
@@ -29,6 +30,7 @@ export default () => {
             course:Course,
             student:Student,
             home:Home,
+            base:Base
         }
     })
 }

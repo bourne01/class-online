@@ -50,6 +50,15 @@
                 <img :src="actNav===4?navActIcons[4]:navIcons[4]"><span>学生</span>
                 <div class="indicator-bar"></div>
             </li>
+            <li class="nav-bar-item" :class="{active:actNav===5}"
+                @click="onClick(5)"
+                @mouseover="OnMouseover(5)"
+                @mouseout="onMouseout"
+                :style="{background:clickNav===4?'#000':''}" 
+                >
+                <img :src="actNav===5?navActIcons[5]:navIcons[5]"><span>基础管理</span>
+                <div class="indicator-bar"></div>
+            </li>
         </ul>
     </div>
 </template>
@@ -130,6 +139,10 @@ export default {
                 case 4:
                     this.clickNav = val;
                     this.$router.push('/admin-index/student');
+                    break;
+                case 5:
+                    this.clickNav = val;
+                    this.$router.push('/admin-index/base');
                     break;
             }
         },

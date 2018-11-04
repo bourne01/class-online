@@ -188,6 +188,123 @@ export default [
                     component:() => import('../../views/admin/index/student.vue')
                 },
                 {
+                    path:'base',
+                    name:'BasicManagement',
+                    component:() => import('../../views/admin/index/basic-setting/base.vue'),
+                    children:[
+                        {
+                            path:'term',
+                            name:'Term',
+                            component:() => import('../../components/basic-setting/term-table.vue')
+                        },
+                        {
+                            path:'time-table',
+                            name:'TimeTable',
+                            component:() => import('../../components/basic-setting/time-table.vue')
+                        },
+                        {
+                            path:'enroll-grade',
+                            name:'EnrollGradeTable',
+                            component:() => import('../../components/basic-setting/enroll-grade.vue')
+                        },
+                        {
+                            path:'team',
+                            name:'TeamTable',
+                            component:() => import('../../components/basic-setting/team.vue')
+                        },
+                        {
+                            path:'teach-site',
+                            name:'TeachSite',
+                            component:() => import('../../components/basic-setting/teach-site.vue')
+                        },
+                        {
+                            path:'time-table',
+                            name:'TimeTable',
+                            component:() => import('../../components/basic-setting/time-table.vue')
+                        },
+                        {
+                            path:'campus-student',
+                            name:'CampusStudentTable',
+                            component:() => import('../../components/basic-setting/campus-student.vue')
+                        },
+                        {
+                            path:'class',
+                            name:'classTable',
+                            component:() => import('../../components/basic-setting/class.vue')
+                        },
+                        {
+                            path:'class-student',
+                            name:'classStudentTable',
+                            component:() => import('../../components/basic-setting/class-student.vue')
+                        },
+                        {
+                            path:'department',
+                            name:'DepartmentTable',
+                            component:() => import('../../components/basic-setting/department.vue')
+                        },
+                        {
+                            path:'dep-member',
+                            name:'DepartmentMemberTable',
+                            component:() => import('../../components/basic-setting/dep-member.vue')
+                        },
+                        {
+                            path:'user-group',
+                            name:'UserGroupTable',
+                            component:() => import('../../components/basic-setting/user-group.vue')
+                        },
+                        {
+                            path:'group-permission',
+                            name:'GroupPermissionTable',
+                            component:() => import('../../components/basic-setting/group-permission.vue')
+                        },
+                        {
+                            path:'permission-definition',
+                            name:'PermissionDefinitionTable',
+                            component:() => import('../../components/basic-setting/permission-definition.vue')
+                        },
+                        {
+                            path:'system-task',
+                            name:'SystemTable',
+                            component:() => import('../../components/basic-setting/system-task.vue')
+                        },
+                        {
+                            path:'settings',
+                            name:'SettingsTable',
+                            component:() => import('../../components/basic-setting/settings.vue')
+                        },
+                        {
+                            path:'selector',
+                            name:'SelectorTable',
+                            component:() => import('../../components/basic-setting/selector.vue')
+                        },
+                        {
+                            path:'file-info',
+                            name:'FileInfoTable',
+                            component:() => import('../../components/basic-setting/file-info.vue')
+                        },
+                        {
+                            path:'vip-info',
+                            name:'VipInfoTable',
+                            component:() => import('../../components/basic-setting/vip-info.vue')
+                        },
+                        {
+                            path:'vip-file',
+                            name:'VipFileTable',
+                            component:() => import('../../components/basic-setting/vip-file.vue')
+                        },
+                        {
+                            path:'teacher-zone',
+                            name:'TeacherZoneTable',
+                            component:() => import('../../components/basic-setting/teacher-zone.vue')
+                        },
+                        {
+                            path:'student-zone',
+                            name:'StudentZoneTable',
+                            component:() => import('../../components/basic-setting/student-zone.vue')
+                        },
+                    ]
+                },
+                {
                     path:'',
                     redirect:'course'
                 }

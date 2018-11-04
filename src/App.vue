@@ -5,14 +5,14 @@
 	</template>
 
 	<script>
-	import { getCodeList } from './api/base/system.js'
+	import { login } from './api/base/system.js'
 	export default {
 		data(){
 			return{
 			}
 		},
 		mounted(){
-			getCodeList({})
+			login({acc:'admin',psw:'admin'})
 				.then(res => {
 					console.log(res);
 				})
