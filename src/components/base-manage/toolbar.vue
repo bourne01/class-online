@@ -1,0 +1,102 @@
+<template>
+    <div class="toolbar">
+        <el-button icon="el-icon-plus" @click="onClick(curMenuItem.alias)">
+            新增</el-button>
+        <add-term-pop 
+            :is-pop="isTermPop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-term-pop>
+        <add-teach-site-pop 
+            :is-pop="isTeachSitePop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-teach-site-pop>
+    </div>
+</template>
+
+<script>
+import AddTermPop from './dean/add-term-popup'
+import AddTeachSitePop from './dean/add-teach-site-popup'
+import { mapState } from 'vuex';
+export default {
+    components:{
+        AddTermPop,
+        AddTeachSitePop
+    },
+    data(){
+        return{
+            isEdit:false,//是否来自编辑事件
+            isTermPop:false,
+            isEnrollGradePop:false,
+            isTimeTablePop:false,
+            isTeamPop:false,
+            isTeachSitePop:false,
+            isCampusStudentPop:false,
+            isClassPop:false,
+            isClassStudentPop:false,
+            isDepartmentPop:false,
+            isDepMemberPop:false,            
+        }
+    },
+    computed:{
+        ...mapState('base',{
+            curMenuItem: state => state.curMenuItem,
+        }),
+    },
+    methods:{
+        /**
+         * @function 监听新增按钮事件，然后打开对话框
+         * @param {菜单项名称} itemName
+         */
+        onClick(itemName){
+            console.log(itemName)
+            switch(itemName){
+                case 'term':
+                    this.isTermPop = true;
+                    break;
+                case 'teach-site':
+                    this.isTeachSitePop = true;
+                    break;
+            }
+        },
+        /**
+         * @function 监听来自弹窗组件关闭事件
+         */
+        onCloseDialog(){
+            this.isTermPop = false;
+            this.isEdit = false;
+            this.isTeachSitePop = false;
+            console.log('Edit...',this.isEdit);
+        }
+    },
+    mounted(){
+        /**@function 监听来自表格中的编辑行事件 */
+        this.$root.bus.$on('edit-row',(name) => {
+            console.log(name);
+            this.onClick(name);
+            this.isEdit = true;
+        });
+    },
+    destroyed(){
+        this.$root.bus.$off('edit-row');
+    }
+}
+</script>
+
+<style scoped>
+    .toolbar{
+        margin-top:10px;
+        border-top:1px solid #f1f1f1;
+        padding:10px 20px;
+    }
+    .el-button{
+        color:#fff;
+        font-size:16px;
+        padding-top:0;
+        padding-bottom:0;
+        height:38px;
+        line-height:38px;
+        background:linear-gradient(to bottom right,#74c756,#28d07e)
+    }
+</style>
+
+

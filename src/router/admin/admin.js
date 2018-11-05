@@ -190,117 +190,137 @@ export default [
                 {
                     path:'base',
                     name:'BasicManagement',
-                    component:() => import('../../views/admin/index/basic-setting/base.vue'),
+                    component:() => import('../../views/admin/index/base-manage/base.vue'),
                     children:[
                         {
                             path:'term',
                             name:'Term',
-                            component:() => import('../../components/basic-setting/term-table.vue')
+                            component:() => import('../../components/base-manage/dean/term-table.vue')
                         },
                         {
                             path:'time-table',
                             name:'TimeTable',
-                            component:() => import('../../components/basic-setting/time-table.vue')
+                            component:() => import('../../components/base-manage/dean/time-table.vue')
                         },
                         {
                             path:'join-year',
                             name:'JoinYear',
-                            component:() => import('../../components/basic-setting/join-year.vue')
+                            component:() => import('../../components/base-manage/dean/join-year.vue')
                         },
                         {
                             path:'team',
                             name:'TeamTable',
-                            component:() => import('../../components/basic-setting/team.vue')
+                            component:() => import('../../components/base-manage/dean/team.vue')
                         },
                         {
                             path:'teach-site',
                             name:'TeachSite',
-                            component:() => import('../../components/basic-setting/teach-site.vue')
+                            component:() => import('../../components/base-manage/dean/teach-site.vue')
                         },
                         {
                             path:'time-table',
                             name:'TimeTable',
-                            component:() => import('../../components/basic-setting/time-table.vue')
+                            component:() => import('../../components/base-manage/dean/time-table.vue')
                         },
                         {
                             path:'campus-student',
                             name:'CampusStudentTable',
-                            component:() => import('../../components/basic-setting/campus-student.vue')
+                            component:() => import('../../components/base-manage/dean/campus-student.vue')
                         },
                         {
                             path:'class',
                             name:'classTable',
-                            component:() => import('../../components/basic-setting/class.vue')
+                            component:() => import('../../components/base-manage/dean/class.vue')
                         },
                         {
                             path:'class-student',
                             name:'classStudentTable',
-                            component:() => import('../../components/basic-setting/class-student.vue')
+                            component:() => import('../../components/base-manage/dean/class-student.vue')
                         },
                         {
                             path:'department',
                             name:'DepartmentTable',
-                            component:() => import('../../components/basic-setting/department.vue')
+                            component:() => import('../../components/base-manage/dean/department.vue')
                         },
                         {
                             path:'dep-member',
                             name:'DepartmentMemberTable',
-                            component:() => import('../../components/basic-setting/dep-member.vue')
+                            component:() => import('../../components/base-manage/dean/dep-member.vue')
                         },
                         {
                             path:'user-group',
                             name:'UserGroupTable',
-                            component:() => import('../../components/basic-setting/user-group.vue')
+                            component:() => import('../../components/base-manage/system/user-group.vue')
                         },
                         {
                             path:'group-permission',
                             name:'GroupPermissionTable',
-                            component:() => import('../../components/basic-setting/group-permission.vue')
+                            component:() => import('../../components/base-manage/system/group-permission.vue')
                         },
                         {
                             path:'permission-definition',
                             name:'PermissionDefinitionTable',
-                            component:() => import('../../components/basic-setting/permission-definition.vue')
+                            component:() => import('../../components/base-manage/system/permission-definition.vue')
                         },
                         {
                             path:'system-task',
                             name:'SystemTable',
-                            component:() => import('../../components/basic-setting/system-task.vue')
+                            component:() => import('../../components/base-manage/system/system-task.vue')
                         },
                         {
                             path:'settings',
                             name:'SettingsTable',
-                            component:() => import('../../components/basic-setting/settings.vue')
+                            component:() => import('../../components/base-manage/system/settings.vue')
                         },
-                        {
+                        /* {
                             path:'selector',
                             name:'SelectorTable',
-                            component:() => import('../../components/basic-setting/selector.vue')
-                        },
+                            component:() => import('../../components/base-manage/system/selector.vue')
+                        }, */
                         {
                             path:'file-info',
                             name:'FileInfoTable',
-                            component:() => import('../../components/basic-setting/file-info.vue')
+                            component:() => import('../../components/base-manage/system/file-info.vue')
                         },
                         {
                             path:'vip-info',
                             name:'VipInfoTable',
-                            component:() => import('../../components/basic-setting/vip-info.vue')
+                            component:() => import('../../components/base-manage/user/vip-info.vue')
                         },
                         {
                             path:'vip-file',
                             name:'VipFileTable',
-                            component:() => import('../../components/basic-setting/vip-file.vue')
+                            component:() => import('../../components/base-manage/user/vip-file.vue')
                         },
                         {
                             path:'teacher-zone',
                             name:'TeacherZoneTable',
-                            component:() => import('../../components/basic-setting/teacher-zone.vue')
+                            component:() => import('../../components/base-manage/user/teacher-zone.vue')
                         },
                         {
                             path:'student-zone',
                             name:'StudentZoneTable',
-                            component:() => import('../../components/basic-setting/student-zone.vue')
+                            component:() => import('../../components/base-manage/user/student-zone.vue')
+                        },
+                        {
+                            path:'syllabus',
+                            name:'CourseSyllabus',
+                            component:() => import('../../components/base-manage/course/syllabus.vue')
+                        },
+                        {
+                            path:'content',
+                            name:'CourseContent',
+                            component:() => import('../../components/base-manage/course/content.vue')
+                        },
+                        {
+                            path:'knowledge-point',
+                            name:'CourseKnowLedgePoint',
+                            component:() => import('../../components/base-manage/course/knowledge-point.vue')
+                        },
+                        {
+                            path:'textbook',
+                            name:'CourseTextbook',
+                            component:() => import('../../components/base-manage/course/textbook.vue')
                         },
                     ]
                 },
