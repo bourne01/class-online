@@ -96,10 +96,10 @@ export default {
 				weeks:this.term.weeks,
 				remark:this.term.remark
 			}
-			let action = addTerm;//默认执行添加学期
+			let action = addTerm;//默认执行添加学期接口方法
 			if(this.isEdit){//编辑状态，执行修改学期
-				action = editTerm;
-				params.termId = this.term.termId;
+				action = editTerm;//编辑学期接口方法
+				params.termId = this.term.termId;//添加学期Id
 			}
 			action(params)
 				.then(res => {
@@ -115,7 +115,7 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
-			this.term = {};
+			this.term = {};//重置对象
 			this.$emit('close-dialog');
 		},
 		/* ...mapActions('student',['getTerm']) */

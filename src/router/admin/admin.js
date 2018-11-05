@@ -203,9 +203,9 @@ export default [
                             component:() => import('../../components/basic-setting/time-table.vue')
                         },
                         {
-                            path:'enroll-grade',
-                            name:'EnrollGradeTable',
-                            component:() => import('../../components/basic-setting/enroll-grade.vue')
+                            path:'join-year',
+                            name:'JoinYear',
+                            component:() => import('../../components/basic-setting/join-year.vue')
                         },
                         {
                             path:'team',

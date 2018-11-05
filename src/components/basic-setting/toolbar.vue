@@ -6,15 +6,21 @@
             :is-pop="isTermPop" 
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-term-pop>
+        <add-teach-site-pop 
+            :is-pop="isTeachSitePop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-teach-site-pop>
     </div>
 </template>
 
 <script>
 import AddTermPop from './add-term-popup'
+import AddTeachSitePop from './add-teach-site-popup'
 import { mapState } from 'vuex';
 export default {
     components:{
-        AddTermPop
+        AddTermPop,
+        AddTeachSitePop
     },
     data(){
         return{
@@ -47,6 +53,9 @@ export default {
                 case 'term':
                     this.isTermPop = true;
                     break;
+                case 'teach-site':
+                    this.isTeachSitePop = true;
+                    break;
             }
         },
         /**
@@ -55,6 +64,7 @@ export default {
         onCloseDialog(){
             this.isTermPop = false;
             this.isEdit = false;
+            this.isTeachSitePop = false;
             console.log('Edit...',this.isEdit);
         }
     },

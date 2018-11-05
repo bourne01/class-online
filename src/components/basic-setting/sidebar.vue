@@ -1,5 +1,5 @@
 <template>
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246)" :style="{minHeight}">
         <el-menu :default-openeds="['1']">
             <el-submenu index="1">
                 <template slot="title"><i class="el-icon-message"></i>基础教务</template>
@@ -33,7 +33,7 @@ export default {
         return{
             deanList:[//教务基础列表
                 {id:'1-1',name:'作息表',alias:'time-table'},
-                {id:'1-2',name:'入学年级',alias:'enroll-grade'},
+                {id:'1-2',name:'入学年份',alias:'join-year'},
                 {id:'1-3',name:'学期信息',alias:'term'},
                 {id:'1-4',name:'小组信息',alias:'team'},
                 {id:'1-5',name:'教学场地',alias:'teach-site'},
@@ -58,6 +58,7 @@ export default {
                 {id:'3-3',name:'教师空间',alias:'teacher-zone'},
                 {id:'3-4',name:'学生空间',alias:'student-zone'},
             ],
+            minHeight:(document.documentElement.clientHeight - 68 - 380) + 'px',//左侧导航条最小高度
         }
     },
     methods:{

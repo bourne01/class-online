@@ -172,7 +172,7 @@ import { getTerm, changeTermState, deleteTerm } from '../../api/base/dean';
                     if(!termId){//点击是批量删除按钮，学期要看this.termIds，即来自表格左侧的选择行
                         termId = this.termIds.toString();
                     }
-                    await changeTermState({termIds:termId,state:4})
+                    await changeTermState({termIds:termId,state:4})//改变状态，以便删除
                             .catch(err => {
                                 xhrErrHandler(err,this.$router,this.$message)
                             })
@@ -197,11 +197,17 @@ import { getTerm, changeTermState, deleteTerm } from '../../api/base/dean';
                 })
             
         },
+        /**
+         * @function 监听页面当前页码变化事件
+         * @param {当前页码} val
+         */
         handleCurrentChange(val) {
             this.getTermList((val-1)*this.pageSize,this.pageSize)
         },
         /**
          * @function 获取学期列表
+         * @param {记录开始的位置} start
+         * @param {总共请求多少条纪律} limit
          */
         getTermList(start=0,limit=20){
             getTerm({start,limit})
