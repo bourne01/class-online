@@ -1,52 +1,61 @@
 <template>
-    <div class="add-term">     
+    <div class="add-syllabus">     
         <el-dialog
             :title="title"
             :visible.sync="isShow"
             width="500px"				
-            class="term-dialog"
+            class="syllabus-dialog"
             border
-            @close="$emit('close-dialog');term={}"
+            @close="$emit('close-dialog');syllabus={}"
             >
             <ul>
                 <li>
-                    <label for="">名称</label>
-                    <el-input v-model="term.name"></el-input>
+                    <label for=""><span class="required">*</span>名称</label>
+                    <el-input v-model="syllabus.lrnName"></el-input>
                 </li>
                 <li>
-                    <label for="">日期</label>
-                    <el-date-picker
-                        v-model="term.rangeDate"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开学日期"
-                        end-placeholder="结束日期"
-						value-format="yyyy-MM-dd">
-                    </el-date-picker>
+                    <label for="">学科</label>
+                    <el-select v-model="syllabus.lrnSub">
+						<el-option v-for="item in subjects"
+						 :key="item.id"
+						 :label="item.name"
+						 :value="item.id">
+						</el-option>
+					</el-select>
                 </li>
                 <li>
-                    <label for="">首周一日期</label>      
-                    <el-date-picker
-                        v-model="term.firstMon"
-                        type="date"
-                        placeholder="选择日期"
-						value-format="yyyy-MM-dd">
-                    </el-date-picker>   
+                    <label for="">学级</label>      
+                    <el-select v-model="syllabus.lrnLrv">
+						<el-option v-for="item in levels"
+						 :key="item.id"
+						 :label="item.name"
+						 :value="item.id">
+						</el-option>
+					</el-select>
                 </li>
 				<li>
-                    <label for="">周数</label>
-					<el-input-number v-model="term.weeks" :min="0" :max="30"></el-input-number>
+                    <label for="">级段</label>
+					 <el-select v-model="syllabus.lrnGra">
+						<el-option v-for="item in grades"
+						 :key="item.id"
+						 :label="item.name"
+						 :value="item.id">
+						</el-option>
+					</el-select>
                 </li>				
 				<li>
-                    <label for="">当前学期</label>
-                    <el-radio-group v-model="term.cur">
-						<el-radio :label="1">是</el-radio>
-						<el-radio :label="2">否</el-radio>
-					</el-radio-group>
+                    <label for="">专业</label>
+					<el-select v-model="syllabus.lrnMaj">
+						<el-option v-for="item in majors"
+						 :key="item.id"
+						 :label="item.name"
+						 :value="item.id">
+						</el-option>
+					</el-select>
                 </li>				
                 <li>
-                    <label for="">备注</label>
-                    <el-input v-model="term.remark" type="textarea"></el-input>
+                    <label for="">简介</label>
+                    <el-input v-model="syllabus.lrnBrief" type="textarea"></el-input>
                 </li>
                 <li>
                     <el-button class="confirm" @click="confirm">确定</el-button>
@@ -59,24 +68,53 @@
 <script>
 import { xhrErrHandler } from '../../../utils/util';
 import { mapActions, mapState } from 'vuex';
-import { addTerm, editTerm,getTerm } from '../../../api/base/dean.js'
+import { addCourseSyllabus,editCourseSyllabus, getCourseSyllabusBrief } from '../../../api/course/course.js'
+import { getCodeList } from '../../../api/base/system';
 export default {
 	props:['is-pop','is-edit'],
     data(){
 		return{
-			title:'新增学期',
-			term:{},//学期对象
+			title:'新增大纲',
+			syllabus:{},//学期对象
+			subjects:[],//学科列表
+			levels:[],//学级列表，小学、初中和高中
+			grades:[],//小学一，初中一
+			majors:[],//专业列表
 		}
 	},
 	computed:{
-		...mapState('base',{curTerm:state => state.curRow}),		
+		...mapState('base',{curSyllabus:state => state.curRow}),		
 		isShow:{
 			get:function(){
+				/**获取学科列表 */
+				getCodeList({cp:2,rp:1})
+					.then(res => {
+						this.subjects = res.data.dataList;
+					})
+				/**获取专业列表 */
+				getCodeList({cp:3,rp:1})
+					.then(res => {
+						this.majors = res.data.dataList;
+					})
+				/**获取学级列表 */
+				getCodeList({cp:4,rp:1})
+					.then(res => {
+						this.levels = res.data.dataList;
+					})
+				/**获取学科列表 */
+				getCodeList({cp:5,rp:1})
+					.then(res => {
+						this.grades = res.data.dataList;
+					})
+					
 				if(this.isEdit){//来自编辑按钮
-					this.title = "编辑学期";
-					this.term = JSON.parse(JSON.stringify(this.curTerm));
-					let rangeDate = [this.curTerm.startDate,this.curTerm.endDate];
-					this.term.rangeDate = rangeDate;//给学期对象添加日期区间
+					this.title = "编辑大纲";
+					this.syllabus = JSON.parse(JSON.stringify(this.curSyllabus));
+					/**获取大纲简介 */	
+					getCourseSyllabusBrief({lrnId:this.syllabus.lrnBrief})
+						.then(res => {
+							this.syllabus.lrnBrief = res.data.m;
+						})				
 				}
 				return this.isPop;
 			},
@@ -89,17 +127,17 @@ export default {
 		 */
 		confirm(){
 			let params = {
-				name:this.term.name,
-				startDate:this.term.rangeDate[0],
-				endDate:this.term.rangeDate[1],
-				firstMon:this.term.firstMon,
-				weeks:this.term.weeks,
-				remark:this.term.remark
+				lrnName:this.syllabus.lrnName,
+				lrnSub:this.syllabus.lrnSub,
+				lrnLrv:this.syllabus.lrnLrv,
+				lrnGra:this.syllabus.lrnGra,
+				lrnMaj:this.syllabus.lrnMaj,
+				lrnBrief:this.syllabus.lrnBrief
 			}
-			let action = addTerm;//默认执行添加学期
+			let action = addCourseSyllabus;//默认执行添加学期
 			if(this.isEdit){//编辑状态，执行修改学期
-				action = editTerm;
-				params.termId = this.term.termId;
+				action = editCourseSyllabus;
+				params.lrnId = this.syllabus.lrnId ;
 			}
 			action(params)
 				.then(res => {
@@ -115,7 +153,7 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
-			this.term = {};
+			this.syllabus = {};
 			this.$emit('close-dialog');
 		},
 		/* ...mapActions('student',['getTerm']) */
@@ -131,35 +169,38 @@ export default {
 
 
 <style scoped>
-    .term-dialog ul{
+	.required{
+		color:red;
+	}
+    .syllabus-dialog ul{
 		width:420px;
 		margin:30px auto;		
 	}
-	.term-dialog li{
+	.syllabus-dialog li{
 		display: flex;
 		align-items: center;
 	}
-	.term-dialog li>label{
+	.syllabus-dialog li>label{
 		display: inline-block;
 		width:90px;
         text-align: right;
         margin-right:10px;
 	}
-	.term-dialog li{
+	.syllabus-dialog li{
 		margin-bottom:25px;
 	}
-	.term-dialog li:last-child{
+	.syllabus-dialog li:last-child{
 		display:block;
         text-align: center;
 	}
-	.term-dialog .el-select,
-    .term-dialog .el-input,
-    .term-dialog .el-range-editor,
-	.term-dialog .el-input-number,
-	.term-dialog .el-radio-group{
+	.syllabus-dialog .el-select,
+    .syllabus-dialog .el-input,
+    .syllabus-dialog .el-range-editor,
+	.syllabus-dialog .el-input-number,
+	.syllabus-dialog .el-radio-group{
 		width:100%;
 	}
-	.term-dialog .confirm{
+	.syllabus-dialog .confirm{
 		height:38px;
 		/* line-height:32px; */
 		padding:0 40px;
@@ -170,13 +211,13 @@ export default {
 </style>
 
 <style>
-  .add-term .el-dialog__header{             /*设置弹框的头部*/
+  .add-syllabus .el-dialog__header{             /*设置弹框的头部*/
 		background-color:#2185ff;
 		height: 20px;
 		color:#707079; 
 		margin:0px;
 	}
-	.add-term .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
+	.add-syllabus .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
 		color:white;
 		float: left;
 		line-height:10px;
@@ -184,12 +225,12 @@ export default {
 		font-size:16px;
 		font-family:'MicrosoftYaHei';
 	}
-	.add-term .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
+	.add-syllabus .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
 		color:white;
 		font-size:24px;
 		margin-top:-30px;
 	}
-	.add-term .el-dialog__body {                        /*设置弹框body内的内填充为0*/
+	.add-syllabus .el-dialog__body {                        /*设置弹框body内的内填充为0*/
 		padding:15px;
 		padding-bottom:10px;
 		width:100%;

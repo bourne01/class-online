@@ -32,25 +32,25 @@
 	 * URL：p/thr!query.action
 	 *
 	 * 参数
-	 * start        可选   记录开始位置
-	 * limit        可选   获取记录数量
-	 * thrId        可选   教师Id
-	 * memId        可选   会员Id
-	 * thrNm        可选   教师姓名
-	 * thrSex       可选   教师性别 男/女
-	 * schId        可选   教师校区
-	 * depId        可选   教师部门
-	 * spaNm        可选   教空名称
-	 * myself       可选   自我介绍
-	 * jobLv        可选   教师职称
-	 * exp          可选   教师经验
-	 * level        可选   教师等级
-	 * point        可选   教师积分
-	 * thrTo        可选   教师去向 2正常
-	 * state        可选   教空状态 1申请中 2正常 3关闭
-	 * datTp        可选   数据类型 2内部 3自助
-	 * visit        可选   防问计数
-	 * orderFd      可选   排序字段的字段名称，倒序前面加“@”
+	 * start       可选   记录开始位置
+	 * limit       可选   获取记录数量
+	 * thrId       可选   教师Id
+	 * memId       可选   会员Id
+	 * thrNm       可选   教师姓名
+	 * thrSex      可选   教师性别 男/女
+	 * schId       可选   教师校区
+	 * depId       可选   教师部门
+	 * spaNm       可选   教空名称
+	 * myself      可选   自我介绍
+	 * jobLv       可选   教师职称
+	 * exp         可选   教师经验
+	 * level       可选   教师等级
+	 * point       可选   教师积分
+	 * thrTo       可选   教师去向 2正常
+	 * state       可选   教空状态 1申请中 2正常 3关闭
+	 * datTp       可选   数据类型 2内部 3自助
+	 * visit       可选   防问计数
+	 * orderFd     可选   排序字段的字段名称，倒序前面加“@”
 	 *
 	 * 出错返回：{"s":false,"m":"错误信息"}
 	 * 正确返回：{"s":true,"t":"总记录数","d":[Teacher]}

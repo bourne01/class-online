@@ -1,98 +1,19 @@
 <template>
-    <div class="add-textbook">     
+    <div class="add-textbook-content">     
         <el-dialog
             :title="title"
             :visible.sync="isShow"
-            width="600px"				
-            class="textbook-dialog"
+            width="500px"				
+            class="textbook-content-dialog"
             border
-            @close="$emit('close-dialog');textbook={}"
+            @close="$emit('close-dialog')"
             >
-			<div class="textbook-form">
+			<div class="textbook-content-form">
 				<el-row :gutter="20">
-					<el-col :span="12">
-						<label for=""><span class="required">*</span>名称</label>
+					<el-col>
+						<label for=""><span class="required">*</span>教材</label>
 						<div>
-							<el-input v-model="textbook.tbkName"></el-input>
-						</div>
-					</el-col>
-					<el-col :span="12">
-						<label for="">编号</label>
-						<div>
-							<el-input v-model="textbook.tbkNO"></el-input>
-						</div>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :span="12">
-						<label for=""><span></span>出版社</label>
-						<div>
-							<el-input v-model="textbook.tbkPress"></el-input>
-						</div>
-					</el-col>
-					<el-col :span="12">
-						<label for="">出版日期</label>
-						<div>
-							<el-date-picker
-								v-model="textbook.pubDate"
-								type="date"
-								placeholder="选择日期"
-								value-format="yyyy-MM-dd">
-							</el-date-picker>
-						</div>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :span="12">
-						<label for=""><span></span>作者</label>
-						<div>
-							<el-input v-model="textbook.tbkAuthor"></el-input>
-						</div>
-					</el-col>
-					<el-col :span="12">
-						<label for=""><span></span>课程大纲</label>
-						<div>
-							<el-select v-model="textbook.tbkLrnId">
-								<el-option v-for="item in syllabusList"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-								</el-option>
-							</el-select>
-						</div>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :span="12">
-						<label for=""><span></span>学级</label>
-						<div>
-							<el-select v-model="textbook.tbkLrv">
-								<el-option v-for="item in levelList"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-								</el-option>
-							</el-select>
-						</div>
-					</el-col>
-					<el-col :span="12">
-						<label for="">学科</label>
-						<div>
-							<el-select v-model="textbook.tbkSub">
-								<el-option v-for="item in subjectList"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-								</el-option>
-							</el-select>
-						</div>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">					
-					<el-col :span="12">
-						<label for="">级段</label>
-						<div>
-							<el-select v-model="textbook.tbkGra">
+							<el-select v-model="textbookContent.tbkGra" placeholder="请选择教材">
 								<el-option v-for="item in gradeList"
 									:key="item.id"
 									:label="item.name"
@@ -101,11 +22,21 @@
 							</el-select>
 						</div>
 					</el-col>
-					<el-col :span="12">
-						<label for=""><span></span>专业</label>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col>
+						<label for=""><span class="required">*</span>章节名称</label>
 						<div>
-							<el-select v-model="textbook.tbkMaj">
-								<el-option v-for="item in majorList"
+							<el-input v-model="textbookContent.tbkSecNm"></el-input>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col>
+						<label for="">章节类别</label>
+						<div>
+							<el-select v-model="textbookContent.tbkSecTp">
+								<el-option v-for="item in levelList"
 									:key="item.id"
 									:label="item.name"
 									:value="item.id">
@@ -114,14 +45,28 @@
 						</div>
 					</el-col>
 				</el-row>
-				<el-row>					
+				<el-row :gutter="20">
 					<el-col>
-						<label for="">备注</label>
+						<label for="">章节顺序</label>
 						<div>
-							<el-input type="textarea" v-model="textbook.remark"></el-input>
-						</div>						
+							<el-input v-model="textbookContent.order"></el-input>
+						</div>
 					</el-col>
 				</el-row>
+				<el-row :gutter="20">
+					<el-col>
+						<label for="">教材大纲</label>
+						<div>
+							<el-select v-model="textbookContent.knoId">
+								<el-option v-for="item in levelList"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id">
+								</el-option>
+							</el-select>
+						</div>
+					</el-col>
+				</el-row>				
 				<el-row>
 					<el-col style="text-align:center;margin-top:15px;">
 						<el-button class="confirm" @click="confirm">确定</el-button>
@@ -142,7 +87,7 @@ export default {
     data(){
 		return{
 			title:'新增教材',
-			textbook:{},//学期对象
+			textbookContent:{},//学期对象
 			subjectList:[],//学科列表
 			majorList:[],//专业列表
 			levelList:[],//学级列表
@@ -184,7 +129,7 @@ export default {
 					})
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑教材";
-					this.textbook = JSON.parse(JSON.stringify(this.curTextbook));
+					this.textbook-content = JSON.parse(JSON.stringify(this.curTextbook));
 				}
 				return this.isPop;
 			},
@@ -197,22 +142,22 @@ export default {
 		 */
 		confirm(){
 			let params = {
-				tbkName:this.textbook.tbkName,
-				tbkNO:this.textbook.tbkNO,
-				tbkPress:this.textbook.tbkPress,
-				tbkAuthor:this.textbook.tbkAuthor,
-				pubDate:this.textbook.pubDate,
-				tbkLrnId:this.textbook.tbkLrnId,
-				tbkSub:this.textbook.tbkSub,
-				tbkLrv:this.textbook.tbkLrv,
-				tbkGra:this.textbook.tbkGra,
-				tbkMaj:this.textbook.tbkMaj,
-				remark:this.textbook.remark
+				tbkName:this.textbookContent.tbkName,
+				tbkNO:this.textbookContent.tbkNO,
+				tbkPress:this.textbookContent.tbkPress,
+				tbkAuthor:this.textbookContent.tbkAuthor,
+				pubDate:this.textbookContent.pubDate,
+				tbkLrnId:this.textbookContent.tbkLrnId,
+				tbkSub:this.textbookContent.tbkSub,
+				tbkLrv:this.textbookContent.tbkLrv,
+				tbkGra:this.textbookContent.tbkGra,
+				tbkMaj:this.textbookContent.tbkMaj,
+				remark:this.textbookContent.remark
 			}
 			let action = addTextbook;//默认执行添加学期
 			if(this.isEdit){//编辑状态，执行修改学期
 				action = editTextbook;
-				params.tbkId = this.textbook.tbkId;
+				params.tbkId = this.textbookContent.tbkId;
 			}
 			action(params)
 				.then(res => {
@@ -228,7 +173,7 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
-			this.textbook = {};
+			this.textbook-content = {};
 			this.$emit('close-dialog');
 		},
 		/* ...mapActions('student',['getTerm']) */
@@ -244,29 +189,29 @@ export default {
 
 
 <style scoped>
-    .textbook-form{
+    .textbook-content-form{
 		width:520px;
 		margin:25px auto;		
 	}
-	.textbook-form label{
+	.textbook-content-form label{
 		margin-bottom:5px;
 		display:inline-block;
 	}
-	.textbook-form .el-row{
+	.textbook-content-form .el-row{
 		margin-bottom:15px;
 	}	
-	.textbook-form .required{
+	.textbook-content-form .required{
 		color:red;
 		margin-right:2px;
 	}
-	.textbook-dialog .el-select,
-    .textbook-dialog .el-input,
-    .textbook-dialog .el-range-editor,
-	.textbook-dialog .el-input-number,
-	.textbook-dialog .el-radio-group{
+	.textbook-content-dialog .el-select,
+    .textbook-content-dialog .el-input,
+    .textbook-content-dialog .el-range-editor,
+	.textbook-content-dialog .el-input-number,
+	.textbook-content-dialog .el-radio-group{
 		width:100%;
 	}
-	.textbook-dialog .confirm{
+	.textbook-content-dialog .confirm{
 		height:38px;
 		/* line-height:32px; */
 		padding:0 40px;
@@ -277,13 +222,13 @@ export default {
 </style>
 
 <style>
-  .add-textbook .el-dialog__header{             /*设置弹框的头部*/
+  .add-textbook-content .el-dialog__header{             /*设置弹框的头部*/
 		background-color:#2185ff;
 		height: 20px;
 		color:#707079; 
 		margin:0px;
 	}
-	.add-textbook .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
+	.add-textbook-content .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
 		color:white;
 		float: left;
 		line-height:10px;
@@ -291,19 +236,19 @@ export default {
 		font-size:16px;
 		font-family:'MicrosoftYaHei';
 	}
-	.add-textbook .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
+	.add-textbook-content .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
 		color:white;
 		font-size:24px;
 		margin-top:-30px;
 	}
-	.add-textbook .el-dialog__body {                        /*设置弹框body内的内填充为0*/
+	.add-textbook-content .el-dialog__body {                        /*设置弹框body内的内填充为0*/
 		padding:15px;
 		padding-bottom:10px;
 		width:100%;
 		box-sizing:border-box;
 	}
-	.add-textbook .el-input__inner,
-	.add-textbook .el-textarea__inner{
+	.add-textbook-content .el-input__inner,
+	.add-textbook-content .el-textarea__inner{
 		background-color:#f1f1f1;
 	}
 </style>

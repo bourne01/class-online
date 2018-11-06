@@ -1,22 +1,22 @@
 <template>
-    <div class="add-term">     
+    <div class="add-resource">     
         <el-dialog
             :title="title"
             :visible.sync="isShow"
             width="500px"				
-            class="term-dialog"
+            class="resource-dialog"
             border
-            @close="$emit('close-dialog');term={}"
+            @close="$emit('close-dialog');resource={}"
             >
             <ul>
                 <li>
                     <label for="">名称</label>
-                    <el-input v-model="term.name"></el-input>
+                    <el-input v-model="resource.name"></el-input>
                 </li>
                 <li>
                     <label for="">日期</label>
                     <el-date-picker
-                        v-model="term.rangeDate"
+                        v-model="resource.rangeDate"
                         type="daterange"
                         range-separator="至"
                         start-placeholder="开学日期"
@@ -27,7 +27,7 @@
                 <li>
                     <label for="">首周一日期</label>      
                     <el-date-picker
-                        v-model="term.firstMon"
+                        v-model="resource.firstMon"
                         type="date"
                         placeholder="选择日期"
 						value-format="yyyy-MM-dd">
@@ -35,18 +35,18 @@
                 </li>
 				<li>
                     <label for="">周数</label>
-					<el-input-number v-model="term.weeks" :min="0" :max="30"></el-input-number>
+					<el-input-number v-model="resource.weeks" :min="0" :max="30"></el-input-number>
                 </li>				
 				<li>
                     <label for="">当前学期</label>
-                    <el-radio-group v-model="term.cur">
+                    <el-radio-group v-model="resource.cur">
 						<el-radio :label="1">是</el-radio>
 						<el-radio :label="2">否</el-radio>
 					</el-radio-group>
                 </li>				
                 <li>
                     <label for="">备注</label>
-                    <el-input v-model="term.remark" type="textarea"></el-input>
+                    <el-input v-model="resource.remark" type="textarea"></el-input>
                 </li>
                 <li>
                     <el-button class="confirm" @click="confirm">确定</el-button>
@@ -65,7 +65,7 @@ export default {
     data(){
 		return{
 			title:'新增学期',
-			term:{},//学期对象
+			resource:{},//学期对象
 		}
 	},
 	computed:{
@@ -74,9 +74,9 @@ export default {
 			get:function(){
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑学期";
-					this.term = JSON.parse(JSON.stringify(this.curTerm));
+					this.resource = JSON.parse(JSON.stringify(this.curTerm));
 					let rangeDate = [this.curTerm.startDate,this.curTerm.endDate];
-					this.term.rangeDate = rangeDate;//给学期对象添加日期区间
+					this.resource.rangeDate = rangeDate;//给学期对象添加日期区间
 				}
 				return this.isPop;
 			},
@@ -89,17 +89,17 @@ export default {
 		 */
 		confirm(){
 			let params = {
-				name:this.term.name,
-				startDate:this.term.rangeDate[0],
-				endDate:this.term.rangeDate[1],
-				firstMon:this.term.firstMon,
-				weeks:this.term.weeks,
-				remark:this.term.remark
+				name:this.resource.name,
+				startDate:this.resource.rangeDate[0],
+				endDate:this.resource.rangeDate[1],
+				firstMon:this.resource.firstMon,
+				weeks:this.resource.weeks,
+				remark:this.resource.remark
 			}
 			let action = addTerm;//默认执行添加学期
 			if(this.isEdit){//编辑状态，执行修改学期
 				action = editTerm;
-				params.termId = this.term.termId;
+				params.termId = this.resource.termId;
 			}
 			action(params)
 				.then(res => {
@@ -115,7 +115,7 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
-			this.term = {};
+			this.resource = {};
 			this.$emit('close-dialog');
 		},
 		/* ...mapActions('student',['getTerm']) */
@@ -131,35 +131,35 @@ export default {
 
 
 <style scoped>
-    .term-dialog ul{
+    .resource-dialog ul{
 		width:420px;
 		margin:30px auto;		
 	}
-	.term-dialog li{
+	.resource-dialog li{
 		display: flex;
 		align-items: center;
 	}
-	.term-dialog li>label{
+	.resource-dialog li>label{
 		display: inline-block;
 		width:90px;
         text-align: right;
         margin-right:10px;
 	}
-	.term-dialog li{
+	.resource-dialog li{
 		margin-bottom:25px;
 	}
-	.term-dialog li:last-child{
+	.resource-dialog li:last-child{
 		display:block;
         text-align: center;
 	}
-	.term-dialog .el-select,
-    .term-dialog .el-input,
-    .term-dialog .el-range-editor,
-	.term-dialog .el-input-number,
-	.term-dialog .el-radio-group{
+	.resource-dialog .el-select,
+    .resource-dialog .el-input,
+    .resource-dialog .el-range-editor,
+	.resource-dialog .el-input-number,
+	.resource-dialog .el-radio-group{
 		width:100%;
 	}
-	.term-dialog .confirm{
+	.resource-dialog .confirm{
 		height:38px;
 		/* line-height:32px; */
 		padding:0 40px;
@@ -170,13 +170,13 @@ export default {
 </style>
 
 <style>
-  .add-term .el-dialog__header{             /*设置弹框的头部*/
+  .add-resource .el-dialog__header{             /*设置弹框的头部*/
 		background-color:#2185ff;
 		height: 20px;
 		color:#707079; 
 		margin:0px;
 	}
-	.add-term .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
+	.add-resource .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
 		color:white;
 		float: left;
 		line-height:10px;
@@ -184,12 +184,12 @@ export default {
 		font-size:16px;
 		font-family:'MicrosoftYaHei';
 	}
-	.add-term .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
+	.add-resource .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
 		color:white;
 		font-size:24px;
 		margin-top:-30px;
 	}
-	.add-term .el-dialog__body {                        /*设置弹框body内的内填充为0*/
+	.add-resource .el-dialog__body {                        /*设置弹框body内的内填充为0*/
 		padding:15px;
 		padding-bottom:10px;
 		width:100%;

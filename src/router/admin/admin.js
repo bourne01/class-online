@@ -308,9 +308,9 @@ export default [
                             component:() => import('../../components/base-manage/course/syllabus.vue')
                         },
                         {
-                            path:'content',
-                            name:'CourseContent',
-                            component:() => import('../../components/base-manage/course/content.vue')
+                            path:'textbook-content',
+                            name:'TextbookContent',
+                            component:() => import('../../components/base-manage/course/textbook-content.vue')
                         },
                         {
                             path:'knowledge-point',
@@ -321,6 +321,11 @@ export default [
                             path:'textbook',
                             name:'CourseTextbook',
                             component:() => import('../../components/base-manage/course/textbook.vue')
+                        },
+                        {
+                            path:'resource',
+                            name:'CourseResource',
+                            component:() => import('../../components/base-manage/course/resource.vue')
                         },
                     ]
                 },

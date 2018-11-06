@@ -6,7 +6,7 @@
             width="500px"				
             class="term-dialog"
             border
-            @close="$emit('close-dialog');term={}"
+            @close="$emit('close-dialog');term={};"
             >
             <ul>
                 <li>
@@ -72,6 +72,7 @@ export default {
 		...mapState('base',{curTerm:state => state.curRow}),		
 		isShow:{
 			get:function(){
+				console.log('edit:'+this.isEdit);
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑学期";
 					this.term = JSON.parse(JSON.stringify(this.curTerm));
@@ -115,6 +116,7 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
+			//this.title = '';
 			this.term = {};//重置对象
 			this.$emit('close-dialog');
 		},
@@ -124,6 +126,9 @@ export default {
 		
 	},
 	mounted(){
+	},
+	destroyed(){
+		console.log('destroying....');
 	}
   };
 </script>

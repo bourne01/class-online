@@ -27,7 +27,7 @@ const baseURL = proxyURL+'/p'
  export const addCourse = (params) => {
     return http({
         method:'post',
-        url:`${baseURL}/p/cou!newRec.action`,
+        url:`${baseURL}/cou!newRec.action`,
         data:require('qs').stringify(params)
     })
  }
@@ -36,7 +36,7 @@ const baseURL = proxyURL+'/p'
  export const eidtVip = (params) => {
     return http({
         method:'post',
-        url:`${baseURL}/p/cou!edit.action`,
+        url:`${baseURL}/cou!edit.action`,
         data:require('qs').stringify(params)
     })
  }
@@ -91,6 +91,11 @@ const baseURL = proxyURL+'/p'
     return http(`${baseURL}/learn!edit.action`,{params})
  }
 
+ /**修改教材信息记录状态 */
+ export const changeCourseSyllabusState = (params) => {
+    return http(`${baseURL}/learn!chState.action`,{params})
+ }
+
  /**删除学识信息 */
  export const deleteCourseSyllabus = (params) => {
     return http(`${baseURL}/learn!del.action`,{params})
@@ -104,7 +109,7 @@ const baseURL = proxyURL+'/p'
   * 查询教材信息 
   */
  export const getTextbooks = (params) => {
-    return http(`${baseURL}tbk!query.action}`,{params})
+    return http(`${baseURL}/tbk!query.action`,{params})
  }
  
  /**新增教材信息 */
@@ -135,7 +140,7 @@ const baseURL = proxyURL+'/p'
   * 查询教材目录 
   */
  export const getTextbookContents = (params) => {
-    return http(`${baseURL}tbkSec!query.action}`,{params})
+    return http(`${baseURL}/tbkSec!query.action`,{params})
  }
  
  /**新增教材目录 */
@@ -166,7 +171,7 @@ const baseURL = proxyURL+'/p'
   * 查询知识点 
   */
  export const getKnowledgePoints = (params) => {
-    return http(`${baseURL}know!query.action}`,{params})
+    return http(`${baseURL}/know!query.action`,{params})
  }
  
  /**新增知识点 */
@@ -186,6 +191,37 @@ const baseURL = proxyURL+'/p'
 
  /**删除知识点 */
  export const deleteKnowledgePoint = (params) => {
+    return http(`${baseURL}/know!del.action`,{params})
+ }
+
+ /****************************************************************************************************
+ * 课程资源---来自接口文件"课程资源.java"
+ ***************************************************************************************************/
+
+ /**
+  * 查询课程资源 
+  */
+ export const getCourseResourse = (params) => {
+    return http(`${baseURL}/know!query.action}`,{params})
+ }
+ 
+ /**新增课程资源 */
+ export const addCourseResourse = (params) => {
+    return http(`${baseURL}/know!newRec.action`,{params})
+ }
+
+ /*修改课程资源 */
+ export const editCourseResourse = (params) => {
+    return http(`${baseURL}/know!edit.action`,{params})
+ }
+
+ /**修改课程资源记录状态 */
+ export const changeCourseResourseState = (params) => {
+    return http(`${baseURL}/know!chState.action`,{params})
+ }
+
+ /**删除课程资源 */
+ export const deleteCourseResourse = (params) => {
     return http(`${baseURL}/know!del.action`,{params})
  }
  

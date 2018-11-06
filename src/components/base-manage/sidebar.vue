@@ -69,7 +69,9 @@ export default {
                 {id:'4-1',name:'课程大纲',alias:'syllabus'},
                 {id:'4-2',name:'知识点',alias:'knowledge-point'},
                 {id:'4-3',name:'课本教材',alias:'textbook'},
-                {id:'4-4',name:'教材目录',alias:'content'},
+                {id:'4-4',name:'教材目录',alias:'textbook-content'},
+                {id:'4-5',name:'课程目录',alias:'course-content'},
+                {id:'4-6',name:'课程资源',alias:'resource'},
             ],
             minHeight:(document.documentElement.clientHeight - 68 - 380) + 'px',//左侧导航条最小高度
         }

@@ -3,24 +3,54 @@
         <el-button icon="el-icon-plus" @click="onClick(curMenuItem.alias)">
             新增</el-button>
         <add-term-pop 
-            :is-pop="isTermPop" 
+            :is-pop="isTermPop"
+            v-if="isTermPop" 
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-term-pop>
         <add-teach-site-pop 
-            :is-pop="isTeachSitePop" 
+            :is-pop="isTeachSitePop"
+            v-if="isTeachSitePop"  
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-teach-site-pop>
+        <add-syllabus-pop 
+            :is-pop="isSyllabusPop" 
+            v-if="isSyllabusPop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-syllabus-pop>
+        <add-knowledge-point-pop 
+            :is-pop="isKnowledgePointPop" 
+            v-if="isKnowledgePointPop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-knowledge-point-pop>
+        <add-textbook-pop 
+            :is-pop="isTextbookPop" 
+            v-if="isTextbookPop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-textbook-pop>
+        <add-textbook-content-pop 
+            :is-pop="isTextbookContentPop" 
+            v-if="isTextbookContentPop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-textbook-content-pop>
     </div>
 </template>
 
 <script>
 import AddTermPop from './dean/add-term-popup'
 import AddTeachSitePop from './dean/add-teach-site-popup'
+import AddSyllabusPop from './course/add-syllabus-popup'
+import AddKnowledgePointPop from './course/add-knowledge-point-popup'
+import AddTextbookPop from './course/add-textbook-popup'
+import AddTextbookContentPop from './course/add-textbook-content-popup'
 import { mapState } from 'vuex';
 export default {
     components:{
         AddTermPop,
-        AddTeachSitePop
+        AddTeachSitePop,
+        AddSyllabusPop,
+        AddKnowledgePointPop,
+        AddTextbookPop,
+        AddTextbookContentPop,
     },
     data(){
         return{
@@ -34,7 +64,12 @@ export default {
             isClassPop:false,
             isClassStudentPop:false,
             isDepartmentPop:false,
-            isDepMemberPop:false,            
+            isDepMemberPop:false,
+            isSyllabusPop:false,
+            isKnowledgePointPop:false,  
+            isResourcePop:false,   
+            isTextbookPop:false,       
+            isTextbookContentPop:false,       
         }
     },
     computed:{
@@ -56,6 +91,21 @@ export default {
                 case 'teach-site':
                     this.isTeachSitePop = true;
                     break;
+                case 'syllabus':
+                    this.isSyllabusPop = true;
+                    break;
+                case 'knowledge-point':
+                    this.isKnowledgePointPop = true;
+                    break;
+                case 'resource':
+                    this.isResourcePop = true;
+                    break;
+                case 'textbook':
+                    this.isTextbookPop = true;
+                    break;
+                case 'textbook-content':
+                    this.isTextbookContentPop = true;
+                    break;
             }
         },
         /**
@@ -65,6 +115,11 @@ export default {
             this.isTermPop = false;
             this.isEdit = false;
             this.isTeachSitePop = false;
+            this.isSyllabusPop = false;
+            this.isKnowledgePointPop = false;
+            this.isResourcePop = false;
+            this.isTextbookPop = false;
+            this.isTextbookContentPop = false;
             console.log('Edit...',this.isEdit);
         }
     },

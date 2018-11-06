@@ -1,7 +1,7 @@
 <template>
     <div class="term-table">
         <el-table 
-            :data="termList"
+            :data="syllabusList"
             max-height="625"
             border
             ref="multipleTable"
@@ -12,54 +12,42 @@
 				min-width="55">
 			</el-table-column>
             <el-table-column
-                prop="name"                
-                label="学期"
+                prop="lrnName"                
+                label="名称"
                 max-width="120">
             </el-table-column>
             <el-table-column
-                prop="startDate"
-                label="开学日期"
-                max-width="150">
-                <template slot-scope="scope">
-                    {{scope.row.startDate|filterTime}}
-                </template>
-            </el-table-column>
-            <el-table-column
-                prop="endDate"
-                label="结束日期"
-                max-width="150">
-                <template slot-scope="scope">
-                    {{scope.row.endDate|filterTime}}
-                </template>
-            </el-table-column>
-            <el-table-column
-                prop="firstMon"
-                label="首个周一日期"
-                max-width="150">
-                <template slot-scope="scope">
-                    {{scope.row.firstMon|filterTime}}
-                </template>
-            </el-table-column>
-            <el-table-column
-                prop="weeks"
-                label="周数"
+                prop="lrnSubNm"
+                label="学科"
                 max-width="150">
             </el-table-column>
             <el-table-column
-                prop="cur"
-                label="当前学期"
-                max-width="150">
-                <template slot-scope="scope">
-                    {{scope.row.cur|convertValueToName('current')}}
-                </template>
+                prop="lrnLrvNm"
+                label="学级"
+                max-width="150">                
+            </el-table-column>
+            <el-table-column
+                prop="lrnGraNm"
+                label="级段"
+                max-width="150">               
+            </el-table-column>           
+            <el-table-column
+                prop="lrnMajNm"
+                label="专业"
+                max-width="150">               
             </el-table-column>
             <el-table-column
                 prop="state"
-                label="学期状态"
+                label="状态"
                 max-width="150">
                 <template slot-scope="scope">
                     {{scope.row.state|convertValueToName('state')}}
                 </template>
+            </el-table-column>
+            <el-table-column
+                prop="lrnBrief"
+                label="简介"
+                max-width="150">
             </el-table-column>
             <el-table-column
                 label="操作"
@@ -67,7 +55,7 @@
                 <template slot-scope="scope">   <!--这是操作区域功能-->
                     <el-button type="text" @click="onEditClick(scope.row)">编辑</el-button>
                     <el-button
-                    @click.native.prevent="deleteTerm(scope.row.termId)"
+                    @click.native.prevent="deleteSyllabus(scope.row.lrnId)"
                     type="text"
                     size="small"
                     icon="el-icon-delete">                
@@ -78,8 +66,8 @@
             <div class="table-footer">
                 <div class="batch-action">
                     <!-- <el-button @click="toggleSelection(termList)">全选</el-button> -->
-                    <el-checkbox @change="toggleSelection(termList)" class="select-all">全选</el-checkbox>               <!---->
-                    <el-button @click="deleteTerm()" icon="el-icon-delete" class="btn-delete">批量删除</el-button>
+                    <el-checkbox @change="toggleSelection(syllabusList)" class="select-all">全选</el-checkbox>               <!---->
+                    <el-button @click="deleteSyllabus()" icon="el-icon-delete" class="btn-delete">批量删除</el-button>
                 </div>
                 <el-pagination
                     @current-change="handleCurrentChange"
@@ -94,14 +82,14 @@
 <script>
 import {mapActions,mapState, mapMutations} from 'vuex'
 import { xhrErrHandler } from '../../../utils/util';
-import { getTerm, changeTermState, deleteTerm } from '../../../api/base/dean';
+import { getCourseSyllabus, changeCourseSyllabusState, deleteCourseSyllabus } from '../../../api/course/course';
   export default {
     data() {
         return {
-            termList:[],
+            syllabusList:[],
             pageSize:20,
             total:1,
-            termIds:'',
+            syllabusIds:'',
         }
     },
     filters:{
@@ -146,41 +134,40 @@ import { getTerm, changeTermState, deleteTerm } from '../../../api/base/dean';
          * @param {学期记录} val
          */
         handleSelectionChange(val) {
-            let termIds = [];
+            let syllabusIds = [];
             for(let item of val){
-                termIds.push(item.termId);
+                syllabusIds.push(item.lrnId);
             }
-            this.termIds = termIds.toString();
-            console.log(this.termIds);
+            this.syllabusIds = syllabusIds.toString();
         },
         /**
          * @function 监听点击编辑按钮事件，然后跳转到编辑弹窗
-         * @param {班级Id} curTerm
+         * @param {班级Id} curSyllabus
          */
-        onEditClick(curTerm){
-            this['SET_CURRENT_ROW'](curTerm);
-            this.$root.bus.$emit('edit-row','term');
+        onEditClick(curSyllabus){
+            this['SET_CURRENT_ROW'](curSyllabus);
+            this.$root.bus.$emit('edit-row','syllabus');
         },
         /**
          * @function 监听删除学期事件
-         * @param {学期Id} termId
+         * @param {学期Id}syllabusId
          */
-        deleteTerm(termId){
-            this.$confirm('确认删除该学期吗?', '提示', 
+        deleteSyllabus(syllabusId){
+            this.$confirm('确认删除课程大纲吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
                 .then(async () => {
-                    if(!termId){//点击是批量删除按钮，学期要看this.termIds，即来自表格左侧的选择行
-                        termId = this.termIds.toString();
+                    if(!syllabusId){//点击是批量删除按钮，学期要看this.syllabusIds，即来自表格左侧的选择行
+                        syllabusId = this.syllabusIds.toString();
                     }
-                    await changeTermState({termIds:termId,state:4})
+                    await changeCourseSyllabusState({lrnIds:syllabusId,state:4})
                             .catch(err => {
                                 xhrErrHandler(err,this.$router,this.$message)
                             })
-                    deleteTerm({termIds:termId})
+                    deleteCourseSyllabus({lrnIds:syllabusId})
                         .then((res) => {
                             if(res.data.s){
                                 this.$message.success(res.data.m);
-                                this.getTermList();
+                                this.getSyllabusList();
                             }else{  
                                 this.$message.error(res.data.m);
                             }/* else{
@@ -192,23 +179,24 @@ import { getTerm, changeTermState, deleteTerm } from '../../../api/base/dean';
                             xhrErrHandler(err,this.$router,this.$message)
                         })
                 })
-                .catch(() => {
+                .catch((err) => {
+                    console.log(err);
                     this.$message.info('已取消删除！')
                 })
             
         },
         handleCurrentChange(val) {
-            this.getTermList((val-1)*this.pageSize,this.pageSize)
+            this.getSyllabusList((val-1)*this.pageSize,this.pageSize)
         },
         /**
          * @function 获取学期列表
          */
-        getTermList(start=0,limit=20){
-            getTerm({start,limit})
+        getSyllabusList(start=0,limit=20){
+            getCourseSyllabus({start,limit})
                 .then(res => {
                     console.log(res)
                     if(res.data.s){
-                        this.termList = res.data.d;
+                        this.syllabusList = res.data.d;
                     }
                 })
                 .catch(err => {
@@ -217,9 +205,9 @@ import { getTerm, changeTermState, deleteTerm } from '../../../api/base/dean';
         }
     },
     mounted(){
-        this.getTermList();
+        this.getSyllabusList();
         this.$root.bus.$on('update-table',() => {
-            this.getTermList();
+            this.getSyllabusList();
         })
     },
     destroyed(){

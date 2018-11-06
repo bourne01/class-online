@@ -1,7 +1,7 @@
 <template>
-    <div class="textbook-table">
+    <div class="term-table">
         <el-table 
-            :data="textbookList"
+            :data="termList"
             max-height="625"
             border
             ref="multipleTable"
@@ -13,60 +13,52 @@
 			</el-table-column>
             <el-table-column
                 prop="tbkName"                
-                label="名称"
+                label="教材名称"
                 max-width="120">
             </el-table-column>
             <el-table-column
-                prop="tbkNO"
-                label="编号"
+                prop="startDate"
+                label="开学日期"
+                max-width="150">
+                <template slot-scope="scope">
+                    {{scope.row.startDate|filterTime}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="endDate"
+                label="结束日期"
+                max-width="150">
+                <template slot-scope="scope">
+                    {{scope.row.endDate|filterTime}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="firstMon"
+                label="首个周一日期"
+                max-width="150">
+                <template slot-scope="scope">
+                    {{scope.row.firstMon|filterTime}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="weeks"
+                label="周数"
                 max-width="150">
             </el-table-column>
             <el-table-column
-                prop="tbkPress"
-                label="出版社"
+                prop="cur"
+                label="当前学期"
                 max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkAuthor"
-                label="作者"
-                max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkLrnId"
-                label="课程大纲"
-                max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkSub"
-                label="学科"
-                max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkLrv"
-                label="学级"
-                max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkSub"
-                label="学科"
-                max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkGra"
-                label="级段"
-                max-width="150">
-            </el-table-column>
-            <el-table-column
-                prop="tbkMaj"
-                label="专业"
-                max-width="150">
+                <template slot-scope="scope">
+                    {{scope.row.cur|convertValueToName('current')}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="state"
-                label="状态"
+                label="学期状态"
                 max-width="150">
                 <template slot-scope="scope">
-                    {{scope.row.state|convertValueToName('state')}}
+                    {{arr[scope.row.state]}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -75,7 +67,7 @@
                 <template slot-scope="scope">   <!--这是操作区域功能-->
                     <el-button type="text" @click="onEditClick(scope.row)">编辑</el-button>
                     <el-button
-                    @click.native.prevent="removeTextbook(scope.row.tbkId)"
+                    @click.native.prevent="deleteTerm(scope.row.termId)"
                     type="text"
                     size="small"
                     icon="el-icon-delete">                
@@ -85,9 +77,9 @@
             </el-table>
             <div class="table-footer">
                 <div class="batch-action">
-                    <!-- <el-button @click="toggleSelection(textbookList)">全选</el-button> -->
-                    <el-checkbox @change="toggleSelection(textbookList)" class="select-all">全选</el-checkbox>               <!---->
-                    <el-button @click="removeTextbook()" icon="el-icon-delete" class="btn-delete">批量删除</el-button>
+                    <!-- <el-button @click="toggleSelection(termList)">全选</el-button> -->
+                    <el-checkbox @change="toggleSelection(termList)" class="select-all">全选</el-checkbox>               <!---->
+                    <el-button @click="deleteTerm()" icon="el-icon-delete" class="btn-delete">批量删除</el-button>
                 </div>
                 <el-pagination
                     @current-change="handleCurrentChange"
@@ -102,15 +94,14 @@
 <script>
 import {mapActions,mapState, mapMutations} from 'vuex'
 import { xhrErrHandler } from '../../../utils/util';
-import { getTerm, changeTermState, removeTextbook } from '../../../api/base/dean';
-import { deleteTextbook, getTextbooks, changeTextbookState } from '../../../api/course/course';
+import { getTerm, changeTermState, deleteTerm } from '../../../api/base/dean';
   export default {
     data() {
         return {
-            textbookList:[],
+            termList:[],
             pageSize:20,
             total:1,
-            textbookIds:'',
+            termIds:'',
         }
     },
     filters:{
@@ -155,41 +146,41 @@ import { deleteTextbook, getTextbooks, changeTextbookState } from '../../../api/
          * @param {学期记录} val
          */
         handleSelectionChange(val) {
-            let textbookIds = [];
+            let termIds = [];
             for(let item of val){
-                textbookIds.push(item.textbookId);
+                termIds.push(item.termId);
             }
-            this.textbookIds = textbookIds.toString();
-            console.log(this.textbookIds);
+            this.termIds = termIds.toString();
+            console.log(this.termIds);
         },
         /**
          * @function 监听点击编辑按钮事件，然后跳转到编辑弹窗
-         * @param {班级Id} cruTextbook
+         * @param {班级Id} curTerm
          */
-        onEditClick(cruTextbook){
-            this['SET_CURRENT_ROW'](cruTextbook);
-            this.$root.bus.$emit('edit-row','textbook');
+        onEditClick(curTerm){
+            this['SET_CURRENT_ROW'](curTerm);
+            this.$root.bus.$emit('edit-row','term');
         },
         /**
          * @function 监听删除学期事件
-         * @param {学期Id} textbookId
+         * @param {学期Id} termId
          */
-        removeTextbook(textbookId){
+        deleteTerm(termId){
             this.$confirm('确认删除该学期吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
                 .then(async () => {
-                    if(!textbookId){//点击是批量删除按钮，学期要看this.termIds，即来自表格左侧的选择行
-                        textbookId = this.textbookIds.toString();
+                    if(!termId){//点击是批量删除按钮，学期要看this.termIds，即来自表格左侧的选择行
+                        termId = this.termIds.toString();
                     }
-                    await changeTextbookState({tbkIds:textbookId,state:4})//改变状态，以便删除
+                    await changeTermState({termIds:termId,state:4})
                             .catch(err => {
                                 xhrErrHandler(err,this.$router,this.$message)
                             })
-                    deleteTextbook({tbkIds:textbookId})
+                    deleteTerm({termIds:termId})
                         .then((res) => {
                             if(res.data.s){
                                 this.$message.success(res.data.m);
-                                this.getTextbookList();
+                                this.getTermList();
                             }else{  
                                 this.$message.error(res.data.m);
                             }/* else{
@@ -206,24 +197,18 @@ import { deleteTextbook, getTextbooks, changeTextbookState } from '../../../api/
                 })
             
         },
-        /**
-         * @function 监听页面当前页码变化事件
-         * @param {当前页码} val
-         */
         handleCurrentChange(val) {
-            this.getTextbookList((val-1)*this.pageSize,this.pageSize)
+            this.getTermList((val-1)*this.pageSize,this.pageSize)
         },
         /**
          * @function 获取学期列表
-         * @param {记录开始的位置} start
-         * @param {总共请求多少条纪律} limit
          */
-        getTextbookList(start=0,limit=20){
-            getTextbooks({start,limit})
+        getTermList(start=0,limit=20){
+            getTerm({start,limit})
                 .then(res => {
                     console.log(res)
                     if(res.data.s){
-                        this.textbookList = res.data.d;
+                        this.termList = res.data.d;
                     }
                 })
                 .catch(err => {
@@ -232,9 +217,9 @@ import { deleteTextbook, getTextbooks, changeTextbookState } from '../../../api/
         }
     },
     mounted(){
-        this.getTextbookList();
+        this.getTermList();
         this.$root.bus.$on('update-table',() => {
-            this.getTextbookList();
+            this.getTermList();
         })
     },
     destroyed(){
@@ -257,19 +242,19 @@ import { deleteTextbook, getTextbooks, changeTextbookState } from '../../../api/
     
 </style>
 <style>
-    .textbook-table th{       /*  表头字体居中 */
+    .term-table th{       /*  表头字体居中 */
         text-align: center;
         background-color: #E9EEF3;
         font-family:'MicrosoftYaHei';
     }
-    .textbook-table .el-icon-delete{
+    .term-table .el-icon-delete{
         color:#ff7a7b;
         font-size:16px;
     }
-    .textbook-table td{
+    .term-table td{
         text-align:center;
     }
-    .textbook-table .btn-delete{
+    .term-table .btn-delete{
 		height:38px;
 		/* line-height:32px; */
 		padding:0 20px;
