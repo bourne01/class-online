@@ -2,51 +2,111 @@
     <div style="background-color:#f1f1f1;">
         <article>
             <section class="course-info">
-                <header>课程信息</header>
+                <header>
+                    <el-radio-group v-model="course.kkType">
+                        <el-radio :label="1">公开课</el-radio>
+                        <el-radio :label="2">任务课</el-radio>
+                    </el-radio-group>
+                </header>
                 <div class="main">
                     <div class="course-type">
-                        <label for=""><span>*</span>课程归类</label>
-                        <div>
-                            <el-select v-model="course.termName" placeholder="学期">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                            <el-select v-model="course.levelName" placeholder="层次">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                            <el-select v-model="course.gradeName" placeholder="年级">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                            <el-select v-model="course.category" placeholder="学科">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                        </div>
-                    
+                        <label for=""><span>*</span>课程教材</label>                        
+                        <el-row gutter="40">
+                            <el-col :span="12">
+                                <el-select v-model="course.termName" placeholder="学期">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-row gutter="20">
+                                    <el-col :span="12">
+                                        <el-select v-model="course.gradeName" placeholder="年级">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <el-select v-model="course.gradeName" placeholder="年级">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-row>
+                            </el-col>
+                        </el-row>                    
+                    </div>
+                    <div class="course-type">
+                        <label for=""><span>*</span>课程归类</label>                        
+                        <el-row gutter="40">
+                            
+                            <el-col :span="12">
+                                <el-row gutter="20">
+                                    <el-col :span="12">
+                                        <el-select v-model="course.gradeName" placeholder="年级">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <el-select v-model="course.gradeName" placeholder="年级">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-row>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-select v-model="course.termName" placeholder="学期">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>                    
                     </div>
                     <div class="course-name">
-                        <label for=""><span>*</span></label>
+                        <!-- <label for=""><span>*</span></label> -->
                         <div style="display:inline-block">
                             <el-input 
                                 v-model="course.name"
                                 placeholder="请输入课程名称"></el-input></div>                
                     </div>             
                     <div class="course-label">
-                        <label for=""><span>*</span>添加课程标签</label>
+                        <label for=""><span>*</span>添加关键字</label>
                         <div>
                             <el-input 
                                 v-model="course.label"
                                 placeholder="请输入课程标签"></el-input></div>                
                     </div>             
+                    <div class="course-label">
+                        <label for="">课程难度</label>
+                        <el-row>
+                            <el-col :span="12">
+                               <el-row :gutter="20">
+                                    <el-col :span="12">
+                                        <el-select v-model="course.termName" placeholder="学期">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-col>  
+                                    <el-col :span="12">
+                                        <el-select v-model="course.termName" placeholder="学期">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-col>  
+                                </el-row> 
+                            </el-col>
+                            
+                        </el-row> 
+                    </div>                                 
                     <div class="course-intro">
                         <label for=""><span>*</span>课程简介</label>
                         <quill-editor></quill-editor>
                     </div>
                 </div>                
             </section>
-            <section class="herald">
+            <!-- <section class="herald">
                 <header>上传预告
                     <span>最多上传/导入3个视频，单个视频不超过500M，视频作品将会展示在作品队列首位</span>
                 </header>
@@ -62,7 +122,7 @@
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
-            </section>
+            </section> -->
             <section class="cover">
                 <header>上传封面
                      <span>最多上传/导入3个视频，单个视频不超过500M，视频作品将会展示在作品队列首位</span>
@@ -79,8 +139,26 @@
                     <img v-if="coverUrl" :src="coverUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
+                <div class="teacher">
+                        <label for="">授课教师</label>                        
+                        <div class="teacher-wrapper">
+                            <div class="teacher-avatar" v-for="idx in teacherList" :key="idx" 
+                                @mouseover="hoverIdx=idx" @mouseout="hoverIdx=-1">
+                                <img :src="require('../../../../assets/svg/avatar.svg')" alt="">
+                                <span>张老师</span>
+                                <div class="teacher-delete" v-if="hoverIdx==idx" @click.stop="onCloseClick('teacher',idx)">
+                                    <el-button icon="el-icon-delete" ></el-button>
+                                </div>
+                            </div>
+                            <el-button icon="el-icon-plus" @click.stop="onAddClick('teacher')"></el-button>
+                        </div>
+                    </div>
+                    <div class="publish-btn">
+                        <button>发布课程</button>
+                        <!-- <add-student :is-pop="isPop" @dialog-close="onDialogClose"></add-student> -->                        
+                    </div>
             </section>
-            <section class="more">
+            <!-- <section class="more">
                 <header>更多信息</header>
                 <div class="main">
                     <div class="is-open">
@@ -118,10 +196,9 @@
                     </div>
                     <div class="publish-btn">
                         <button>发布课程</button>
-                        <!-- <add-student :is-pop="isPop" @dialog-close="onDialogClose"></add-student> -->                        
                     </div>
-                </div>
-            </section>
+                </div> 
+            </section>-->
             <my-dialog 
                 :is-pop="isPop" 
                 :type="type" 
@@ -363,6 +440,9 @@ export default {
         margin-left:50px;
         color:#acadb0;
     }
+    .el-radio-group>label{
+        margin-bottom:0!important;
+    }
     .course-info{        
         background-color:#fff;
     }
@@ -380,7 +460,7 @@ export default {
         color:#171a20;
     }
     .course-type .el-select{
-        width:185px;
+        width:100%;
         margin-right:20px;
     }
     .course-name{
@@ -388,10 +468,10 @@ export default {
         
     }    
     .course-name>div{
-        width:900px;
+        width:100%;
     }
     .course-label{
-        width:800px;
+        width:100%;
     }
     .course-intro{
         width:906px;
@@ -465,6 +545,9 @@ export default {
     .more label{
         display:inline-block;
         width:70px;
+    }
+    .teacher{
+        margin-left:40px;
     }
     .teacher label,
     .teacher .teacher-wrapper{
@@ -540,6 +623,7 @@ export default {
     }
     .publish-btn{
         clear:both;
+        padding-bottom:40px;
     }
     .publish-btn button{        
         margin-top:20px;

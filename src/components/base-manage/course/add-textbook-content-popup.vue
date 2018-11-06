@@ -13,8 +13,8 @@
 					<el-col>
 						<label for=""><span class="required">*</span>教材</label>
 						<div>
-							<el-select v-model="textbookContent.tbkGra" placeholder="请选择教材">
-								<el-option v-for="item in gradeList"
+							<el-select v-model="textbookContent.tbkId" placeholder="请选择教材">
+								<el-option v-for="item in textbookList"
 									:key="item.id"
 									:label="item.name"
 									:value="item.id">
@@ -33,10 +33,24 @@
 				</el-row>
 				<el-row :gutter="20">
 					<el-col>
+						<label for="">父节点</label>
+						<div>
+							<el-select v-model="textbookContent.fatherId">
+								<el-option v-for="item in textbookContentList"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id">
+								</el-option>
+							</el-select>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col>
 						<label for="">章节类别</label>
 						<div>
 							<el-select v-model="textbookContent.tbkSecTp">
-								<el-option v-for="item in levelList"
+								<el-option v-for="item in chapterSectionTypes"
 									:key="item.id"
 									:label="item.name"
 									:value="item.id">
@@ -58,7 +72,7 @@
 						<label for="">教材大纲</label>
 						<div>
 							<el-select v-model="textbookContent.knoId">
-								<el-option v-for="item in levelList"
+								<el-option v-for="item in syllabusList"
 									:key="item.id"
 									:label="item.name"
 									:value="item.id">
@@ -80,56 +94,52 @@
 <script>
 import { xhrErrHandler } from '../../../utils/util';
 import { mapActions, mapState } from 'vuex';
-import { addTextbook, editTextbook, getCourseSyllabus } from '../../../api/course/course';
+import { addTextbook, editTextbook, getCourseSyllabus, getTextbooks, getTextbookContents, addTextbookContent, editTextbookContent } from '../../../api/course/course';
 import { getCodeList } from '../../../api/base/system';
 export default {
 	props:['is-pop','is-edit'],
     data(){
 		return{
 			title:'新增教材',
-			textbookContent:{},//学期对象
-			subjectList:[],//学科列表
-			majorList:[],//专业列表
-			levelList:[],//学级列表
-			gradeList:[],//级段列表
-			subjectList:[],//学科列表
+			textbookContent:{},//教材目录对象
+			textbookContentList:{},//教材目录列表
+			textbookList:[],//教材列表
+			syllabusList:[],//大纲列表
+			chapterSectionTypes:[
+					{id:1,name:'章'},
+					{id:2,name:'节'},
+					{id:3,name:'点'},
+					]
 		}
 	},
 	computed:{
 		...mapState('base',{curTextbook:state => state.curRow}),		
 		isShow:{
 			get:function(){
-				/**获取学科列表 */
-				getCodeList({cp:2,rp:1})
+				/**获取教材列表 */
+				getTextbooks()
 					.then(res => {
-						this.subjectList = res.data.dataList;
+						let tmp = JSON.stringify(res.data.d).replace(/tbkId/g,'id');
+						this.textbookList = JSON.parse(tmp.replace(/tbkName/g,'name'));
 					})
-				/**获取专业列表 */
-				getCodeList({cp:3,rp:1})
+				/**获取教材目录列表 */
+				getTextbookContents()
 					.then(res => {
-						this.majorList = res.data.dataList;
-					})
-				/**获取学级列表 */
-				getCodeList({cp:4,rp:1})
-					.then(res => {
-						this.levelList = res.data.dataList;
-					})
-				/**获取级段列表 */
-				getCodeList({cp:5,rp:1})
-					.then(res => {
-						this.gradeList = res.data.dataList;
+						let tmp = JSON.stringify(res.data.d).replace(/tbkSecId/g,'id');
+						this.textbookContentList = JSON.parse(tmp.replace(/tbkSecNm/g,'name'));
 					})
 				/**获取课程大纲列表 */
 				getCourseSyllabus()
 					.then(res => {
 						console.log(res)
 						if(res.data.s){
-							this.syllabusList = res.data.d;
+							let tmp = JSON.stringify(res.data.d).replace(/lrnId/g,'id');
+							this.syllabusList = JSON.parse(tmp.replace(/lrnName/g,'name'));
 						}
 					})
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑教材";
-					this.textbook-content = JSON.parse(JSON.stringify(this.curTextbook));
+					this.textbookContent = JSON.parse(JSON.stringify(this.curTextbook));
 				}
 				return this.isPop;
 			},
@@ -142,22 +152,18 @@ export default {
 		 */
 		confirm(){
 			let params = {
-				tbkName:this.textbookContent.tbkName,
-				tbkNO:this.textbookContent.tbkNO,
-				tbkPress:this.textbookContent.tbkPress,
-				tbkAuthor:this.textbookContent.tbkAuthor,
-				pubDate:this.textbookContent.pubDate,
-				tbkLrnId:this.textbookContent.tbkLrnId,
+				tbkId:this.textbookContent.tbkId,
+				tbkSecNm:this.textbookContent.tbkSecNm,
+				tbkSecTp:this.textbookContent.tbkSecTp,
+				fatherId:this.textbookContent.fatherId,
+				order:this.textbookContent.order,
+				knoId:this.textbookContent.knoId,
 				tbkSub:this.textbookContent.tbkSub,
-				tbkLrv:this.textbookContent.tbkLrv,
-				tbkGra:this.textbookContent.tbkGra,
-				tbkMaj:this.textbookContent.tbkMaj,
-				remark:this.textbookContent.remark
 			}
-			let action = addTextbook;//默认执行添加学期
+			let action = addTextbookContent;//默认执行添加学期
 			if(this.isEdit){//编辑状态，执行修改学期
-				action = editTextbook;
-				params.tbkId = this.textbookContent.tbkId;
+				action = editTextbookContent;
+				params.tbkSecId = this.textbookContent.tbkSecId;
 			}
 			action(params)
 				.then(res => {
@@ -173,7 +179,7 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
-			this.textbook-content = {};
+			this.textbookContent = {};
 			this.$emit('close-dialog');
 		},
 		/* ...mapActions('student',['getTerm']) */
@@ -190,7 +196,7 @@ export default {
 
 <style scoped>
     .textbook-content-form{
-		width:520px;
+		width:420px;
 		margin:25px auto;		
 	}
 	.textbook-content-form label{
