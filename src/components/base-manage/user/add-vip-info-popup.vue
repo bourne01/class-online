@@ -3,7 +3,7 @@
         <el-dialog
             :title="title"
             :visible.sync="isShow"
-            width="600px"				
+            width="700px"				
             class="vip-info-dialog"
             border
             @close="$emit('close-dialog');"
@@ -50,8 +50,8 @@
 						<label for="">性别</label>
 						<div class="gender">
 							<el-radio-group v-model="vipInfo.sex">
-								<el-radio :label="1">男</el-radio>
-								<el-radio :label="0">女</el-radio>
+								<el-radio :label="'男'">男</el-radio>
+								<el-radio :label="'女'">女</el-radio>
 							</el-radio-group>
 						</div>
 					</el-col>					
@@ -170,7 +170,7 @@
 <script>
 import { xhrErrHandler } from '../../../utils/util';
 import { mapActions, mapState } from 'vuex';
-import { addVip,eidtVip } from '../../../api/zone/zone.js'
+import { addVip,eidtVip, downloadVipAvatar } from '../../../api/zone/zone.js'
 export default {
 	props:['is-pop','is-edit'],
     data(){
@@ -181,6 +181,7 @@ export default {
 			depList:[],
 			questionList:[],
 			vipInfo:{},//会员对象
+			uploadForm:new FormData()//表单数据对象
 		}
 	},
 	computed:{
@@ -190,6 +191,8 @@ export default {
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑会员";
 					this.vipInfo = JSON.parse(JSON.stringify(this.curVipInfo));
+					//this.coverUrl = "/p/p/mem!downPhoto.action?memId="+this.curVipInfo.memId;
+					downloadVipAvatar({memId:this.curVipInfo.memId})
 				}
 				return this.isPop;
 			},
@@ -215,41 +218,44 @@ export default {
          * @param {类别,1,preview 2,cover,3,avatar} type
          */
         onCoverSuccess(response,file, fileList){
-            console.log(response);
-            console.log(file);     
-            console.log(fileList)  
         },
         /**
          * @function 监听文件开始上传前事件
          * @param {类别,1,preview 2,cover,3,avatar} type
          */
-        onCoverBeforeLoad(file){
-            console.log(file);
-            let uploadForm = new FormData();//表单数据对象
-            uploadForm.append('file',file);
-            uploadForm.append('acc',this.vipInfo.acc);
-            uploadForm.append('psw',this.vipInfo.keyword);
-            uploadForm.append('name',this.vipInfo.kkType);
-            uploadForm.append('depId',this.vipInfo.depId);
-            uploadForm.append('nick ',this.vipInfo.nick);
-            uploadForm.append('sex ',this.vipInfo.sex);
-            uploadForm.append('birthday ',this.vipInfo.birthday);
-            uploadForm.append('cardType',this.vipInfo.cardType);
-            uploadForm.append('cardNO',this.vipInfo.cardNO);
-            uploadForm.append('mobile',this.vipInfo.mobile);
-            uploadForm.append('email',this.vipInfo.email);
-            uploadForm.append('address',this.vipInfo.address);
-            uploadForm.append('yzm',this.vipInfo.yzm);
-            uploadForm.append('question',this.vipInfo.question);
-            uploadForm.append('answer',this.vipInfo.answer);
+        onCoverBeforeLoad(file){          
+            this.uploadForm.append('file',file);            
+        },
+		/**
+		 * @function 监听确定按钮事件，执行新增或修改班级信息
+		 */
+		confirm(){
+			console.log("confirm...");
+			this.$refs.upload.submit();
+			this.uploadForm.append('acc',this.vipInfo.acc);
+            this.uploadForm.append('name',this.vipInfo.name);
+            this.uploadForm.append('psw',this.vipInfo.psw);
+            this.uploadForm.append('kkType',this.vipInfo.kkType);
+            this.uploadForm.append('depId',this.vipInfo.depId);
+            this.uploadForm.append('nick ',this.vipInfo.nick);
+            this.uploadForm.append('sex ',this.vipInfo.sex);
+            this.uploadForm.append('birthday ',this.vipInfo.birthday);
+            this.uploadForm.append('cardType',this.vipInfo.cardType);
+            this.uploadForm.append('cardNO',this.vipInfo.cardNO);
+            this.uploadForm.append('mobile',this.vipInfo.mobile);
+            this.uploadForm.append('email',this.vipInfo.email);
+            this.uploadForm.append('address',this.vipInfo.address);
+            this.uploadForm.append('yzm',this.vipInfo.yzm);
+            this.uploadForm.append('question',this.vipInfo.question);
+            this.uploadForm.append('answer',this.vipInfo.answer);
+            this.uploadForm.append('remark',this.vipInfo.remark);
 
-            console.log(uploadForm);
             let action = addVip;
             if(this.isEdit){
                 action = eidtVip;
-                uploadForm.append('memId',this.curVipInfo.memId)
+                this.uploadForm.append('memId',this.curVipInfo.memId)
             }
-            action(uploadForm)
+            action(this.uploadForm)
 				.then(res => {
 					if(res.data.s){
 						this.$message.success('操作成功！')
@@ -264,13 +270,6 @@ export default {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
 			this.$emit('close-dialog');
-        },
-		/**
-		 * @function 监听确定按钮事件，执行新增或修改班级信息
-		 */
-		confirm(){
-			console.log("confirm...");
-			this.$refs.upload.submit();
 		},
 		/* ...mapActions('student',['getTerm']) */
 	},
@@ -286,7 +285,7 @@ export default {
 
 <style scoped>
     .vip-info-form{
-		width:520px;
+		width:620px;
 		margin:25px auto;		
 	}
 	.vip-info-form label{

@@ -28,7 +28,7 @@ const baseURL = proxyURL+'/p'
     return http({
         method:'post',
         url:`${baseURL}/cou!newRec.action`,
-        data:require('qs').stringify(params)
+        data:params
     })
  }
 
@@ -37,7 +37,7 @@ const baseURL = proxyURL+'/p'
     return http({
         method:'post',
         url:`${baseURL}/cou!edit.action`,
-        data:require('qs').stringify(params)
+        data:params
     })
  }
 
@@ -56,7 +56,7 @@ const baseURL = proxyURL+'/p'
     return http({
         method:'post',
         url:`${baseURL}/cou!upImage.action`,
-        data:require('qs').stringify(params)
+        data:params
     })
  }
 

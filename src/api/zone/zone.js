@@ -17,13 +17,17 @@ const baseURL = proxyURL+'/p'
     return http({
         method:'post',
         url:`${baseURL}/mem!newRec.action`,
-        data:require('qs').stringify(params)
+        data:params
     })
  }
 
  /**编辑VIP信息 */
  export const eidtVip = (params) => {
-    return http(`${baseURL}/mem!edit.action`,{params})
+    return http({
+        method:'post',
+        url:`${baseURL}/mem!edit.action`,
+        data:params
+    })
  }
 
  /**改变VIP纪律状态 */
@@ -47,7 +51,11 @@ const baseURL = proxyURL+'/p'
 
  /**获取会员照片 */
  export const downloadVipAvatar = (params) => {
-    return http(`${baseURL}/mem!downPhoto.action`,{params})
+    return http({
+        method:'post',
+        url:`${baseURL}/mem!downPhoto.action`,
+        data:require('qs').stringify(params)
+    })
  }
 
  /**重置密码 */
