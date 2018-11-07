@@ -32,6 +32,11 @@
             v-if="isTextbookContentPop" 
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-textbook-content-pop>
+        <add-vip-info-pop 
+            :is-pop="isVipInfoPop" 
+            v-if="isVipInfoPop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-vip-info-pop>
     </div>
 </template>
 
@@ -42,6 +47,7 @@ import AddSyllabusPop from './course/add-syllabus-popup'
 import AddKnowledgePointPop from './course/add-knowledge-point-popup'
 import AddTextbookPop from './course/add-textbook-popup'
 import AddTextbookContentPop from './course/add-textbook-content-popup'
+import AddVipInfoPop from './user/add-vip-info-popup'
 import { mapState } from 'vuex';
 export default {
     components:{
@@ -51,6 +57,7 @@ export default {
         AddKnowledgePointPop,
         AddTextbookPop,
         AddTextbookContentPop,
+        AddVipInfoPop
     },
     data(){
         return{
@@ -70,6 +77,7 @@ export default {
             isResourcePop:false,   
             isTextbookPop:false,       
             isTextbookContentPop:false,       
+            isVipInfoPop:false,       
         }
     },
     computed:{
@@ -106,6 +114,10 @@ export default {
                 case 'textbook-content':
                     this.isTextbookContentPop = true;
                     break;
+                case 'vip-info':
+                    console.log("vip-info:"+this.isVipInfoPop);
+                    this.isVipInfoPop = true;
+                    break;
             }
         },
         /**
@@ -120,6 +132,7 @@ export default {
             this.isResourcePop = false;
             this.isTextbookPop = false;
             this.isTextbookContentPop = false;
+            this.isVipInfoPop = false;
             console.log('Edit...',this.isEdit);
         }
     },

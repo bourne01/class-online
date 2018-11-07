@@ -16,7 +16,7 @@ const baseURL = proxyURL+'/p'
  export const addVip = (params) => {
     return http({
         method:'post',
-        url:`${baseURL}/p/mem!newRec.action`,
+        url:`${baseURL}/mem!newRec.action`,
         data:require('qs').stringify(params)
     })
  }

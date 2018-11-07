@@ -70,12 +70,15 @@ const baseURL = proxyURL+'/p'
  ************************************************************************************************/
 
  /**用户登录  */
- export const login = (params) => {
+ /* export const login = (params) => {
      return http({
          method:'post',
          url:`${baseURL}/login.action`,
          data:require('qs').stringify(params)
      })
+ } */
+ export const login = (params) => {
+     return http(`${baseURL}/login.action`,{params})
  }
 
  /**获取我的信息 */

@@ -33,7 +33,7 @@ const baseURL = proxyURL+'/p'
  }
 
  /**编辑课程 */
- export const eidtVip = (params) => {
+ export const editCourse = (params) => {
     return http({
         method:'post',
         url:`${baseURL}/cou!edit.action`,
