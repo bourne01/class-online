@@ -1,5 +1,7 @@
 
 import * as type from './mutations-type'
+import { getCourses } from '../../../api/course/course';
+import { xhrErrHandler } from '../../../utils/util'
 
 const state = {
     courseList:[],//课程列表
@@ -28,7 +30,20 @@ const getters = {
 }
 
 const actions = {
-
+    /**@function 获取课程列表 */
+    getCourseList({commit},params){
+        return new Promise((resolve,reject) => {
+            getCourses(params.url,params.params)
+                .then(res => {
+                    commit('GET_COURSE_LIST',res.data.d);
+                    resolve(res.data);
+                })
+                .catch(err => {
+                    reject(err)
+                    xhrErrHandler(err,this.$router,this.$message)
+                })
+        })
+    }
 }
 
 

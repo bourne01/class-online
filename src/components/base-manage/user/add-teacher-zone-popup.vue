@@ -112,7 +112,7 @@
 <script>
 import { xhrErrHandler } from '../../../utils/util';
 import { mapActions, mapState } from 'vuex';
-import { addTeacherZone, editTeacherZone } from '../../../api/zone/zone.js'
+import { addTeacherZone, editTeacherZone, getVips } from '../../../api/zone/zone.js'
 export default {
 	props:['is-pop','is-edit'],
     data(){
@@ -129,8 +129,13 @@ export default {
 	},
 	computed:{
 		...mapState('base',{curTeacher:state => state.curRow}),		
-		isShow:{
-			get:function(){				
+		isShow:{			
+			get:function(){	
+				/**获取会员列表 */
+				getVips().then(res => {
+					let tmp = JSON.stringify(res.data.d).replace(/memId/g,'id');
+					this.vipList = JSON.parse(tmp.replace(/memNm/g,'name'))
+				})				
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑会员";
 					this.teacher = JSON.parse(JSON.stringify(this.curTeacher));

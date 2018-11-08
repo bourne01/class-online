@@ -280,9 +280,10 @@ export default {
             isPop:false,
             isEdit:false,//当前是不是编辑课程模式
             course:{//课程对象
-                 kkType:2,
+                 kkType:2,//开课类型 1公开课 2任务课
             },//课程对象
             coverUrl:'',//封面文件url
+            uploadForm:new FormData(),
             /* dialogVisible:false,
             avatarUrl:'',
             hoverIdx:-1,//鼠标悬停于哪个教师头像上序号
@@ -368,7 +369,6 @@ export default {
          * @param {类别,1,preview 2,cover,3,avatar} type
          */
         onHeraldBeforeLoad(file){
-            console.log(file);
         },
         /**
          * @function 监听文件上传组件的文件变动事件,处理文件预览
@@ -388,46 +388,14 @@ export default {
          * @param {类别,1,preview 2,cover,3,avatar} type
          */
         onCoverSuccess(response,file, fileList){
-            console.log(response);
-            console.log(file);     
-            console.log(fileList)  
         },
         /**
          * @function 监听文件开始上传前事件
          * @param {类别,1,preview 2,cover,3,avatar} type
          */
         onCoverBeforeLoad(file){
-            console.log(file);
-            let uploadForm = new FormData();//表单数据对象
-            uploadForm.append('file',file);
-            uploadForm.append('couTitle',this.course.couTitle);
-            uploadForm.append('keyword',this.course.keyword);
-            uploadForm.append('kkType',this.course.kkType);
-            uploadForm.append('couType',this.course.couType);
-            uploadForm.append('lrnId ',this.course.lrnId);
-            uploadForm.append('knoId ',this.course.knoId);
-            uploadForm.append('tbkId ',this.course.tbkId);
-            uploadForm.append('couSub',this.course.couSub);
-            uploadForm.append('couLrv',this.course.couLrv);
-            uploadForm.append('couGra',this.course.couGra);
-            uploadForm.append('couLevel',this.course.couLevel);
-            uploadForm.append('couPoint',this.course.couPoint);
-            uploadForm.append('couBrief',this.course.couBrief);
-
-
-            console.log(uploadForm);
-            let action = addCourse;
-            if(this.isEdit){
-                action = editCourse;
-                uploadForm.append('couId',this.curCourse.couId)
-            }
-            addCourse(uploadForm)
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => {
-                    xhrErrHandler(err,this.$router,this.$message);
-                })
+            this.uploadForm.append('file',file);          
+            
         },
         /**
          * @function 监听文件上传组件的文件变动事件,处理文件预览
@@ -462,9 +430,41 @@ export default {
          * @function 监听发布课程事件
          */
         createCourse(){
-            console.log('fajfaljfla')
             this.checkInputValue();          
             this.$refs.upload.submit();
+            this.uploadForm.append('couTitle',this.course.couTitle);
+            this.uploadForm.append('keyword',this.course.keyword);
+            this.uploadForm.append('kkType',this.course.kkType);
+            this.uploadForm.append('couType',this.course.couType);
+            this.uploadForm.append('lrnId ',this.course.lrnId);
+            this.uploadForm.append('knoId ',this.course.knoId);
+            this.uploadForm.append('tbkId ',this.course.tbkId);
+            this.uploadForm.append('couSub',this.course.couSub);
+            this.uploadForm.append('couLrv',this.course.couLrv);
+            this.uploadForm.append('couGra',this.course.couGra);
+            this.uploadForm.append('couLevel',this.course.couLevel);
+            this.uploadForm.append('couPoint',this.course.couPoint);
+            this.uploadForm.append('couBrief',this.course.couBrief);
+
+            let action = addCourse;//默认新增课程
+            if(this.isEdit){//编辑课程模式
+                action = editCourse;
+                this.uploadForm.append('couId',this.curCourse.couId)
+            }
+            action(this.uploadForm)
+                .then(res => {
+                    if(res.data.s){
+                        this.$message.success('新增课程成功！')
+                    }else{
+                        console.log(res.data.m);
+                        this.$message.error('新增课程失败！')
+                    }
+                    this.$router.push('/admin-index/course')
+                })
+                .catch(err => {
+                    xhrErrHandler(err,this.$router,this.$message);
+                    this.$router.push('/admin-index/course')
+                })
         }
     },
     created(){

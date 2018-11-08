@@ -101,7 +101,7 @@ export default {
 					.then(res => {
 						this.levels = res.data.dataList;
 					})
-				/**获取学科列表 */
+				/**获取级段列表 */
 				getCodeList({cp:5,rp:1})
 					.then(res => {
 						this.grades = res.data.dataList;
