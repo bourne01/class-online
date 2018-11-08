@@ -37,6 +37,16 @@
             v-if="isVipInfoPop" 
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-vip-info-pop>
+        <add-teacher-zone-pop 
+            :is-pop="isTeacherZonePop" 
+            v-if="isTeacherZonePop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-teacher-zone-pop>
+        <add-student-zone-pop 
+            :is-pop="isStudentZonePop" 
+            v-if="isStudentZonePop" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-student-zone-pop>
     </div>
 </template>
 
@@ -48,6 +58,8 @@ import AddKnowledgePointPop from './course/add-knowledge-point-popup'
 import AddTextbookPop from './course/add-textbook-popup'
 import AddTextbookContentPop from './course/add-textbook-content-popup'
 import AddVipInfoPop from './user/add-vip-info-popup'
+import AddTeacherZonePop from './user/add-teacher-zone-popup'
+import AddStudentZonePop from './user/add-student-zone-popup'
 import { mapState } from 'vuex';
 export default {
     components:{
@@ -57,7 +69,9 @@ export default {
         AddKnowledgePointPop,
         AddTextbookPop,
         AddTextbookContentPop,
-        AddVipInfoPop
+        AddVipInfoPop,
+        AddTeacherZonePop,
+        AddStudentZonePop
     },
     data(){
         return{
@@ -78,6 +92,8 @@ export default {
             isTextbookPop:false,       
             isTextbookContentPop:false,       
             isVipInfoPop:false,       
+            isTeacherZonePop:false,
+            isStudentZonePop:false
         }
     },
     computed:{
@@ -115,8 +131,13 @@ export default {
                     this.isTextbookContentPop = true;
                     break;
                 case 'vip-info':
-                    console.log("vip-info:"+this.isVipInfoPop);
                     this.isVipInfoPop = true;
+                    break;
+                case 'teacher-zone':
+                    this.isTeacherZonePop = true;
+                    break;
+                case 'student-zone':
+                    this.isStudentZonePop = true;
                     break;
             }
         },
@@ -133,6 +154,8 @@ export default {
             this.isTextbookPop = false;
             this.isTextbookContentPop = false;
             this.isVipInfoPop = false;
+            this.isTeacherZonePop = false;
+            this.isStudentZonePop = false;
             console.log('Edit...',this.isEdit);
         }
     },

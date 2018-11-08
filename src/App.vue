@@ -12,7 +12,7 @@
 			}
 		},
 		mounted(){
-			login({acc:'admin2',psw:'admin'})
+			login({acc:'admin3',psw:'admin'})
 				.then(res => {
 					console.log(res);
 				})

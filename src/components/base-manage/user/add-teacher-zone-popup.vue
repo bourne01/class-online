@@ -1,57 +1,110 @@
 <template>
-    <div class="add-term">     
+    <div class="add-teacher">     
         <el-dialog
             :title="title"
             :visible.sync="isShow"
-            width="500px"				
-            class="term-dialog"
+            width="700px"				
+            class="teacher-dialog"
             border
-            @close="$emit('close-dialog');term={}"
+            @close="$emit('close-dialog');"
             >
-            <ul>
-                <li>
-                    <label for="">名称</label>
-                    <el-input v-model="term.name"></el-input>
-                </li>
-                <li>
-                    <label for="">日期</label>
-                    <el-date-picker
-                        v-model="term.rangeDate"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开学日期"
-                        end-placeholder="结束日期"
-						value-format="yyyy-MM-dd">
-                    </el-date-picker>
-                </li>
-                <li>
-                    <label for="">首周一日期</label>      
-                    <el-date-picker
-                        v-model="term.firstMon"
-                        type="date"
-                        placeholder="选择日期"
-						value-format="yyyy-MM-dd">
-                    </el-date-picker>   
-                </li>
-				<li>
-                    <label for="">周数</label>
-					<el-input-number v-model="term.weeks" :min="0" :max="30"></el-input-number>
-                </li>				
-				<li>
-                    <label for="">当前学期</label>
-                    <el-radio-group v-model="term.cur">
-						<el-radio :label="1">是</el-radio>
-						<el-radio :label="2">否</el-radio>
-					</el-radio-group>
-                </li>				
-                <li>
-                    <label for="">备注</label>
-                    <el-input v-model="term.remark" type="textarea"></el-input>
-                </li>
-                <li>
-                    <el-button class="confirm" @click="confirm">确定</el-button>
-                </li>
-            </ul>
+			<div class="teacher-form">
+				<el-row :gutter="20">					
+					<el-col :span="12">
+						<label for="">姓名</label>
+						<div>
+							<el-input v-model="teacher.thrNm"></el-input>
+						</div>
+					</el-col>
+					<el-col :span="12">
+						<label for="">性别</label>
+						<div class="gender">
+							<el-radio-group v-model="teacher.thrSex">
+								<el-radio :label="'男'">男</el-radio>
+								<el-radio :label="'女'">女</el-radio>
+							</el-radio-group>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">					
+					<el-col :span="12">
+						<label for=""><span class="required">*</span>空间名称</label>
+						<div>
+							<el-input v-model="teacher.spaNm"></el-input>
+						</div>
+					</el-col>
+					<el-col :span="12">
+						<label for="">会员</label>
+						<div>
+							<el-select v-model="teacher.memId">
+								<el-option v-for="item in vipList"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id">
+								</el-option>
+							</el-select>
+						</div>		
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :span="12">
+						<label for="">学校</label>
+						<div>
+							<el-select v-model="teacher.schId">
+								<el-option v-for="item in campusList"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id">
+								</el-option>
+							</el-select>
+						</div>
+					</el-col>
+					<el-col :span="12">
+						<label for="">部门</label>
+						<div>
+							<el-select v-model="teacher.depId">
+								<el-option v-for="item in depList"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id">
+								</el-option>
+							</el-select>
+						</div>
+					</el-col>					
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :span="12">
+						<label for="">入教时间</label>
+						<div>
+							<el-date-picker
+								v-model="teacher.thrTime"
+								type="date"
+								placeholder="选择日期"
+								value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</div>		
+					</el-col>
+					<el-col :span="12">
+						<label for="">职称</label>
+						<div>
+							<el-input v-model="teacher.jobLv"></el-input>
+						</div>
+					</el-col>					
+				</el-row>
+				<el-row :gutter="20">
+					<el-col>
+						<label for="">自我介绍</label>
+						<div>
+							<el-input type="textarea" v-model="teacher.myself"></el-input>
+						</div>
+					</el-col>
+				</el-row>	
+				<el-row>
+					<el-col style="text-align:center;margin-top:15px;">
+						<el-button class="confirm" @click="confirm">确定</el-button>
+					</el-col>
+				</el-row>			
+			</div>
         </el-dialog>   
     </div>
 </template>
@@ -59,24 +112,28 @@
 <script>
 import { xhrErrHandler } from '../../../utils/util';
 import { mapActions, mapState } from 'vuex';
-import { addTerm, editTerm,getTerm } from '../../../api/base/dean.js'
+import { addTeacherZone, editTeacherZone } from '../../../api/zone/zone.js'
 export default {
 	props:['is-pop','is-edit'],
     data(){
 		return{
-			title:'新增学期',
-			term:{},//学期对象
+			title:'新增教师',
+			coverUrl:'',
+			vipList:[],
+			depList:[],
+			campusList:[],
+			teacher:{//教师对象
+				thr:'女',
+				},
 		}
 	},
 	computed:{
-		...mapState('base',{curTerm:state => state.curRow}),		
+		...mapState('base',{curTeacher:state => state.curRow}),		
 		isShow:{
-			get:function(){
+			get:function(){				
 				if(this.isEdit){//来自编辑按钮
-					this.title = "编辑学期";
-					this.term = JSON.parse(JSON.stringify(this.curTerm));
-					let rangeDate = [this.curTerm.startDate,this.curTerm.endDate];
-					this.term.rangeDate = rangeDate;//给学期对象添加日期区间
+					this.title = "编辑会员";
+					this.teacher = JSON.parse(JSON.stringify(this.curTeacher));
 				}
 				return this.isPop;
 			},
@@ -89,19 +146,23 @@ export default {
 		 */
 		confirm(){
 			let params = {
-				name:this.term.name,
-				startDate:this.term.rangeDate[0],
-				endDate:this.term.rangeDate[1],
-				firstMon:this.term.firstMon,
-				weeks:this.term.weeks,
-				remark:this.term.remark
+				memId:this.teacher.memId,
+				thrNm:this.teacher.thrNm,
+				thrSex:this.teacher.thrSex,
+				thrTime:this.teacher.thrTime,
+				schId:this.teacher.schId,
+				depId:this.teacher.depId,
+				spaNm:this.teacher.spaNm,
+				myself:this.teacher.myself,
+				jobLv:this.teacher.jobLv,
 			}
-			let action = addTerm;//默认执行添加学期
-			if(this.isEdit){//编辑状态，执行修改学期
-				action = editTerm;
-				params.termId = this.term.termId;
-			}
-			action(params)
+
+            let action = addTeacherZone;
+            if(this.isEdit){
+                action = editTeacherZone;
+                params.thrId = this.curTeacher.thrId;
+            }
+            action(params)
 				.then(res => {
 					if(res.data.s){
 						this.$message.success('操作成功！')
@@ -115,7 +176,6 @@ export default {
 				.catch(err => {
 					xhrErrHandler(err,this.$router,this.$message);
 				})
-			this.term = {};
 			this.$emit('close-dialog');
 		},
 		/* ...mapActions('student',['getTerm']) */
@@ -131,35 +191,48 @@ export default {
 
 
 <style scoped>
-    .term-dialog ul{
-		width:420px;
-		margin:30px auto;		
+    .teacher-form{
+		width:620px;
+		margin:25px auto;		
 	}
-	.term-dialog li{
-		display: flex;
-		align-items: center;
+	.teacher-form label{
+		margin-bottom:5px;
+		display:inline-block;
 	}
-	.term-dialog li>label{
-		display: inline-block;
-		width:90px;
-        text-align: right;
-        margin-right:10px;
+	.teacher-form .el-row{
+		margin-bottom:15px;
+	}	
+	.teacher-form .required{
+		color:red;
+		margin-right:2px;
+	}	
+	.basic-info>div{
+		margin-bottom:5px;
 	}
-	.term-dialog li{
-		margin-bottom:25px;
+	.teacher-form .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+	.teacher-form .el-radio-group {
+		line-height: 40px;
+		height: 40px;}
+	.teacher-form .avatar-uploader-icon{
+		font-size: 28px;
+		color: #8c939d;
+		width: 178px;
+		height: 178px;
+		line-height: 178px;
+		text-align: center;
 	}
-	.term-dialog li:last-child{
-		display:block;
-        text-align: center;
-	}
-	.term-dialog .el-select,
-    .term-dialog .el-input,
-    .term-dialog .el-range-editor,
-	.term-dialog .el-input-number,
-	.term-dialog .el-radio-group{
+	.teacher-dialog .el-select,
+    .teacher-dialog .el-input,
+    .teacher-dialog .el-range-editor,
+	.teacher-dialog .el-input-number,
+	.teacher-dialog .el-radio-group{
 		width:100%;
 	}
-	.term-dialog .confirm{
+	.teacher-dialog .confirm{
 		height:38px;
 		/* line-height:32px; */
 		padding:0 40px;
@@ -170,13 +243,29 @@ export default {
 </style>
 
 <style>
-  .add-term .el-dialog__header{             /*设置弹框的头部*/
+	.add-teacher .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+	.add-teacher ..el-radio-group{
+		display: inline;
+	}
+	.add-teacher .el-radio-group label{
+		margin-bottom:0!important;
+	}
+  	.add-teacher .el-dialog__header{             /*设置弹框的头部*/
 		background-color:#2185ff;
 		height: 20px;
 		color:#707079; 
 		margin:0px;
 	}
-	.add-term .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
+	.add-teacher .el-dialog__header .el-dialog__title{       /*设置头部的标题样式*/ 
 		color:white;
 		float: left;
 		line-height:10px;
@@ -184,16 +273,20 @@ export default {
 		font-size:16px;
 		font-family:'MicrosoftYaHei';
 	}
-	.add-term .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
+	.add-teacher .el-dialog__headerbtn .el-dialog__close{      /*设置头部关闭的样式*/
 		color:white;
 		font-size:24px;
 		margin-top:-30px;
 	}
-	.add-term .el-dialog__body {                        /*设置弹框body内的内填充为0*/
+	.add-teacher .el-dialog__body {                        /*设置弹框body内的内填充为0*/
 		padding:15px;
 		padding-bottom:10px;
 		width:100%;
 		box-sizing:border-box;
+	}
+	.add-teacher .el-input__inner,
+	.add-teacher .el-textarea__inner{
+		background-color:#f1f1f1;
 	}
 </style>
 

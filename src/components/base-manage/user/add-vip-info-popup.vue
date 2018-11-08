@@ -171,6 +171,7 @@
 import { xhrErrHandler } from '../../../utils/util';
 import { mapActions, mapState } from 'vuex';
 import { addVip,eidtVip, downloadVipAvatar } from '../../../api/zone/zone.js'
+import { getCodeList } from '../../../api/base/system';
 export default {
 	props:['is-pop','is-edit'],
     data(){
@@ -180,19 +181,26 @@ export default {
 			cardTypeList:[],
 			depList:[],
 			questionList:[],
-			vipInfo:{},//会员对象
+			vipInfo:{
+				sex:'女',
+			},//会员对象
 			uploadForm:new FormData()//表单数据对象
 		}
 	},
 	computed:{
 		...mapState('base',{curVipInfo:state => state.curRow}),		
 		isShow:{
-			get:function(){				
+			get:function(){
+				/**获取证件类型列表 */
+				getCodeList({cp:100,rp:1})
+					.then(res => {
+						this.cardTypeList = res.data.dataList;
+					})				
 				if(this.isEdit){//来自编辑按钮
 					this.title = "编辑会员";
 					this.vipInfo = JSON.parse(JSON.stringify(this.curVipInfo));
-					//this.coverUrl = "/p/p/mem!downPhoto.action?memId="+this.curVipInfo.memId;
-					downloadVipAvatar({memId:this.curVipInfo.memId})
+					this.coverUrl = "/p/p/mem!downPhoto.action?memId="+this.curVipInfo.memId;
+					//downloadVipAvatar({memId:this.curVipInfo.memId})
 				}
 				return this.isPop;
 			},
