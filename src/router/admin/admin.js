@@ -327,6 +327,16 @@ export default [
                             name:'CourseResource',
                             component:() => import('../../components/base-manage/course/resource.vue')
                         },
+                        {
+                            path:'course',
+                            name:'Course',
+                            component:() => import('../../components/base-manage/course/Course.vue')
+                        },
+                        {
+                            path:'course-content',
+                            name:'CourseContent',
+                            component:() => import('../../components/base-manage/course/course-content.vue')
+                        },
                     ]
                 },
                 {

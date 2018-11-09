@@ -56,14 +56,17 @@ export default {
                 {id:'2-3',name:'权限定义',alias:'permission-definition'},
                 {id:'2-4',name:'系统任务',alias:'system-task'},
                 {id:'2-5',name:'配置信息',alias:'settings'},
-                /* {id:'2-6',name:'列表数据',alias:'selector'}, */
-                {id:'2-7',name:'文件信息',alias:'file-info'},                
+                {id:'2-6',name:'文件信息',alias:'file-info'},                
             ],
             userZones:[//用户空间列表
                 {id:'3-1',name:'会员信息',alias:'vip-info'},
                 {id:'3-2',name:'会员文件',alias:'vip-file'},
                 {id:'3-3',name:'教师空间',alias:'teacher-zone'},
                 {id:'3-4',name:'学生空间',alias:'student-zone'},
+                {id:'3-5',name:'会员消息',alias:'vip-message'},
+                {id:'3-6',name:'会员关注',alias:'vip-follow'},
+                {id:'3-7',name:'会员积分',alias:'vip-credit'},
+                {id:'3-8',name:'会员资源',alias:'vip-resource'},
             ],
             courseList:[//课程基础列表
                 {id:'4-1',name:'课程大纲',alias:'syllabus'},
@@ -71,7 +74,11 @@ export default {
                 {id:'4-3',name:'课本教材',alias:'textbook'},
                 {id:'4-4',name:'教材目录',alias:'textbook-content'},
                 {id:'4-5',name:'课程目录',alias:'course-content'},
-                {id:'4-6',name:'课程资源',alias:'resource'},
+                {id:'4-6',name:'课程资源',alias:'course-resource'},
+                {id:'4-7',name:'课程',alias:'course'},
+                {id:'4-8',name:'课程题目',alias:'course-question'},
+                {id:'4-9',name:'教学计划',alias:'teaching-plan'},
+                {id:'4-10',name:'任课时间',alias:'class-time'},
             ],
             minHeight:(document.documentElement.clientHeight - 68 - 380) + 'px',//左侧导航条最小高度
         }

@@ -225,3 +225,34 @@ const baseURL = proxyURL+'/p'
     return http(`${baseURL}/know!del.action`,{params})
  }
  
+ /****************************************************************************************************
+ * 课程目录---来自接口文件"课程目录.java"
+ ***************************************************************************************************/
+
+ /**
+  * 查询课程目录 1、couSec!query.action
+  *             2、couSec!query2.action
+  */
+ export const getCourseContents = (url,params) => {
+    return http(`${baseURL}/${url}`,{params})
+ }
+ 
+ /**新增课程目录 */
+ export const addCourseContent = (params) => {
+    return http(`${baseURL}/couSec!newRec.action`,{params})
+ }
+
+ /*修改课程目录 */
+ export const editCourseContent = (params) => {
+    return http(`${baseURL}/couSec!edit.action`,{params})
+ }
+
+ /**修改课程目录记录状态 */
+ export const changeCourseContentState = (params) => {
+    return http(`${baseURL}/couSec!chState.action`,{params})
+ }
+
+ /**删除课程目录 */
+ export const deleteCourseContent = (params) => {
+    return http(`${baseURL}/couSec!del.action`,{params})
+ }

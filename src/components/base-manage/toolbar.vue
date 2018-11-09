@@ -32,11 +32,11 @@
             v-if="isTextbookContentPop" 
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-textbook-content-pop>
-        <add-vip-info-pop 
+        <add-vip-pop 
             :is-pop="isVipInfoPop" 
             v-if="isVipInfoPop" 
             @close-dialog="onCloseDialog"
-            :is-edit="isEdit"></add-vip-info-pop>
+            :is-edit="isEdit"></add-vip-pop>
         <add-teacher-zone-pop 
             :is-pop="isTeacherZonePop" 
             v-if="isTeacherZonePop" 
@@ -47,19 +47,25 @@
             v-if="isStudentZonePop" 
             @close-dialog="onCloseDialog"
             :is-edit="isEdit"></add-student-zone-pop>
+        <add-course-content-pop 
+            :is-pop="isCourseContent" 
+            v-if="isCourseContent" 
+            @close-dialog="onCloseDialog"
+            :is-edit="isEdit"></add-course-content-pop>
     </div>
 </template>
 
 <script>
-import AddTermPop from './dean/add-term-popup'
-import AddTeachSitePop from './dean/add-teach-site-popup'
-import AddSyllabusPop from './course/add-syllabus-popup'
-import AddKnowledgePointPop from './course/add-knowledge-point-popup'
-import AddTextbookPop from './course/add-textbook-popup'
-import AddTextbookContentPop from './course/add-textbook-content-popup'
-import AddVipInfoPop from './user/add-vip-info-popup'
-import AddTeacherZonePop from './user/add-teacher-zone-popup'
-import AddStudentZonePop from './user/add-student-zone-popup'
+import AddTermPop from './dean/add-term'
+import AddTeachSitePop from './dean/add-teach-site'
+import AddSyllabusPop from './course/add-syllabus'
+import AddKnowledgePointPop from './course/add-knowledge-point'
+import AddTextbookPop from './course/add-textbook'
+import AddTextbookContentPop from './course/add-textbook-content'
+import AddVipPop from './user/add-vip'
+import AddTeacherZonePop from './user/add-teacher-zone'
+import AddStudentZonePop from './user/add-student-zone'
+import AddCourseContentPop from './course/add-course-content'
 import { mapState } from 'vuex';
 export default {
     components:{
@@ -69,9 +75,10 @@ export default {
         AddKnowledgePointPop,
         AddTextbookPop,
         AddTextbookContentPop,
-        AddVipInfoPop,
+        AddVipPop,
         AddTeacherZonePop,
-        AddStudentZonePop
+        AddStudentZonePop,
+        AddCourseContentPop
     },
     data(){
         return{
@@ -93,7 +100,8 @@ export default {
             isTextbookContentPop:false,       
             isVipInfoPop:false,       
             isTeacherZonePop:false,
-            isStudentZonePop:false
+            isStudentZonePop:false,
+            isCourseContent:false,
         }
     },
     computed:{
@@ -139,6 +147,12 @@ export default {
                 case 'student-zone':
                     this.isStudentZonePop = true;
                     break;
+                case 'course':
+                    this.$router.push('/admin-index/publish');//跳转发布课程页
+                    break;
+                case 'course-content':
+                    this.isCourseContent = true;
+                    break;
             }
         },
         /**
@@ -156,6 +170,7 @@ export default {
             this.isVipInfoPop = false;
             this.isTeacherZonePop = false;
             this.isStudentZonePop = false;
+            this.isCourseContent = false;
             console.log('Edit...',this.isEdit);
         }
     },

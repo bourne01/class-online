@@ -243,7 +243,7 @@
 /* import AddStudent from './add-student'
 import QuillEditor from '../../../../components/common/quill-editor'
 import MyDialog from './my-dialog' */
-import { getCourseSyllabus,getKnowledgePoints,getTextbooks, addCourse
+import { getCourseSyllabus,getKnowledgePoints,getTextbooks, addCourse, editCourse
         } from '../../../../api/course/course.js'
 import { getCodeList } from '../../../../api/base/system.js'
 import { mapState } from 'vuex';
@@ -454,10 +454,10 @@ export default {
             action(this.uploadForm)
                 .then(res => {
                     if(res.data.s){
-                        this.$message.success('新增课程成功！')
+                        this.$message.success(res.data.m)
                     }else{
                         console.log(res.data.m);
-                        this.$message.error('新增课程失败！')
+                        this.$message.error('操作课程失败！')
                     }
                     this.$router.push('/admin-index/course')
                 })
@@ -468,7 +468,10 @@ export default {
         }
     },
     created(){
-        this.isEdit = this.$route.query.isEdit;
+        this.isEdit = this.$route.query.isEdit;//如果来自编辑事件，则为true
+        if(this.isEdit){
+            this.course = JSON.parse(JSON.stringify(this.curCourse));//当前课程
+        }
         /**获取课程大纲 */
         getCourseSyllabus()
             .then(res => {
